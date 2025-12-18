@@ -264,7 +264,7 @@ export class SeoService {
       "legalName": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
       "url": "https://mangalfashion.com",
       "logo": "https://mangalfashion.com/assets/images/logo.png",
-      "email": "vinaysaini1990@gmail.com",
+      "email": "info@mangalfashion.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST",
@@ -280,7 +280,7 @@ export class SeoService {
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "email": "vinaysaini1990@gmail.com",
+        "email": "info@mangalfashion.com",
         "contactType": "customer service"
       }
     };
