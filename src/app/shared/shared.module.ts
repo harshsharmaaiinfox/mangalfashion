@@ -82,6 +82,7 @@ import { SkeletonProductBoxComponent } from './components/widgets/product-box/wi
 import { ProductBoxVerticalComponent } from './components/widgets/product-box/product-box-vertical/product-box-vertical.component';
 import { ProductDetailModalComponent } from './components/widgets/modal/product-detail-modal/product-detail-modal.component';
 import { RefundModalComponent } from './components/widgets/modal/refund-modal/refund-modal.component';
+import { CartPopupModalComponent } from './components/widgets/modal/cart-popup-modal/cart-popup-modal.component';
 import { VariantAttributesComponent } from './components/widgets/variant-attributes/variant-attributes.component';
 import { PayModalComponent } from './components/widgets/modal/pay-modal/pay-modal.component';
 import { DigitalProductBoxComponent } from './components/widgets/product-box/digital-product-box/digital-product-box.component';
@@ -178,6 +179,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     DigitalProductBoxComponent,
     ProductDetailModalComponent,
     RefundModalComponent,
+    CartPopupModalComponent,
     VariantAttributesComponent,
     SubscribeFooterComponent,
     PayModalComponent,

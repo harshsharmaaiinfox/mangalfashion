@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { CartState } from '../../../../../state/cart.state';
 import { Observable } from 'rxjs';
 import { ProductDetailModalComponent } from '../../../modal/product-detail-modal/product-detail-modal.component';
+import { CartPopupModalComponent } from '../../../modal/cart-popup-modal/cart-popup-modal.component';
 
 @Component({
   selector: 'app-product-cart-button',
@@ -21,6 +22,7 @@ export class ProductCartButtonComponent {
   @Select(CartState.cartItems) cartItem$: Observable<Cart[]>;
 
   @ViewChild("productDetailModal") productDetailModal: ProductDetailModalComponent;
+  @ViewChild("cartPopupModal") cartPopupModal: CartPopupModalComponent;
 
   public cartItem: Cart | null;
   public currentDate: number | null;
@@ -44,7 +46,16 @@ export class ProductCartButtonComponent {
       variation: this.cartItem ? this.cartItem?.variation : null,
       quantity: qty
     }
-    this.store.dispatch(new AddToCart(params));
+    this.store.dispatch(new AddToCart(params)).subscribe({
+      complete: () => {
+        // Open cart popup modal after adding to cart
+        if (qty > 0 && this.cartPopupModal) {
+          setTimeout(() => {
+            this.cartPopupModal.openModal();
+          }, 100);
+        }
+      }
+    });
   }
 
   externalProductLink(link: string) {
