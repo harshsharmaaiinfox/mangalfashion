@@ -590,10 +590,10 @@ header {
   }
 
   .top-nav {
-    padding: 24px 0;
+    padding: 12px 0;
 
     @include mq-max(xl) {
-      padding: 24px 0 12px;
+      padding: 0px 0 12px;
     }
 
     @include mq-max(md) {
@@ -620,7 +620,7 @@ header {
         }
 
         img {
-          @include pseudowh($width: calc(120px + (162 - 120) * ((100vw - 320px) / (1920 - 320))),
+          @include pseudowh($width: calc(150px + (220 - 150) * ((100vw - 320px) / (1920 - 320))),
             $height: auto);
           object-fit: contain;
 
@@ -2815,14 +2815,15 @@ body.home {
 
 /* Mobile Menu */
 .mobile-menu {
-  position: fixed;
-  bottom: 0;
-  padding: 10px;
-  width: 100%;
-  background-color: var(--theme-color);
-  z-index: 2;
-  overflow: hidden;
-  box-shadow: 0 -3px 10px 0px rgba($black, 0.08);
+  display: none !important; // Mobile bottom navigation removed
+  // position: fixed;
+  // bottom: 0;
+  // padding: 10px;
+  // width: 100%;
+  // background-color: var(--theme-color);
+  // z-index: 2;
+  // overflow: hidden;
+  // box-shadow: 0 -3px 10px 0px rgba($black, 0.08);
 
   body.rtl & {
     left: 0;

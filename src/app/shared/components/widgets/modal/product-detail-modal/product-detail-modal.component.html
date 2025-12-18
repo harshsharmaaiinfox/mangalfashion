@@ -163,14 +163,14 @@
                             </div>
                             <ng-container *ngIf="!product?.is_external else isExternalProduct">
                                 <app-button [id]="'addcartDetailsbtnVariation'+product.id"
-                                    [class]="'btn theme-bg-color view-button icon text-white fw-bold btn-md'"
+                                    [class]="'btn view-button icon text-white fw-bold btn-md'"
                                     (click)="addToCart(product)"
                                     *ngIf="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty)) else outStock">
-                                    <i class="ri-shopping-cart-line me-1"></i> {{ 'Add To Cart' | translate }}
+                                    <i class="ri-shopping-cart-line"></i> {{ 'Add To Cart' | translate }}
                                 </app-button>
                                 <ng-template #outStock>
                                     <app-button
-                                        [class]="'btn theme-bg-color view-button icon text-white fw-bold btn-md'"
+                                        [class]="'btn view-button icon text-white fw-bold btn-md'"
                                         [id]="'cartDetailsbtnOs'+product.id" [spinner]="false" [disabled]="true">
                                         {{
                                             ((selectedVariation && selectedVariation.status && selectedVariation.quantity < productQty || (!selectedVariation && product.quantity < productQty)) ? 'out_of_stock'
@@ -180,7 +180,7 @@
                             </ng-container>
                             <ng-template #isExternalProduct>
                                 <app-button [id]="'externalBtn'+product.id"
-                                    [class]="'btn btn-md fw-bold icon text-white theme-bg-color'"
+                                    [class]="'btn btn-md fw-bold icon text-white'"
                                     (click)="externalProductLink(product.external_url)">
                                     {{ (product.external_button_text ? product.external_button_text : 'buy_now') | translate }}
                                 </app-button>

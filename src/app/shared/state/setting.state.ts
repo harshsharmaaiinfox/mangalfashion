@@ -57,10 +57,10 @@ export class SettingState {
                 // icon: './assets/images/payment/pay_by_qr.png',
               },
               {
-                name: 'stylexio_nabu',
+                name: 'mangal fashion_nabu',
                 status: true,
                 title: 'Pay By UPI INTENT 3',
-                // icon: './assets/images/payment/stylexio_nabu.png',
+                // icon: './assets/images/payment/mangal fashion_nabu.png',
               },
               {
                 name: 'cash_free',

@@ -60,6 +60,22 @@ export class ChangePasswordModalComponent {
     );
   }
 
+  togglePasswordVisibility(fieldId: string) {
+    const input = document.getElementById(fieldId) as HTMLInputElement;
+    const icon = input?.nextElementSibling as HTMLElement;
+    if (input && icon) {
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('ri-eye-off-line');
+        icon.classList.add('ri-eye-line');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('ri-eye-line');
+        icon.classList.add('ri-eye-off-line');
+      }
+    }
+  }
+
   submit(){
     this.form.markAllAsTouched();
     if(this.form.valid) {

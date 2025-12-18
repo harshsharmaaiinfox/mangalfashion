@@ -1,104 +1,125 @@
-<div class="container-fluid-lg">
+<div class="container">
     <div class="main-footer section-b-space">
         <div class="row g-md-4 g-3">
-            <div class="col-xl-4 col-lg-4 col-sm-6">
-                <div class="footer-logo">
-                    <app-footer-logo [data]="data" [footer]="footer"></app-footer-logo>
-                    <app-footer-about [data]="data"></app-footer-about>
-                    <!-- <a href="https://www.instagram.com/stylexio/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/Stylexio1/" target="_blank"><i class="fa-brands fa-facebook"></i></a> -->
-                    <div class="social-media gap-4 d-flex ">
-                    <a href="https://www.facebook.com/Stylexio1/" target="_blank">
-                        <i class="ri-facebook-fill"></i>
-                    </a>
-                    <a href="https://www.instagram.com/stylexio/" target="_blank">
-                        <i class="ri-instagram-fill"></i>
-                    </a>
+            <!-- COLLECTIONS Section -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6"
+                (click)="toggle('collections')">
+                <div class="footer-column-minimal">
+                    <div class="footer-title-minimal" [class.show]="active['collections']">
+                        <h4>COLLECTIONS</h4>
+                        <i class="ri-arrow-down-s-line toggle-icon"></i>
+                    </div>
+                    <div class="footer-content-minimal" [class.expanded]="active['collections']">
+                        <app-footer-categories [data]="data"></app-footer-categories>
+                        <ul class="footer-list-minimal" *ngIf="!data?.footer?.footer_categories?.length">
+                            <li><a routerLink="/collections" href="/collections">Kurtas & Kurtis</a></li>
+                            <li><a routerLink="/collections" href="/collections">Ethnic Sets</a></li>
+                            <li><a routerLink="/collections" href="/collections">Ethnic Sets with Dupatta</a></li>
+                            <li><a routerLink="/collections" href="/collections">Dresses</a></li>
+                            <li><a routerLink="/collections" href="/collections">Co-ord Sets</a></li>
+                            <li><a routerLink="/collections" href="/collections">Bottom Wear</a></li>
+                            <li><a routerLink="/collections" href="/collections">Tunics</a></li>
+                            <li><a routerLink="/collections" href="/collections">Autumn Winter 25</a></li>
+                            <li><a routerLink="/collections" href="/collections">All Collections</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-           
-            <div class="col-xl-2 col-lg-2 col-sm-3"
+
+            <!-- USEFUL LINKS Section -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6"
                 (click)="toggle('useful_link')">
-                <div class="footer-title" [class.show]="active['useful_link']">
-                    <h4>{{ 'Useful Links' | translate }}</h4>
-                </div>
-                <div class="footer-contain">
-                    <!-- <app-footer-links [links]="data?.footer?.useful_link || []"></app-footer-links> -->
-                     <ul>
-                        <li><a routerLink="/term-condition" title="Terms &amp; Conditions" href="/term-condition">Terms &amp; Conditions</a></li>
-                        <li><a routerLink="/privacy-policy" title="Privacy Policy" href="/privacy-policy">Privacy Policy</a></li>
-                        <li><a routerLink="/refund-and-cancellation" title="Refund and Cancellation Policy" href="/refund-and-cancellation">Refund and Cancellation Policy</a></li>
-                        <li><a routerLink="/return-policy" title="Return Policy" href="/return-policy">Return Policy</a></li>
-                        <li><a routerLink="/shipping-policy" title="Shipping Policy" href="/shipping-policy">Shipping Policy</a></li>
-                        <li><a routerLink="/page/about-us" title="About Us" href="/page/about-us">About Us</a></li>
-                        <li><a routerLink="/Contact-Us" title="Contact Us" href="/Contact-Us">Contact Us</a></li>
-                        <!-- <li><a href="/page/about-us">About Us</a></li> -->
-                     </ul>
-                    <!-- No Data -->
-                    <app-no-data [class]="'no-data-footer'" [text]="'no_link_found'" *ngIf="!data?.footer?.useful_link?.length"></app-no-data>
-                </div>
-            </div>
-            <div class="col-xl-2 col-sm-3"
-                (click)="toggle('help_center')">
-                <div class="footer-title" [class.show]="active['help_center']">
-                    <h4>{{ 'Help Center' | translate }}</h4>
-                </div>
-                <div class="footer-contain">
-                    <app-footer-links [links]="data?.footer?.help_center || []"></app-footer-links>
-                    <!-- No Data -->
-                    <app-no-data [class]="'no-data-footer'" [text]="'no_link_found'" *ngIf="!data?.footer?.help_center?.length"></app-no-data>
+                <div class="footer-column-minimal">
+                    <div class="footer-title-minimal" [class.show]="active['useful_link']">
+                        <h4>USEFUL LINKS</h4>
+                        <i class="ri-arrow-down-s-line toggle-icon"></i>
+                    </div>
+                    <div class="footer-content-minimal" [class.expanded]="active['useful_link']">
+                        <ul class="footer-list-minimal">
+                            <li><a routerLink="/term-condition" title="Terms &amp; Conditions" href="/term-condition">Terms &amp; Conditions</a></li>
+                            <li><a routerLink="/privacy-policy" title="Privacy Policy" href="/privacy-policy">Privacy Policy</a></li>
+                            <li><a routerLink="/refund-and-cancellation" title="Refund and Cancellation Policy" href="/refund-and-cancellation">Refund and Cancellation Policy</a></li>
+                            <li><a routerLink="/return-policy" title="Return Policy" href="/return-policy">Return Policy</a></li>
+                            <li><a routerLink="/shipping-policy" title="Shipping Policy" href="/shipping-policy">Shipping Policy</a></li>
+                            <li><a routerLink="/page/about-us" title="About Us" href="/page/about-us">About Us</a></li>
+                            <li><a routerLink="/Contact-Us" title="Contact Us" href="/Contact-Us">Contact Us</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6"
-                *ngIf="data?.footer?.support_email ||
-                    data?.footer?.support_number ||
-                    data?.footer?.play_store_url ||
-                    data?.footer?.app_store_url">
-                <div class="footer-title contact-title">
-                    <h4>{{ 'Contact Us' | translate }}</h4>
+
+            <!-- NEWSLETTER Section -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="footer-column-minimal">
+                    <div class="footer-title-minimal">
+                        <h4>NEWSLETTER</h4>
+                    </div>
+                    <div class="footer-content-minimal newsletter-section">
+                        <p class="newsletter-description">Sign up to Get exclusive offers, latest collections, and style tips!</p>
+                        <div class="newsletter-form">
+                            <input 
+                                type="email" 
+                                class="newsletter-input" 
+                                placeholder="E-mail" 
+                                [formControl]="email"
+                                (keyup.enter)="submitNewsletter()">
+                            <button 
+                                type="button" 
+                                class="newsletter-button" 
+                                (click)="submitNewsletter()"
+                                [disabled]="isSubmitting">
+                                <span *ngIf="!isSubmitting">SUBSCRIBE</span>
+                                <span *ngIf="isSubmitting">...</span>
+                            </button>
+                        </div>
+                        <div class="newsletter-error" *ngIf="email.touched && email.errors?.['email']">
+                            Please enter a valid email address
+                        </div>
+                    </div>
                 </div>
-                <app-footer-contact [data]="data"></app-footer-contact>
+            </div>
+
+            <!-- ADDRESS Section -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="footer-column-minimal">
+                    <div class="footer-title-minimal">
+                        <h4>ADDRESS</h4>
+                    </div>
+                    <div class="footer-content-minimal address-section">
+                        <ul class="address-list-minimal">
+                            <li>
+                                <a href="https://www.google.com/maps" target="_blank" title="View on Google Maps">
+                                    UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST, Gautam Buddha Nagar, Gautam Buddha Nagar, Gautam Buddha Nagar, Uttar Pradesh, India, 201318
+                                </a>
+                            </li>
+                            <li class="contact-info-group">
+                                <a href="mailto:vinaysaini1990&#64;gmail.com" title="Send us an email">
+                                    vinaysaini1990&#64;gmail.com
+                                </a>
+                              
+                            </li>
+                            <li class="pt-2">
+                                <span class="cin-info">CIN: U02005UP2016PTC076855</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="sub-footer section-small-space">
-        <div class="reserve" *ngIf="data?.footer?.footer_copyright">
-            <app-footer-copyright [data]="data"></app-footer-copyright>
+    
+    <!-- Sub Footer -->
+    <div class="sub-footer-modern section-small-space">
+        <div class="sub-footer-content">
+            <div class="reserve-modern" *ngIf="data?.footer?.footer_copyright">
+                <app-footer-copyright [data]="data"></app-footer-copyright>
+            </div>
+            <app-footer-social-links [data]="data" *ngIf="data?.footer?.social_media_enable"></app-footer-social-links>
         </div>
-        <!-- <div class="payment">
-            <app-footer-payment-options></app-footer-payment-options>
-        </div> -->
-        <app-footer-social-links [data]="data" *ngIf="data?.footer?.social_media_enable"></app-footer-social-links>
     </div>
-   
-    <!-- SEO Footer Content Section -->
-    <section class="seo-footer-content">
-        <h2>Discover Affordable Activewear, Men's and Women's Fashion Online at Stylexio</h2>
- 
-        <p>Welcome to <strong>Stylexio</strong> — your modern destination for high-quality, affordable <strong>activewear</strong> and <strong>casual fashion</strong>. Whether you're looking for <a href="/product/luminous-yellow-pro-fit-t-shirt-for-men">performance-driven gym outfits</a>, breathable <strong>activewear for women</strong>, or stylish and comfortable <a href="/collections?category=men&sortBy=asc">men's clothing online</a>, Stylexio offers a premium shopping experience tailored to your lifestyle. Our collections are designed to support movement, enhance confidence, and keep you ahead in style — all while staying budget-friendly.</p>
- 
-        <h3>Shop Activewear for Men and Women</h3>
-        <p>Our <a href="/collections?category=activewear&sortBy=asc">activewear collection</a> is made for everyone — whether you're in the gym, on a run, or just lounging in style. Discover a wide range of <strong>gym leggings</strong>, <strong>high-impact sports bras</strong>, <strong>matching co-ord sets</strong>, <strong>training t-shirts</strong>, <strong>performance joggers</strong>, and <a href="/product/gymflex-performance-wear">top-selling gym wear essentials</a>. Each piece is crafted with stretchable, moisture-wicking fabrics designed for breathability, comfort, and flexibility — perfect for both intense workouts and all-day wear.</p>
- 
-        <h3>Stylish Men's Clothes for Modern Lifestyles</h3>
-        <p>Looking for everyday essentials with a bold, sporty edge? Our <a href="/collections?category=men clothes">men's clothing range</a> features everything from <strong>muscle-fit gym t-shirts</strong> to <strong>tapered joggers</strong>, hoodies, and lightweight outerwear. Ideal for both active days and laid-back weekends, Stylexio's <strong>men's activewear</strong> combines fashion-forward cuts with functional design. Browse our top-rated <a href="/product/athletic-fit-jeans-for-men-stretch-denim">denim</a> and <a href="/product/blue-formal-shirt-for-men-premium-cotton-stylexio"> shirts</a> to refresh your wardrobe today.</p>
- 
-        <h3>Women's Clothes That Blend Comfort, Style & Performance</h3>
-        <p>Stylexio's <a href="/collections?category=women">women's clothing line</a> is designed to support real movement and real women. From <strong>high-waisted leggings</strong> and <strong>supportive sports bras</strong> to <strong>soft gym tank tops</strong> and <strong>athleisure co-ord sets</strong>, each item is carefully selected for comfort, performance, and flattering fit, like <a href="/product/off-white-printed-cotton-kurti">kurtis</a> and <a href="/product/women-s-cotton-half-sleeve-top">fashionable tops</a>. Whether you're powering through a yoga flow or running errands, you'll find everything you need in our <a href="/collections?category=%20activewear&sortBy=asc">women's activewear collection</a>.</p>
- 
-        <h3>Why Shop at Stylexio?</h3>
-        <ul>
-            <li>Premium, stretchable, and breathable fabrics</li>
-            <li>Clothing designed for daily wear, fitness & comfort</li>
-            <li>Affordable <strong>gym clothing online</strong> with no quality compromise</li>
-            <li>Fast delivery, secure checkout, and responsive support</li>
-            <li>Easy navigation, size guides, and curated combo sets</li>
-        </ul>
- 
-        <h3>Shop Trending Gym Wear and Everyday Fashion Online</h3>
-        <p>Whether you're just starting your fitness journey or upgrading your everyday outfits, Stylexio is your one-stop shop for <strong>men's and women's gym clothes online</strong>. Explore trending looks in <strong>matching workout sets</strong>, <strong>bold activewear prints</strong>, and <a href="/collections">top-selling products</a>. We continuously update our styles to keep up with fitness fashion and athleisure trends, so you always look and feel your best — in and out of the gym.</p>
- 
-        <p>Shop confidently at <strong>Stylexio</strong> — where activewear meets comfort, performance meets affordability, and fashion meets function. Start exploring now and discover why thousands choose us for <strong>affordable gym wear online in India</strong>.</p>
-    </section>
+    
+    <!-- Back to Top Button -->
+    <button class="back-to-top-button" [class.show]="showBackToTop" (click)="scrollToTop()" type="button" title="Back to Top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
 </div>

@@ -1,5 +1,7 @@
 :root {
-  --theme-color: #0da487;
+  --theme-color: #FF6B35; /* MANGAL - Vibrant Orange */
+  --theme-color-secondary: #0066CC; /* MURTI - Distinct Blue */
+  --theme-color-light: #87CEEB; /* Light Blue for accents */
 }
 
 $white: #2a2d2d;
@@ -13,22 +15,14 @@ $border-color: rgba(119, 119, 119, 0.44);
 
 
 // font family
-$public-sans: 'Public Sans',
-sans-serif;
-$exo-sarif:'Exo 2',
-sans-serif;
-$russo-sarif: 'Russo One',
-sans-serif;
-$pacifico: 'Pacifico',
-cursive;
-$kaushan: 'Kaushan Script',
-cursive;
-$indie: 'Indie Flower',
-cursive;
-$great: 'Great Vibes',
-cursive;
-$qwitcher: 'Qwitcher Grypen',
-cursive;
+$public-sans: "Outfit", sans-serif;
+$exo-sarif: 'Exo 2', sans-serif;
+$russo-sarif: 'Russo One', sans-serif;
+$pacifico: 'Pacifico', cursive;
+$kaushan: 'Kaushan Script', cursive;
+$indie: 'Indie Flower', cursive;
+$great: 'Great Vibes', cursive;
+$qwitcher: 'Qwitcher Grypen', cursive;
 $fontawesome: 'Font Awesome 6 Free';
 
 // Breakpoints

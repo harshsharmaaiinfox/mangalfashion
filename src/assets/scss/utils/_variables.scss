@@ -1,5 +1,7 @@
 :root {
-  --theme-color: #0da487;
+  --theme-color: #FF6B35; /* MANGAL - Vibrant Orange */
+  --theme-color-secondary: #0066CC; /* MURTI - Distinct Blue */
+  --theme-color-light: #87CEEB; /* Light Blue for accents */
 }
 
 $white: #ffffff;
@@ -42,8 +44,7 @@ $card-footer-bg-color: $white;
 $card-hover-box-shadow: 0 0 40px rgba(8, 21, 66, 0.05);
 
 // font family
-$public-sans: "Public Sans",
-sans-serif;
+$public-sans: "Outfit", sans-serif;
 $fontawesome: "Font Awesome 6 Free";
 
 // Breakpoints

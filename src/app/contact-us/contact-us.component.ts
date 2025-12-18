@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './contact-us.component.html',
   styleUrls: ['./contact-us.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule] // Import ReactiveFormsModule here
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class ContactUsComponent {
   contactForm: FormGroup;

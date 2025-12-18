@@ -52,9 +52,9 @@ export class OrderDetailsComponent {
       )
       .subscribe(order => {
         this.order = order!;
-        // Check payment status for pending stylexio_nabu orders
+        // Check payment status for pending mangal fashion_nabu orders
         if (this.order && 
-            this.order.payment_method === 'stylexio_nabu' && 
+            this.order.payment_method === 'mangal fashion_nabu' && 
             this.order.payment_status === 'PENDING' &&
             this.order.uuid) {
           this.checkPaymentStatus();

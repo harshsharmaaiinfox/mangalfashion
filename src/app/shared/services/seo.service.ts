@@ -226,7 +226,7 @@ export class SeoService {
       "image": images.length > 0 ? images : undefined,
       "brand": {
         "@type": "Brand",
-        "name": product.brand?.name || "Stylexio"
+        "name": product.brand?.name || "mangal fashion"
       },
       "offers": {
         "@type": "Offer",
@@ -237,7 +237,7 @@ export class SeoService {
         "itemCondition": "https://schema.org/NewCondition",
         "seller": {
           "@type": "Organization",
-          "name": "Stylexio"
+          "name": "mangal fashion"
         }
       }
     };
@@ -260,9 +260,19 @@ export class SeoService {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Ecomus",
-      "url": "https://stylexio.in",
-      "logo": "https://stylexio.in/assets/images/logo.png",
+      "name": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
+      "legalName": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
+      "url": "https://mangalfashion.com",
+      "logo": "https://mangalfashion.com/assets/images/logo.png",
+      "email": "vinaysaini1990@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST",
+        "addressLocality": "Gautam Buddha Nagar",
+        "addressRegion": "Uttar Pradesh",
+        "postalCode": "201318",
+        "addressCountry": "IN"
+      },
       "sameAs": [
         "https://facebook.com/ecomus",
         "https://twitter.com/ecomus",
@@ -270,7 +280,7 @@ export class SeoService {
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+1-555-123-4567",
+        "email": "vinaysaini1990@gmail.com",
         "contactType": "customer service"
       }
     };
@@ -312,10 +322,10 @@ export class SeoService {
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Ecomus",
+        "name": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://stylexio.in/assets/images/logo.png"
+          "url": "https://mangalfashion.com/assets/images/logo.png"
         }
       },
       "datePublished": article.publishedDate,
@@ -433,11 +443,11 @@ export class SeoService {
     
     console.log('✅ Setting default SEO for non-product page:', currentUrl);
     this.setSEOData({
-      title: 'Stylexio Premium Mens and Womens Fashion Online',
-      description: 'Discover new season shirts jackets suits denim and more at Stylexio. Premium quality fast shipping across India COD and easy returns.',
-      keywords: 'activewear, gym wear, joggers, men\'s clothes, women\'s clothes, stylish outfits, comfort fit, performance clothing, Stylexio',
+      title: 'mangalfashion.com Premium Mens and Womens Fashion Online',
+      description: 'Discover new season shirts jackets suits denim and more at mangalfashion.com. Premium quality fast shipping across India COD and easy returns.',
+      keywords: 'activewear, gym wear, joggers, men\'s clothes, women\'s clothes, stylish outfits, comfort fit, performance clothing, mangalfashion',
       type: 'website',
-      url: 'https://stylexio.in/'
+      url: 'https://mangalfashion.com/'
     });
   }
 
@@ -455,7 +465,7 @@ export class SeoService {
    * Set SEO data specifically for product pages
    * This method provides a convenient way to set all product-related SEO data
    */
-  setProductPageSEO(product: any, productSlug: string | null, baseUrl: string = 'https://stylexio.in'): void {
+  setProductPageSEO(product: any, productSlug: string | null, baseUrl: string = 'https://mangalfashion.com'): void {
     // Handle null/undefined slug
     const slug = productSlug || product.slug || `product-${product.id}`;
     const productUrl = `${baseUrl}/product/${slug}`;
@@ -474,7 +484,7 @@ export class SeoService {
       url: productUrl,
       canonicalUrl: product.canonical_url || productUrl,
       type: 'product',
-      author: 'Stylexio'
+      author: 'mangal fashion'
     });
 
     // Set product structured data for rich snippets
@@ -514,8 +524,8 @@ export class SeoService {
     const category = product.categories?.[0]?.name ? ` ${product.categories[0].name}` : '';
     const price = product.sale_price ? `₹${product.sale_price}` : `₹${product.price}`;
     
-    // Example: "Nike Air Max 270 Men's Running Shoes - ₹8,999 | Stylexio"
-    return `${brand}${product.name}${category} - ${price} | Stylexio`;
+    // Example: "Nike Air Max 270 Men's Running Shoes - ₹8,999 | mangal fashion"
+    return `${brand}${product.name}${category} - ${price} | mangal fashion`;
   }
 
   /**
@@ -531,7 +541,7 @@ export class SeoService {
     let rawDescription: string = product.meta_description
       || product.short_description
       || product.description
-      || `Shop ${brand}${product.name}${category} online at Stylexio. Premium quality, great prices, fast delivery.${discount}`;
+      || `Shop ${brand}${product.name}${category} online at mangal fashion. Premium quality, great prices, fast delivery.${discount}`;
 
     // Sanitize sizing/measurement notes and HTML, normalize whitespace
     rawDescription = this.stripHtmlTags(this.sanitizeProductDescription(rawDescription));
@@ -566,7 +576,7 @@ export class SeoService {
 
     // If description becomes empty after sanitization, fallback to a generic line
     if (!sanitized) {
-      sanitized = 'Premium quality, great prices, fast delivery from Stylexio.';
+      sanitized = 'Premium quality, great prices, fast delivery from mangal fashion.';
     }
 
     return sanitized;
@@ -601,7 +611,7 @@ export class SeoService {
     }
     
     // Add generic keywords
-    keywords.push('buy online', 'Stylexio', 'fashion', 'clothing');
+    keywords.push('buy online', 'mangal fashion', 'fashion', 'clothing');
     
     return keywords.join(', ');
   }

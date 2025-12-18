@@ -1,21 +1,26 @@
 .theme-color-1 {
-  --theme-color: #d99f46;
+  --theme-color: #FF6B35; /* MANGAL - Vibrant Orange */
+  --theme-color-secondary: #0066CC; /* MURTI - Distinct Blue */
 }
 
 .theme-color-2 {
-  --theme-color: #0baf9a;
+  --theme-color: #FF8C42; /* Alternative Orange */
+  --theme-color-secondary: #0052CC; /* Alternative Blue */
 }
 
 .theme-color-3 {
-  --theme-color: #239698;
+  --theme-color: #FF6B35; /* MANGAL Orange */
+  --theme-color-secondary: #0066CC; /* MURTI Blue */
 }
 
 .theme-color-4 {
-  --theme-color: #6262a6;
+  --theme-color: #FF6B35; /* MANGAL Orange */
+  --theme-color-secondary: #0066CC; /* MURTI Blue */
 }
 
 .theme-color-5 {
-  --theme-color: #417394;
+  --theme-color: #FF6B35; /* MANGAL Orange */
+  --theme-color-secondary: #0066CC; /* MURTI Blue */
 }
 
 // utils
@@ -238,6 +243,14 @@ $border-radius: 4px;
 app-product-box:has(.hidden) {
   display: none !important;
 }
+// Global rating star color - Orange
+::ng-deep ngb-rating {
+  .star {
+    color: var(--theme-color) !important;
+    fill: var(--theme-color) !important;
+  }
+}
+
 .price-rating .product-rating.custom-rate {
   display: none;
 }
@@ -263,4 +276,24 @@ h2.p-text-main.h1-text {
     font-weight: 700;
     margin-bottom: 8px;
     font-size: 40px;
+}
+ul.footer-list-minimal {
+  flex-direction: column;
+  display: flex;
+}
+
+.shop-section{
+  padding-top: 0 !important;
+}
+.shop-left-sidebar {
+  margin-top: 115px;
+  margin-left: 20px;
+}
+@media (max-width: 768px) {
+  ul.navbar-nav {
+    padding-left: 15px !important;
+}
+.top-nav{
+  padding: 14px !important;
+}
 }

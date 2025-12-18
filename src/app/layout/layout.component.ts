@@ -93,7 +93,20 @@ export class LayoutComponent {
     const getPages$ = this.store.dispatch(new GetPages({ status: 1 }));
     const getMenu$ = this.store.dispatch(new GetMenu({ status: 1 }));
     this.store.dispatch(new GetWishlist())
+    
+    // Set timeout to hide preloader after 5 seconds even if API calls fail
+    setTimeout(() => {
+      this.themeOptionService.preloader = false;
+    }, 5000);
+    
     forkJoin([getCategories$, getProductBySearch$ , getPages$, getBlog$, getMenu$]).subscribe({
+      next: () => {
+        this.themeOptionService.preloader = false;
+      },
+      error: (err) => {
+        console.error('Error loading initial data:', err);
+        this.themeOptionService.preloader = false;
+      },
       complete: () => {
         this.themeOptionService.preloader = false;
       }
@@ -102,8 +115,8 @@ export class LayoutComponent {
   }
 
   setLogo() {
-    var headerLogo;
-    var footerLogo;
+    var headerLogo = 'assets/images/mangal-logo.png';
+    var footerLogo = 'assets/images/mangal-logo.png';
     var footerClass;
     if(this.theme) {
       
@@ -134,8 +147,8 @@ export class LayoutComponent {
         footerClass = 'footer-section-2 footer-color-3'
 
       } else if( this.theme == 'denver') {
-        headerLogo = 'assets/images/logo/6.png';
-        footerLogo = 'assets/images/logo/4.png'
+        headerLogo = 'assets/images/mangal-logo.png';
+        footerLogo = 'assets/images/mangal-logo.png'
         footerClass = 'footer-section-2 footer-color-3'
 
       } else if(this.theme == 'moscow') {
@@ -150,8 +163,9 @@ export class LayoutComponent {
       }
     } else {
       this.themeOption$.subscribe(theme => {
-        headerLogo = theme?.logo?.header_logo?.original_url;
-        footerLogo = theme?.logo?.footer_logo?.original_url;
+        // Force local logo instead of API logo
+        headerLogo = 'assets/images/mangal-logo.png';
+        footerLogo = 'assets/images/mangal-logo.png';
         footerClass = theme?.footer.footer_style === 'dark_mode' ? 'footer-section-2 footer-color-3' : '';
       });
     }

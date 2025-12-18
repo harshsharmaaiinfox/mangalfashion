@@ -3,7 +3,7 @@
         [class]="cartItem && cartItem.quantity > 0 ? 'btn btn-add-cart addcart-button active' : 'btn btn-add-cart addcart-button'"
         [iconClass]="iconClass"
         [spinner]="false"
-        (click)="product.type === 'classified' ? productDetailModal.openModal() : addToCart(product, 1)"
+        (click)="addToCart(product, 1)"
         *ngIf="product.stock_status == 'in_stock' else outStock">
         {{ text | translate  }}
     </app-button>

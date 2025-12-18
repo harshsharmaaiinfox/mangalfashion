@@ -1,38 +1,36 @@
-<header class="pb-md-4 pb-0" [class.active]="stick && sticky" class="{{!stick && sticky ? class : ''}}">
-  <app-topbar [data]="data" *ngIf="data?.header?.page_top_bar_enable"></app-topbar>
-  <div class="top-nav top-header sticky-header">
+<header class=" pb-0 header-overlap" [class.active]="stick && sticky" class="{{!stick && sticky ? class : ''}}">
+  <div class="top-nav top-header sticky-header header-overlay">
       <div class="container-fluid-lg">
           <div class="row">
               <div class="col-12">
-                  <div class="navbar-top">
-                      <div class="d-xl-none d-inline">
-                          <app-navbar-menu-button (activeMenu)="toggle($event)" [show]="active"></app-navbar-menu-button>
-                      </div>
-                      <app-logo [textClass]="'txt-theme f-w-600'" [data]="data" [logo]="logo"></app-logo>
-                      <div class="middle-box">
-                          <div class="search-box">
-                              <app-box-search></app-box-search>
+                  <div class="navbar-top d-flex align-items-center justify-content-between">
+                      <!-- Logo and Menu on the left -->
+                      <div class="d-flex align-items-center flex-grow-1">
+                          <div class="d-xl-none d-inline me-3">
+                              <app-navbar-menu-button (activeMenu)="toggle($event)" [show]="active"></app-navbar-menu-button>
+                          </div>
+                          <app-logo [textClass]="'txt-theme f-w-600'" [data]="data" [logo]="logo"></app-logo>
+                          
+                          <!-- Menu next to logo with space -->
+                          <div class="header-menu-middle d-none d-xl-flex" style="margin-left: 50px;">
+                              <div class="main-nav navbar navbar-expand-xl navbar-light">
+                                  <app-menu></app-menu>
+                              </div>
                           </div>
                       </div>
-                      <div class="rightside-box">
-                          <ul class="right-side-menu">
-                            <li class="right-side mobile-search d-xl-none d-inline-block">
-                                <app-box-search [style]="'berlin'"></app-box-search>
-                            </li>
-                            <li class="right-side" *ngIf="data?.header?.support_number">
-                                <app-call [data]="data"></app-call>
-                            </li>
-                            <li class="right-side d-md-inline-block d-none">
-                                <app-header-wishlist></app-header-wishlist>
-                            </li>
-                            <li class="right-side p-md-custom d-inline-block">
-                                <div class="onhover-dropdown header-badge">
-                                    <app-header-cart></app-header-cart>
-                                </div>
-                            </li>
-                            <li class="right-side onhover-dropdown">
-                                <app-my-account></app-my-account>
-                            </li>
+                      
+                      <!-- Right side: Wishlist, Cart, Profile -->
+                      <div class="rightside-box d-flex align-items-center">
+                          <ul class="right-side-menu d-flex align-items-center mb-0" style="list-style: none; gap: 15px;">
+                              <li class="right-side d-inline-block">
+                                  <app-header-wishlist></app-header-wishlist>
+                              </li>
+                              <li class="right-side d-inline-block">
+                                  <app-header-cart></app-header-cart>
+                              </li>
+                              <li class="right-side onhover-dropdown d-inline-block">
+                                  <app-my-account></app-my-account>
+                              </li>
                           </ul>
                       </div>
                   </div>
@@ -40,35 +38,23 @@
           </div>
       </div>
   </div>
-  <div class="container-fluid-lg">
-      <div class="row">
-          <div class="col-12">
-              <div class="header-nav">
-                  <div class="header-nav-left">
-                    <app-header-categories [data]="data"></app-header-categories>
+  
+  <!-- Mobile Menu (offcanvas) -->
+  <div class="d-xl-none">
+      <div class="offcanvas offcanvas-collapse modern-mobile-menu" [class.show]="active">
+          <div class="offcanvas-header modern-menu-header">
+              <div class="menu-header-content">
+                  <div class="menu-icon-wrapper">
+                      <i class="ri-menu-line"></i>
                   </div>
-                  <div class="header-nav-middle">
-                    <div class="main-nav navbar navbar-expand-xl navbar-light navbar-sticky">
-                        <div class="offcanvas offcanvas-collapse order-xl-2" [class.show]="active">
-                            <div class="offcanvas-header navbar-shadow">
-                                <h5>{{ 'Menu' | translate }}</h5>
-                                <app-button [type]="'button'" [class]="'btn-close lead'" [id]="'toggle_menu_btn'" [spinner]="false" (click)="toggle(false)">
-                                    <i class="ri-close-fill"></i>
-                                </app-button>
-                            </div>
-                            <div class="offcanvas-body">
-                                <app-menu></app-menu>
-                            </div>
-                        </div>
-                        <div class="offcanvas-backdrop fade" *ngIf="active" [class.show]="active" (click)="toggle(false)"></div>
-                    </div>
-                  </div>
-                  <div class="header-nav-right">
-                      <app-deal [data]="data"></app-deal>
-                  </div>
+                  <h5 class="modern-menu-title">{{ 'Menu' | translate }}</h5>
               </div>
           </div>
+          <div class="offcanvas-body modern-menu-body">
+              <app-menu></app-menu>
+          </div>
       </div>
+      <div class="offcanvas-backdrop fade" *ngIf="active" [class.show]="active" (click)="toggle(false)"></div>
   </div>
 </header>
 

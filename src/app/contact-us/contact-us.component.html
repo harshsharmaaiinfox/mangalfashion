@@ -1,47 +1,203 @@
-<div class="container">
-    <div class="contact-details">
-      <h2>Contact Us</h2>
-      <p>We’d love to hear from you! Reach out to us using the details below.</p>
-      <div class="contact-info">
-        <p><strong>Company Name:</strong> STYLEXIO FASHION FABRIC PRIVATE LIMITED</p>
-        <p><strong>Address:</strong> Office No-1404 Galaxy Diamond Plaza 13th Floor, Plot No C-1A Sector 4 Greater Noida, I.A. Surajpur, Gautam Buddha Nagar, Noida, Uttar Pradesh, India, 201301</p>
-        <p><strong>Mobile:</strong> <a href="tel:+918368711465"> +91 8920874879
-        </a></p>
-        <p><strong>Website:</strong> <a href="https://stylexio.in" target="_blank"> stylexio.in</a></p>
+<!-- Hero Section -->
+<section class="contact-hero-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="contact-hero-content">
+          <div class="hero-icon-wrapper">
+            <i class="ri-customer-service-2-line"></i>
+          </div>
+          <h1 class="hero-title">Contact Us</h1>
+          <p class="hero-subtitle">We'd love to hear from you!</p>
+          <p class="hero-description">
+            Get in touch with our customer support team for any questions, assistance, or feedback. 
+            We're here to help you 24/7.
+          </p>
+        </div>
       </div>
     </div>
-  
-    <div class="contact-form">
-      <h2>Get in Touch</h2>
-      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-  
-        <label for="name">Name</label>
-        <input type="text" id="name" formControlName="name">
-        <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched" class="error">
-          Name should contain only letters and spaces.
+  </div>
+</section>
+
+<!-- Contact Information & Form Section -->
+<section class="contact-main-section section-lg-space">
+  <div class="container-fluid-lg">
+    <div class="row g-4">
+      <!-- Company Information Section -->
+      <div class="col-lg-5">
+        <div class="contact-info-card">
+          <div class="card-header-modern">
+            <h3 class="section-title">
+              <i class="ri-information-line"></i>
+              Company Information
+            </h3>
+          </div>
+          <div class="card-body-modern">
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-building-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Company Name</label>
+                <p class="info-value">MANGAL MURTI LANDCRAFTS PRIVATE LIMITED</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-file-text-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Corporate Identification Number (CIN)</label>
+                <p class="info-value">U02005UP2016PTC076855</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-mail-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Email Address</label>
+                <p class="info-value">
+                  <a href="mailto:vinaysaini1990&#64;gmail.com">vinaysaini1990&#64;gmail.com</a>
+                </p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-map-pin-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Registered Address</label>
+                <p class="info-value">
+                  UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4,<br>
+                  GREATER NOIDA WEST, Gautam Buddha Nagar,<br>
+                  Gautam Buddha Nagar, Uttar Pradesh, India - 201318
+                </p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-global-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Website</label>
+                <p class="info-value">
+                  <a href="https://mangalfashion.com" target="_blank">mangalfashion.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      
-        <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email">
-        <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched" class="error">
-          Enter a valid email address.
+      </div>
+
+      <!-- Contact Form Section -->
+      <div class="col-lg-7">
+        <div class="contact-form-card">
+          <div class="card-header-modern">
+            <h3 class="section-title">
+              <i class="ri-message-3-line"></i>
+              Get In Touch
+            </h3>
+            <p class="section-subtitle">Fill out the form below and we'll get back to you as soon as possible.</p>
+          </div>
+          <div class="card-body-modern">
+            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+              <div class="contact-form-fields">
+                <div class="form-field-wrapper">
+                  <label class="form-label-modern" for="name">
+                    <i class="ri-user-line"></i>
+                    Name
+                  </label>
+                  <div class="input-wrapper">
+                    <input 
+                      type="text" 
+                      class="form-input-modern" 
+                      id="name" 
+                      placeholder="Enter your full name" 
+                      formControlName="name">
+                    <i class="ri-user-3-fill input-icon"></i>
+                  </div>
+                  <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+                    <i class="ri-error-warning-line"></i>
+                    <span>Name should contain only letters and spaces.</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-field-wrapper">
+                    <label class="form-label-modern" for="email">
+                      <i class="ri-mail-line"></i>
+                      Email Address
+                    </label>
+                    <div class="input-wrapper">
+                      <input 
+                        type="email" 
+                        class="form-input-modern" 
+                        id="email" 
+                        placeholder="Enter your email address" 
+                        formControlName="email">
+                      <i class="ri-mail-fill input-icon"></i>
+                    </div>
+                    <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+                      <i class="ri-error-warning-line"></i>
+                      <span>Enter a valid email address.</span>
+                    </div>
+                  </div>
+
+                  <div class="form-field-wrapper">
+                    <label class="form-label-modern" for="phone">
+                      <i class="ri-phone-line"></i>
+                      Phone Number
+                    </label>
+                    <div class="input-wrapper">
+                      <input 
+                        type="tel" 
+                        class="form-input-modern" 
+                        id="phone" 
+                        placeholder="Enter your phone number" 
+                        formControlName="phone">
+                      <i class="ri-smartphone-line input-icon"></i>
+                    </div>
+                    <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+                      <i class="ri-error-warning-line"></i>
+                      <span>Phone number should be exactly 10 digits.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field-wrapper">
+                  <label class="form-label-modern" for="message">
+                    <i class="ri-message-2-line"></i>
+                    Message
+                  </label>
+                  <div class="input-wrapper">
+                    <textarea 
+                      class="form-textarea-modern" 
+                      id="message" 
+                      placeholder="Enter your message" 
+                      rows="6" 
+                      formControlName="message"></textarea>
+                    <i class="ri-chat-2-fill input-icon textarea-icon"></i>
+                  </div>
+                  <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+                    <i class="ri-error-warning-line"></i>
+                    <span>Message field cannot be empty.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-submit-wrapper">
+                <button type="submit" class="btn-submit" [disabled]="contactForm.invalid">
+                  <i class="ri-send-plane-fill"></i>
+                  <span>Submit</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" formControlName="phone">
-        <div *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched" class="error">
-          Phone number should be exactly 10 digits.
-        </div>
-      
-        <label for="message">Message</label>
-        <textarea id="message" formControlName="message" rows="4"></textarea>
-        <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched" class="error">
-          Message field cannot be empty.
-        </div>
-      
-        <button type="submit" [disabled]="contactForm.invalid" class="sub-btn">Submit</button>
-      </form>
-      
+      </div>
     </div>
   </div>
+</section>
+
   

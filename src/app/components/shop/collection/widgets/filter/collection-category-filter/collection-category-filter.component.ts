@@ -30,6 +30,28 @@ export class CollectionCategoryFilterComponent {
     this.selectedCategories = this.filter['category'] ? this.filter['category'].split(',') : [];
   }
 
+  toggleCategory(slug: string) {
+    const index = this.selectedCategories.indexOf(slug);
+
+    if (index === -1) {
+      // Add category if not selected
+      this.selectedCategories.push(slug);
+    } else {
+      // Remove category if already selected
+      this.selectedCategories.splice(index, 1);
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        category: this.selectedCategories.length ? this.selectedCategories?.join(",") : null,
+        page: 1
+      },
+      queryParamsHandling: 'merge', // preserve the existing query params in the route
+      skipLocationChange: false  // do trigger navigation
+    });
+  }
+
   applyFilter(event: Event) {
     const index = this.selectedCategories.indexOf((<HTMLInputElement>event?.target)?.value);  // checked and unchecked value
 

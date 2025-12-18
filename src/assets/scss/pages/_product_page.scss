@@ -54,6 +54,20 @@
     margin-bottom: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320)));
     letter-spacing: 0.4px;
     font-size: calc(15px + (16 - 15) * ((100vw - 320px) / (1920 - 320)));
+    color: var(--theme-color); /* MANGAL Orange heading */
+    position: relative;
+    display: inline-block;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background-color: var(--theme-color-secondary); /* MURTI Blue accent */
+      border-radius: 2px;
+    }
   }
 }
 
@@ -535,7 +549,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 18px;
-    color: #0da487;
+    color: var(--theme-color); /* MANGAL Orange */
   }
 }
 
@@ -543,22 +557,132 @@
   .product-left-box {
     position: sticky;
     top: 0;
+    background-color: #ffffff; /* Clean white background */
 
     .owl-carousel {
       .owl-stage-outer {
         margin-right: 0;
       }
     }
+    
+    // Main Product Image Wrapper - Full Size
+    .product-main-image-wrapper {
+      width: 100%;
+      margin-bottom: 0;
+    }
+    
+    .product-main-image {
+      background-color: #ffffff; /* Clean white background */
+      border-radius: 4px;
+      overflow: hidden;
+      width: 100%;
+      min-height: 600px;
+      max-height: 900px;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      
+      @include mq-max(xl) {
+        min-height: 500px;
+        max-height: 800px;
+      }
+      
+      @include mq-max(md) {
+        min-height: 400px;
+        max-height: 600px;
+      }
+      
+      @include mq-max(sm) {
+        min-height: 350px;
+        max-height: 500px;
+      }
+      
+      .product-full-image {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain; /* Show full image without cropping */
+        display: block;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+      
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      
+      video {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
 
     .slider-image {
-      background-color: $light-gray;
+      background-color: #ffffff; /* Clean white background */
+      border-radius: 4px;
+      overflow: hidden;
+      min-height: 400px;
+      max-height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain; /* Show full image without cropping */
+        display: block;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+      
+      video {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+    
+    .col-grid-box {
+      .slider-image {
+        min-height: 300px;
+        max-height: 550px;
+        aspect-ratio: 1 / 1; /* Square aspect ratio for grid images */
+        
+        @include mq-max(md) {
+          min-height: 250px;
+          max-height: 450px;
+        }
+        
+        @include mq-max(sm) {
+          min-height: 200px;
+          max-height: 350px;
+        }
+      }
     }
 
     .bottom-slider-image {
       height: 100%;
 
       .slider-image {
-        background-color: $light-gray;
+        background-color: #ffffff; /* Clean white background */
         height: calc(120px + (150 - 120) * ((100vw - 320px) / (1920 - 320)));
 
         button {
@@ -654,7 +778,7 @@
 
     .product-label-tag {
       padding: 5px 13px;
-      background-color: #ff7272;
+      background-color: var(--theme-color); /* MANGAL Orange */
       font-size: 14px;
       color: #ffffff;
       font-weight: 500;
@@ -668,7 +792,7 @@
         height: 15px;
         top: 0;
         right: -15px;
-        border-bottom: solid 15px #ff7272;
+        border-bottom: solid 15px var(--theme-color); /* MANGAL Orange */
         border-left: solid 15px transparent;
         border-right: solid 15px transparent;
         transform: rotate(180deg);
@@ -681,7 +805,7 @@
         height: 15px;
         top: 16px;
         right: -15px;
-        border-bottom: solid 15px #ff7272;
+        border-bottom: solid 15px var(--theme-color); /* MANGAL Orange */
         border-left: solid 15px transparent;
         border-right: solid 15px transparent;
         transform: rotate(0);
@@ -693,11 +817,11 @@
       }
 
       &.warning-label-tag {
-        background-color: #ffba00;
+        background-color: var(--theme-color-secondary); /* MURTI Blue for featured */
 
         &::before,
         &::after {
-          border-bottom-color: #ffba00;
+          border-bottom-color: var(--theme-color-secondary); /* MURTI Blue */
         }
       }
 
@@ -748,12 +872,93 @@
     .name {
       font-weight: 700;
       margin-bottom: 8px;
+      color: #000000; /* Black title */
+      
+      &.product-title-large {
+        font-size: calc(24px + (32 - 24) * ((100vw - 320px) / (1920 - 320)));
+        font-weight: 700;
+        margin-bottom: 12px;
+        line-height: 1.3;
+        color: #000000; /* Black title */
+        background: linear-gradient(135deg, #000000 0%, var(--theme-color) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+    
+    .brand-box-suggection {
+      margin-bottom: 8px;
+      
+      h5 {
+        font-size: calc(13px + (15 - 13) * ((100vw - 320px) / (1920 - 320)));
+        font-weight: 500;
+        color: #000000; /* Black text */
+        margin-bottom: 0;
+        
+        span {
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+    
+    .price-section-modern {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      
+      .discount-badge {
+        background-color: var(--theme-color); /* MANGAL Orange */
+        color: #ffffff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        
+        span {
+          display: block;
+        }
+      }
+      
+      .price-display {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        
+        .price-current {
+          font-size: calc(22px + (28 - 22) * ((100vw - 320px) / (1920 - 320)));
+          font-weight: 700;
+          color: var(--theme-color); /* MANGAL Orange price */
+          margin: 0;
+        }
+        
+        .price-old {
+          font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320)));
+          color: $content-color;
+          text-decoration: line-through;
+          font-weight: 400;
+        }
+      }
     }
 
     .price-rating {
       @include flex_common($dis: flex, $align: center, $justify: space-between);
       gap: 5px;
       flex-wrap: wrap;
+      
+      // Rating stars - orange color
+      ::ng-deep ngb-rating {
+        .star {
+          color: var(--theme-color) !important; /* MANGAL Orange for stars */
+          fill: var(--theme-color) !important;
+        }
+      }
 
       &-2 {
         @include mq-max(3xl) {
@@ -970,12 +1175,14 @@
 
       .circle {
         li {
-          border: 1px solid rgba(154, 154, 154, 0.4);
-          border-radius: 100% !important;
+          border: 1px solid #CC471F; /* Custom orange border */
+          border-radius: 4px !important; /* Square shape */
           padding: 3px;
           transition: all 0.3s ease-in-out;
 
           &:hover {
+            border-color: #CC471F; /* Keep orange border on hover */
+            
             button {
               color: $title-color;
               background-color: #f1f0f0;
@@ -983,26 +1190,56 @@
           }
 
           &.active {
+            border-color: #CC471F; /* Custom orange border for selected */
+            
             button {
               color: #ffffff !important;
-              background-color: var(--theme-color);
+              background-color: #CC471F !important; /* Custom orange background */
+              border-color: #CC471F !important;
+              border-radius: 4px !important; /* Square shape for inner button */
             }
           }
 
           button {
             @include flex_common;
             width: calc(
-              30px + (35 - 30) * ((100vw - 320px) / (1920 - 320))
+              40px + (45 - 40) * ((100vw - 320px) / (1920 - 320))
             ) !important;
             height: calc(
-              30px + (35 - 30) * ((100vw - 320px) / (1920 - 320))
+              40px + (45 - 40) * ((100vw - 320px) / (1920 - 320))
             ) !important;
-            background-color: $light-gray;
-            border-radius: 100%;
-            color: $content-color !important;
+            background-color: #f5f5f5; /* Light gray background */
+            border-radius: 4px !important; /* Square shape for inner button */
+            color: #000000 !important;
             padding: 0;
-            border: unset;
-            font-weight: 400;
+            border: 1px solid #CC471F; /* Custom orange border */
+            font-weight: 500;
+            font-size: calc(13px + (14 - 13) * ((100vw - 320px) / (1920 - 320)));
+          }
+        }
+      }
+      
+      // Modern size buttons (non-circle style)
+      &:not(.circle) {
+        li {
+          &.active {
+            border-color: #000000;
+            
+            button {
+              background-color: #000000;
+              color: #ffffff;
+              border-color: #000000;
+            }
+          }
+          
+          button {
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            
+            &:hover {
+              background-color: #f5f5f5;
+            }
           }
         }
       }
@@ -1282,6 +1519,26 @@
       }
     }
 
+    // Product Information and Delivery Details Row Layout
+    .product-info-delivery-row {
+      margin-top: 20px;
+      gap: 12px; /* Reduced gap between columns */
+      
+      .pickup-box,
+      .delivery-info {
+        margin-top: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      @include mq-max(md) {
+        .col-md-6 {
+          margin-bottom: 15px;
+        }
+      }
+    }
+
     .pickup-box {
       margin-top: 20px;
 
@@ -1311,6 +1568,13 @@
 
           &-2 {
             display: flex;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: transparent;
+            width: 100%;
+            max-width: 100%;
 
             @media (max-width: 1500px) {
               width: 100%;
@@ -1318,17 +1582,25 @@
 
             @media (max-width: 1450px) {
               column-count: 1;
-              padding: 15px;
+              padding: 0;
             }
 
             @include mq-max(xl) {
-              column-count: 2;
-              display: block;
-              padding-bottom: 4px;
+              column-count: unset;
+              display: flex;
+              flex-direction: column;
+              padding-bottom: 0;
 
               li {
-                margin-bottom: 8px;
+                margin-bottom: 10px;
+                font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
+                color: #000000; /* Black text */
+                line-height: 1.6;
               }
+            }
+            
+            li {
+              color: #000000; /* Black text for product info */
             }
 
             @include mq-max(md) {
@@ -1694,6 +1966,147 @@
       line-height: 1;
       margin-top: -3px;
       font-size: 19px;
+    }
+  }
+  
+  // Modern checkout buttons
+  &.modern-checkout-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    
+    .btn-add-cart {
+      background-color: #ffffff;
+      color: #CC471F; /* Custom orange color */
+      border: 2px solid #CC471F; /* Custom orange border */
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      transition: all 0.3s ease;
+      
+      i {
+        color: #CC471F; /* Custom orange icon */
+      }
+      
+      &:hover {
+        background-color: #CC471F; /* Custom orange background on hover */
+        border-color: #CC471F;
+        color: #ffffff; /* White text on hover */
+        
+        i {
+          color: #ffffff; /* White icon on hover */
+        }
+      }
+      
+      &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+    
+    .btn-buy-now {
+      background-color: #CC471F; /* Custom orange background */
+      color: #ffffff;
+      border: 2px solid #CC471F;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      transition: all 0.3s ease;
+      
+      i {
+        color: #ffffff; /* White arrow icon */
+      }
+      
+      &:hover:not(:disabled) {
+        background-color: #b03d1a; /* Darker shade on hover */
+        border-color: #b03d1a;
+        color: #ffffff;
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Modern quantity selector
+.quantity-wishlist-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+  
+  .modern-qty-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #ffffff;
+    
+    .qty-btn {
+      background-color: #ffffff;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #000000; /* Black icons */
+      transition: all 0.3s ease;
+      min-width: 40px;
+      
+      &:hover {
+        background-color: #f5f5f5;
+      }
+      
+      i {
+        font-size: 16px;
+      }
+    }
+    
+    .qty-input {
+      border: none;
+      border-left: 1px solid #e0e0e0; /* Light gray border */
+      border-right: 1px solid #e0e0e0; /* Light gray border */
+      text-align: center;
+      width: 60px;
+      padding: 8px;
+      font-weight: 600;
+      background-color: #ffffff;
+      color: #000000; /* Black text */
+      
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+  }
+  
+  .wishlist-btn-group {
+    display: flex;
+    gap: 8px;
+    
+    .wishlist-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #e0e0e0; /* Light gray border */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5; /* Light gray background */
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #e8e8e8;
+        border-color: #000000;
+      }
+      
+      i {
+        font-size: 18px;
+        color: #000000; /* Black icons */
+      }
     }
   }
 }
@@ -2138,27 +2551,45 @@
 }
 
 .delivery-info {
+  margin-top: 20px;
+  padding-top: 20px;
   padding-bottom: 20px;
+  border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
   li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: calc(5px + (10 - 5) * ((100vw - 320px) / (1920 - 320)));
-    font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
-    color: #777;
+    font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
+    color: $content-color;
+    line-height: 1.6;
+    margin-bottom: 12px;
 
     @include mq-max(md) {
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     i {
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1;
+      color: var(--theme-color);
+      margin-top: 2px;
+      min-width: 20px;
     }
 
     + li {
-      margin-top: 4px;
+      margin-top: 0;
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }
@@ -2275,6 +2706,60 @@
   }
 }
 
+// Modern Secure Checkout Section
+.secure-checkout-modern {
+  margin: 25px 0;
+  padding: 20px 0;
+  border-top: 1px solid $border-color;
+  
+  .secure-checkout-title {
+    font-weight: 600;
+    font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
+    margin-bottom: 15px;
+    color: $title-color;
+  }
+  
+  .secure-checkout-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    
+    @include mq-max(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mq-max(xs) {
+      grid-template-columns: 1fr;
+    }
+    
+    .secure-icon-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #f9f9f9;
+      }
+      
+      i {
+        font-size: 20px;
+        color: var(--theme-color-secondary); /* MURTI Blue for icons */
+        min-width: 24px;
+      }
+      
+      span {
+        font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320)));
+        color: $content-color;
+        font-weight: 400;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
 .size-delivery-info {
   font-size: 16px;
   display: flex;
@@ -2302,12 +2787,17 @@
 }
 
 .product-count {
+  margin-bottom: 15px;
+  
   ul {
     display: inline-flex;
     align-items: center;
     gap: 3px 15px;
     margin-bottom: 16px;
     flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 
     @include mq-max(sm) {
       display: inline-grid;
@@ -2320,12 +2810,15 @@
       gap: 10px;
 
       h6 {
-        font-size: 15px;
+        font-size: calc(13px + (15 - 13) * ((100vw - 320px) / (1920 - 320)));
+        font-weight: 500;
+        color: $content-color;
+        margin: 0;
       }
 
       i {
         color: var(--theme-color);
-        font-size: 20px;
+        font-size: 18px;
       }
     }
   }

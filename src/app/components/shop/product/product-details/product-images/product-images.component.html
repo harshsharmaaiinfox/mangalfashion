@@ -12,56 +12,50 @@
                   <span>{{ 'featured' | translate }}</span></div>
               </ng-template>
             </div>
-            <div class="row g-sm-4 g-2">
-              <div class="col-6 col-grid-box" *ngFor="let image of product?.product_galleries; index as i">
-                <div class="slider-image w-100 h-100 d-flex align-items-center justify-content-center">
-                  <ng-container *ngIf="videType.includes(image?.mime_type!); else audio">
+            <!-- Main Product Image - Full Size -->
+            <div class="product-main-image-wrapper">
+              <div class="slider-image product-main-image d-flex align-items-center justify-content-center">
+                <ng-container *ngIf="product?.product_galleries?.length && product.product_galleries?.[0] as firstImage; else noGallery">
+                  <ng-container *ngIf="firstImage && videType.includes(firstImage?.mime_type || ''); else checkAudio">
                     <i class="ri-video-line"></i>
                     <video class="w-100 h-100" controls>
-                      <source [src]="image ? image.original_url : ''" [type]="image?.mime_type">
+                      <source [src]="firstImage?.original_url || ''" [type]="firstImage?.mime_type || ''">
                     </video>
                   </ng-container>
-
-                  <ng-template #img>
-                    <img [src]="image ?
-                                      image.original_url :
-                                      'assets/images/product.png'" class="img-fluid" [alt]="product.name">
-                  </ng-template>
-                  <ng-template #audio>
-                    <ng-container *ngIf="audioType.includes(image?.mime_type!); else img">
+                  <ng-template #checkAudio>
+                    <ng-container *ngIf="firstImage && audioType.includes(firstImage?.mime_type || ''); else showImage">
                       <audio controls>
-                        <source [src]="image ? image.original_url : ''" [type]="image?.mime_type">
+                        <source [src]="firstImage?.original_url || ''" [type]="firstImage?.mime_type || ''">
                       </audio>
                     </ng-container>
+                    <ng-template #showImage>
+                      <img [src]="firstImage?.original_url || 'assets/images/product.png'" 
+                           class="img-fluid product-full-image" 
+                           [alt]="product?.name || 'Product'">
+                    </ng-template>
                   </ng-template>
-                </div>
-              </div>
-              <ng-container *ngIf="!product?.product_galleries?.length">
-                <div class="col-6 col-grid-box">
-                  <div class="slider-image">
-                    <ng-template #audio>
-                      <ng-container *ngIf="audioType.includes(product?.product_thumbnail?.mime_type!); else img">
-                        <audio controls>
-                          <source [src]="product.product_thumbnail ? product.product_thumbnail.original_url : ''"
-                            [type]="product.product_thumbnail?.mime_type">
-                        </audio>
-                      </ng-container>
-                    </ng-template>
-                    <ng-template #img>
-                      <img [src]="product.product_thumbnail ?
-                                          product.product_thumbnail.original_url :
-                                          'assets/images/product.png'" class="img-fluid" [alt]="product.name">
-                    </ng-template>
-                    <ng-container *ngIf="videType.includes(product?.product_thumbnail?.mime_type!); else audio">
-                      <i class="ri-video-line"></i>
-                      <video class="w-100" controls>
-                        <source [src]="product.product_thumbnail ? product.product_thumbnail.original_url : ''"
-                          [type]="product.product_thumbnail?.mime_type">
-                      </video>
+                </ng-container>
+                <ng-template #noGallery>
+                  <ng-container *ngIf="product?.product_thumbnail && videType.includes(product.product_thumbnail?.mime_type || ''); else checkThumbnailAudio">
+                    <i class="ri-video-line"></i>
+                    <video class="w-100 h-100" controls>
+                      <source [src]="product.product_thumbnail?.original_url || ''" [type]="product.product_thumbnail?.mime_type || ''">
+                    </video>
+                  </ng-container>
+                  <ng-template #checkThumbnailAudio>
+                    <ng-container *ngIf="product?.product_thumbnail && audioType.includes(product.product_thumbnail?.mime_type || ''); else showThumbnailImage">
+                      <audio controls>
+                        <source [src]="product.product_thumbnail?.original_url || ''" [type]="product.product_thumbnail?.mime_type || ''">
+                      </audio>
                     </ng-container>
-                  </div>
-                </div>
-              </ng-container>
+                    <ng-template #showThumbnailImage>
+                      <img [src]="product?.product_thumbnail?.original_url || 'assets/images/product.png'" 
+                           class="img-fluid product-full-image" 
+                           [alt]="product?.name || 'Product'">
+                    </ng-template>
+                  </ng-template>
+                </ng-template>
+              </div>
             </div>
           </div>
         </div>
@@ -69,8 +63,15 @@
           <div class="right-box-contain">
             <app-product-contain [product]="product" [option]="option"></app-product-contain>
             <app-product-action [product]="product"></app-product-action>
-            <app-product-information [product]="product"></app-product-information>
-            <app-product-delivery-information [product]="product"></app-product-delivery-information>
+            <!-- Product Information and Delivery Details in Row -->
+            <div class="row g-2 product-info-delivery-row">
+              <div class="col-md-6">
+                <app-product-information [product]="product"></app-product-information>
+              </div>
+              <div class="col-md-6">
+                <app-product-delivery-information [product]="product"></app-product-delivery-information>
+              </div>
+            </div>
             <app-payment-option [product]="product" [option]="option"></app-payment-option>
             <app-product-social-share [product]="product" [option]="option"></app-product-social-share>
           </div>
@@ -79,7 +80,7 @@
           *ngIf="product?.cross_sell_products && product?.cross_sell_products?.length">
           <app-product-bundle [product]="product"></app-product-bundle>
         </div>
-        <div class="col-12">
+        <div class="m-auto col-lg-9">
           <app-product-details-tabs [product]="product"></app-product-details-tabs>
         </div>
       </div>

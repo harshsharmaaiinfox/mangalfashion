@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { User, UserAddress } from '../../../shared/interface/user.interface';
@@ -20,10 +21,14 @@ export class DashboardComponent {
 
   public address: UserAddress | null;
 
-  constructor() {
+  constructor(private router: Router) {
     this.user$.subscribe(user => {
       this.address = user?.address?.length ? user?.address?.[0] : null;
     });
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([`/account/${route}`]);
   }
 
 }

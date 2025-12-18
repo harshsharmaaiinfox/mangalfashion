@@ -1,228 +1,228 @@
-<!-- Fresh Vegetable Section Start -->
 <app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
 
-<section class="fresh-vegetable-section section-lg-space" *ngIf="aboutUs?.about?.futures?.length && (aboutUs?.about?.content_left_image_url || aboutUs?.about?.content_right_image_url)">
-    <div class="container-fluid-lg">
-        <div class="row gx-xl-5 gy-xl-0 g-3 ratio_148_1">
-            <div class="col-xl-6 col-12">
-                <div class="row g-sm-4 g-2">
-                    <div class="col-6">
-                        <div class="fresh-image-2">
-                            <div>
-                                <img [src]="storageURL + aboutUs?.about?.content_left_image_url" class="bg-img " alt="about us left content image">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="fresh-image">
-                            <div>
-                                <img [src]="storageURL + aboutUs?.about?.content_right_image_url" class="bg-img " alt="about us right content image">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-6 col-12">
-                <div class="fresh-contain p-center-left">
-                    <div>
-                        <div class="review-title">
-                            <h4>{{ aboutUs?.about?.sub_title }}</h4>
-                            <h2>{{ aboutUs?.about?.title }}</h2>
-                        </div>
-
-                        <div class="delivery-list">
-                            <p class="text-content">{{ aboutUs?.about?.description }}</p>
-
-                            <ul class="delivery-box">
-                                <li *ngFor="let futures of aboutUs?.about?.futures">
-                                    <div class="delivery-box">
-                                        <div class="delivery-icon">
-                                            <img [src]="storageURL + futures.icon" alt="icon">
-                                        </div>
-                                        <div class="delivery-detail">
-                                            <h5 class="text">{{ futures.title }}</h5>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Hero Section -->
+<section class="about-hero-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="about-hero-content">
+          <div class="hero-icon-wrapper">
+            <i class="ri-store-3-line"></i>
+          </div>
+          <h1 class="hero-title">About Mangal Fashion</h1>
+          <p class="hero-subtitle">Your Trusted Fashion Destination</p>
+          <p class="hero-description">
+            We are passionate about bringing you the latest trends in fashion, offering premium quality clothing 
+            for men and women. At Mangal Fashion, we believe that style is a form of self-expression, and everyone 
+            deserves to look and feel their best.
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 </section>
-<!-- Fresh Vegetable Section End -->
 
-<!-- Client Section Start -->
-<section class="client-section section-lg-space" *ngIf="aboutUs?.clients?.status && aboutUs?.clients?.content?.length && (aboutUs?.clients?.sub_title || aboutUs?.clients?.title)">
-    <div class="container-fluid-lg">
-        <div class="row">
-            <div class="col-12">
-                <div class="about-us-title text-center">
-                    <h4>{{ aboutUs?.clients?.sub_title }}</h4>
-                    <h2 class="center">{{ aboutUs?.clients?.title }}</h2>
-                </div>
-                <div class="slider-dots">
-                <owl-carousel-o [options]="clientsOptions">
-                    <ng-template carouselSlide *ngFor="let client of aboutUs?.clients?.content">
-                    <div class="slider-3_1 product-wrapper">
-                        <div>
-                            <div class="clint-contain">
-                                <div class="client-icon">
-                                    <img [src]="storageURL + client.icon" [alt]="client.title">
-                                </div>
-                                <h4>{{ client.title }}</h4>
-                                <p>{{ client.description }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    </ng-template>
-                </owl-carousel-o>
-                </div>
-            </div>
+<!-- Company Story Section -->
+<section class="about-story-section section-lg-space">
+  <div class="container-fluid-lg">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <div class="story-image-wrapper">
+          <div class="story-image">
+            <img src="assets/images/about-image.png" alt="About Mangal Fashion" class="img-fluid">
+          </div>
         </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="story-content">
+          <div class="section-header">
+            <span class="section-label">Our Story</span>
+            <h2 class="section-title">Fashion That Speaks to You</h2>
+          </div>
+          <p class="story-text">
+            Mangal Fashion was founded with a vision to make premium fashion accessible to everyone. 
+            We curate a wide range of clothing that combines style, quality, and affordability. Our 
+            collection includes the latest trends in men's and women's fashion, ensuring you always 
+            have access to the best styles.
+          </p>
+          <p class="story-text">
+            We are committed to providing exceptional customer service and ensuring that every shopping 
+            experience with us is enjoyable and satisfying. Our team works tirelessly to bring you 
+            the finest fashion pieces that reflect your unique personality.
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
-<!-- Client Section End -->
 
-<!-- Team Section Start -->
-<section class="team-section section-lg-space" *ngIf="aboutUs?.team?.status && aboutUs?.team?.members?.length && (aboutUs?.team?.sub_title || aboutUs?.team?.title)">
-    <div class="container-fluid-lg">
-        <div class="about-us-title text-center">
-            <h4 class="text-content">{{ aboutUs?.team?.sub_title }}</h4>
-            <h2 class="center">{{ aboutUs?.team?.title }}</h2>
+<!-- Values Section -->
+<section class="about-values-section section-lg-space">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-header text-center">
+          <span class="section-label">Why Choose Us</span>
+          <h2 class="section-title">Our Core Values</h2>
         </div>
-        <div class="row">
-            <div class="col-12">
-            <div class="slider-dots">
-                <owl-carousel-o [options]="teamOptions">
-                <ng-template carouselSlide *ngFor="let team of aboutUs?.team?.members">
-                    <div>
-                        <div class="team-box">
-                            <div class="team-iamge">
-                                <img [src]="storageURL + team?.profile_image_url" class="img-fluid "
-                                    alt="team member profile photo">
-                            </div>
-                            <div class="team-name">
-                                <h3>{{ team?.name }}</h3>
-                                <h5>{{ team?.designation }}</h5>
-                                <p>{{ team?.description }}</p>
-                                <ul class="team-media">
-                                    <li *ngIf="team?.facebook">
-                                        <a href="{{ team?.facebook }}" class="fb-bg">
-                                            <i class="ri-facebook-fill"></i>
-                                        </a>
-                                    </li>
-
-                                    <li *ngIf="team?.pinterest">
-                                        <a href="{{ team?.pinterest }}" class="pint-bg">
-                                            <i class="ri-pinterest-fill"></i>
-                                        </a>
-                                    </li>
-
-                                    <li *ngIf="team?.twitter">
-                                        <a href="{{ team?.twitter }}" class="twitter-bg">
-                                            <i class="ri-twitter-fill"></i>
-                                        </a>
-                                    </li>
-
-                                    <li *ngIf="team?.instagram">
-                                        <a href="{{ team?.instagram }}" class="insta-bg">
-                                            <i class="ri-instagram-fill"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-                </owl-carousel-o>
-            </div>
-            </div>
-        </div>
+      </div>
     </div>
-</section>
-<!-- Team Section End -->
-
-<!-- Review Section Start -->
-<section class="review-section section-lg-space" *ngIf="aboutUs?.testimonial?.status && aboutUs?.testimonial?.reviews?.length && (aboutUs?.testimonial?.sub_title || aboutUs?.testimonial?.title)">
-    <div class="container-fluid" >
-        <div class="about-us-title text-center">
-            <h4 class="text-content">{{ aboutUs?.testimonial?.sub_title }}</h4>
-            <h2 class="center">{{ aboutUs?.testimonial?.title }}</h2>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="value-card">
+          <div class="value-icon-wrapper">
+            <i class="ri-star-line"></i>
+          </div>
+          <h4 class="value-title">Premium Quality</h4>
+          <p class="value-description">
+            We source only the finest materials and work with trusted manufacturers to ensure 
+            every piece meets our high quality standards.
+          </p>
         </div>
-        <div class="row">
-            <div class="col-12">
-            <div class="slider-dots">
-                <owl-carousel-o [options]="testimonialsOptions">
-                    <ng-template carouselSlide *ngFor="let team of aboutUs?.testimonial?.reviews">
-                    <div>
-                        <div class="reviewer-box">
-                            <i class="ri-double-quotes-r"></i>
-                            <h3>{{ team?.title }}</h3>
-                            <p>"{{ team?.review }}"</p>
-                            <div class="reviewer-profile">
-                                <div class="reviewer-image">
-                                    <img [src]="storageURL + team?.profile_image_url" alt="image">
-                                </div>
-                                <div class="reviewer-name">
-                                    <h4>{{ team?.name }}</h4>
-                                    <h6>{{ team?.designation }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </ng-template>
-                </owl-carousel-o>
-                </div>
-            </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="value-card">
+          <div class="value-icon-wrapper">
+            <i class="ri-truck-line"></i>
+          </div>
+          <h4 class="value-title">Fast Delivery</h4>
+          <p class="value-description">
+            We understand the excitement of receiving your new fashion pieces. That's why we 
+            ensure quick and reliable delivery to your doorstep.
+          </p>
         </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="value-card">
+          <div class="value-icon-wrapper">
+            <i class="ri-customer-service-2-line"></i>
+          </div>
+          <h4 class="value-title">Excellent Support</h4>
+          <p class="value-description">
+            Our dedicated customer support team is always ready to assist you with any queries 
+            or concerns you may have.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="value-card">
+          <div class="value-icon-wrapper">
+            <i class="ri-price-tag-3-line"></i>
+          </div>
+          <h4 class="value-title">Best Prices</h4>
+          <p class="value-description">
+            We offer competitive prices without compromising on quality, making premium fashion 
+            accessible to everyone.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="value-card">
+          <div class="value-icon-wrapper">
+            <i class="ri-shield-check-line"></i>
+          </div>
+          <h4 class="value-title">Secure Shopping</h4>
+          <p class="value-description">
+            Your security and privacy are our top priorities. We use advanced security measures 
+            to protect your personal information.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="value-card">
+          <div class="value-icon-wrapper">
+            <i class="ri-refund-2-line"></i>
+          </div>
+          <h4 class="value-title">Easy Returns</h4>
+          <p class="value-description">
+            Not satisfied with your purchase? We offer hassle-free returns and exchanges to 
+            ensure your complete satisfaction.
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
-<!-- Review Section End -->
 
-<!-- Blog Section Start -->
-<section class="section-lg-space" *ngIf="aboutUs?.blog?.status">
-    <div class="container-fluid-lg">
-        <div class="about-us-title text-center">
-            <h4 class="text-content">{{ 'our_blog' | translate }}</h4>
-            <h2 class="center">{{ 'our_latest_blog' | translate }}</h2>
+<!-- Company Information Section -->
+<section class="about-company-info-section section-lg-space">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-header text-center">
+          <span class="section-label">Company Information</span>
+          <h2 class="section-title">Legal & Contact Details</h2>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="slider-dots">
-                    <owl-carousel-o [options]="blogOptions">
-                        <ng-template carouselSlide *ngFor="let blog of blogs">
-                        <div >
-                            <div class="blog-box">
-                                <div class="blog-box-image">
-                                    <div class="blog-image">
-                                        <a [routerLink]="['/blog/', blog.slug]">
-                                        <img [src]="blog.blog_thumbnail.original_url
-                                                ? blog.blog_thumbnail.original_url
-                                                : 'assets/images/blog.png'" [alt]="blog.title">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <a [routerLink]="['/blog/', blog.slug]" class="blog-detail d-block">
-                                    <h6>{{ blog.created_by.name }}</h6>
-                                    <h5>{{ blog.title }}</h5>
-                                </a>
-                            </div>
-                        </div>
-                        </ng-template>
-                    </owl-carousel-o>
-                    <app-no-data
-                    [class]="'no-data-added bg-light'"
-                    [text]="'no_blog_found'"
-                    *ngIf="!blogs?.length">
-                    </app-no-data>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+        <div class="company-info-card">
+          <div class="info-item">
+            <div class="info-icon-wrapper">
+              <i class="ri-building-line"></i>
+            </div>
+            <div class="info-content">
+              <label class="info-label">Company Name</label>
+              <p class="info-value">MANGAL MURTI LANDCRAFTS PRIVATE LIMITED</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon-wrapper">
+              <i class="ri-file-text-line"></i>
+            </div>
+            <div class="info-content">
+              <label class="info-label">Corporate Identification Number (CIN)</label>
+              <p class="info-value">U02005UP2016PTC076855</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon-wrapper">
+              <i class="ri-mail-line"></i>
+            </div>
+            <div class="info-content">
+              <label class="info-label">Email Address</label>
+              <p class="info-value">
+                <a href="mailto:vinaysaini1990&#64;gmail.com">vinaysaini1990&#64;gmail.com</a>
+              </p>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon-wrapper">
+              <i class="ri-map-pin-line"></i>
+            </div>
+            <div class="info-content">
+              <label class="info-label">Registered Address</label>
+              <p class="info-value">
+                UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4,<br>
+                GREATER NOIDA WEST, Gautam Buddha Nagar,<br>
+                Gautam Buddha Nagar, Uttar Pradesh, India - 201318
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-<!-- Blog Section End -->
+
+<!-- Mission Section -->
+<section class="about-mission-section section-lg-space">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="mission-content text-center">
+          <div class="mission-icon-wrapper">
+            <i class="ri-lightbulb-line"></i>
+          </div>
+          <h2 class="mission-title">Our Mission</h2>
+          <p class="mission-text">
+            To empower individuals to express their unique style through high-quality, affordable fashion. 
+            We strive to be your go-to destination for the latest trends, exceptional service, and an 
+            unforgettable shopping experience.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

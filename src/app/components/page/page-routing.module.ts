@@ -12,6 +12,10 @@ import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {
+    path: 'page/about-us',
+    component: AboutUsComponent
+  },
+  {
     path: 'page/:slug',
     component: PageComponent,
     resolve: {

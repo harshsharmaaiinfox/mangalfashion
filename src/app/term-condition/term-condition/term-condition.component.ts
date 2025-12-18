@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-term-condition',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './term-condition.component.html',
   styleUrl: './term-condition.component.scss'
 })

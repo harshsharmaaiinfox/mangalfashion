@@ -1,22 +1,28 @@
 <ng-template #confirmationModal let-modal>
-    <div class="modal-body">
-        <i class="ri-question-line icon-box wo-bg"></i>
-        <h5 class="modal-title">{{ 'confirmation' | translate }}</h5>
-        <p>{{ 'Are You Sure You Want To Proceed' | translate }}?</p>
-        <div class="button-box">
-            <app-button
-                [class]="'btn btn-md fw-bold btn-theme-outline'"
-                [spinner]="false"
-                [id]="'confirm_no_btn'"
+    <div class="modern-confirmation-modal">
+        <div class="confirmation-modal-header">
+            <div class="confirmation-icon-wrapper">
+                <i class="ri-question-line"></i>
+            </div>
+        </div>
+        <div class="confirmation-modal-body">
+            <h3 class="confirmation-modal-title">{{ 'confirmation' | translate }}</h3>
+            <p class="confirmation-modal-message">{{ 'Are You Sure You Want To Proceed' | translate }}?</p>
+        </div>
+        <div class="confirmation-modal-footer">
+            <button 
+                type="button" 
+                class="btn-cancel-confirmation" 
                 (click)="modal.dismiss('Cancel')">
                 {{ 'NO' | translate }}
-            </app-button>
-            <app-button
-                [class]="'btn theme-bg-color btn-md fw-bold text-light'"
-                [id]="'confirm_yes_btn'"
+            </button>
+            <button 
+                type="button" 
+                class="btn-confirm-action" 
                 (click)="confirm()">
-                {{ 'YES' | translate }}
-            </app-button>
+                <i class="ri-check-line"></i>
+                <span>{{ 'YES' | translate }}</span>
+            </button>
         </div>
     </div>
 </ng-template>

@@ -1,44 +1,69 @@
-<div class="product-box" [class]="class">
-    <div class="label-tag" [ngClass]="product.is_sale_enable ? 'sale-tag' : product.is_featured ? 'featured-tag' : product.is_trending ?
-        'trending-tag' : '' " *ngIf="product.is_trending || product.is_sale_enable || product.is_featured">
+<div class="product-box-modern" [class]="class">
+    <!-- Badge Section -->
+    <div class="product-badge" 
+         [ngClass]="product.is_sale_enable ? 'badge-sale' : product.is_featured ? 'badge-featured' : product.is_trending ? 'badge-trending' : ''" 
+         *ngIf="product.is_trending || product.is_sale_enable || product.is_featured">
         <span>{{ (product.is_sale_enable ? 'sale' : product.is_featured ? 'featured' : product.is_trending ? 'trending' : '' ) | translate }}</span>
     </div>
-    <div class="product-image">
-        <a [routerLink]="['/product/', product.slug]">
-            <img [src]="product.product_thumbnail ?
-                        product.product_thumbnail.original_url :
-                        'assets/images/product.png'" class="img-fluid" [alt]="'product'">
-        </a>
-        <div class="product-header-top" *ngIf="close">
-          <app-button
-            [class]="'btn wishlist-button close_button'"
+
+    <!-- Close Button for Wishlist -->
+    <div class="product-close-btn" *ngIf="close">
+        <app-button
+            [class]="'btn close-button'"
             [spinner]="false"
             [id]="'close_btn'"
             (click)="removeWishlist(product.id)">
-              <i class="ri-close-line"></i>
-          </app-button>
-        </div>
-        <app-product-hover-action [product]="product" *ngIf="!close"></app-product-hover-action>
+            <i class="ri-close-line"></i>
+        </app-button>
     </div>
-    <div class="product-detail">
-        <h6 class="brand-name" *ngIf="product.brand">{{ product.brand.name }}</h6>
-        <a [routerLink]="['/product/', product.slug]">
-            <h6 class="name">{{ product.name }}</h6>
+
+    <!-- Product Image Section -->
+    <div class="product-image-wrapper">
+        <a [routerLink]="['/product/', product.slug]" class="product-image-link">
+            <img [src]="product.product_thumbnail ?
+                        product.product_thumbnail.original_url :
+                        'assets/images/product.png'" 
+                 class="product-img" 
+                 [alt]="product.name">
         </a>
-        <p>{{ product.short_description }}</p>
-        <h6 class="unit mb-1" *ngIf="product.unit">{{ product.unit }}</h6>
-        <h6 class="byers" *ngIf="product.store">{{ 'By' }} <span class="text-title"> <a [routerLink]="['/seller/store/', product.store.slug]">{{ product.store.store_name }}</a></span></h6>
-        <h5 class="sold text-content">
-            <span class="theme-color price">{{ product.sale_price | currencySymbol }}</span>
-            <del *ngIf="product.discount">{{ product.price | currencySymbol }}</del>
-        </h5>
-        <div class="product-rating">
-            <ngb-rating [rate]="product.rating_count"></ngb-rating>
-            <h6 class="theme-color" *ngIf="product.stock_status == 'in_stock'">
-                {{ product.stock_status | titleCase }}
-            </h6>
+    </div>
+
+    <!-- Product Info Section -->
+    <div class="product-info">
+        <!-- Brand Name -->
+        <div class="product-brand" *ngIf="product.brand">
+            {{ product.brand.name }}
         </div>
-        <div class="add-to-cart-box">
+
+        <!-- Product Name -->
+        <a [routerLink]="['/product/', product.slug]" class="product-name-link">
+            <h3 class="product-name">{{ product.name }}</h3>
+        </a>
+
+        <!-- Short Description -->
+        <p class="product-description" *ngIf="product.short_description">{{ product.short_description }}</p>
+
+        <!-- Unit -->
+        <div class="product-unit" *ngIf="product.unit">{{ product.unit }}</div>
+
+        <!-- Price Section -->
+        <div class="product-price-section">
+            <span class="product-price-current">{{ product.sale_price | currencySymbol }}</span>
+            <span class="product-price-old" *ngIf="product.discount">{{ product.price | currencySymbol }}</span>
+        </div>
+
+        <!-- Rating and Stock Section -->
+        <div class="product-rating-stock">
+            <div class="rating-wrapper">
+                <ngb-rating [rate]="product.rating_count" class="product-rating"></ngb-rating>
+            </div>
+            <div class="stock-status" *ngIf="product.stock_status == 'in_stock'">
+                {{ product.stock_status | titleCase }}
+            </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <div class="product-action">
             <app-product-cart-button [product]="product" [text]="'Add'"></app-product-cart-button>
         </div>
     </div>

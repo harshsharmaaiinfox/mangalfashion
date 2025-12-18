@@ -1,188 +1,227 @@
 <app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
 
-<!-- Main Page Title - H1 for SEO -->
-<div class="container-fluid-lg">
-  <div class="row">
-    <div class="col-12">
-      <div class="page-title-section text-center mb-4">
-        <h1 class="main-page-title">Contact Stylexio – We're Here to Help You 24/7</h1>
-        <p class="page-description">Get in touch with our customer support team for any questions or assistance you need.</p>
+<!-- Hero Section -->
+<section class="contact-hero-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="contact-hero-content">
+          <div class="hero-icon-wrapper">
+            <i class="ri-customer-service-2-line"></i>
+          </div>
+          <h1 class="hero-title">Contact Us</h1>
+          <p class="hero-subtitle">We'd love to hear from you!</p>
+          <p class="hero-description">
+            Get in touch with our customer support team for any questions, assistance, or feedback. 
+            We're here to help you 24/7.
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<section class="contact-box-section">
-  <div class="container-fluid-lg">
-      <div class="row g-lg-5 g-3">
-          <div class="col-lg-6">
-              <div class="left-sidebar-box">
-                  <div class="row">
-                      <div class="col-xl-12" *ngIf="contactData && contactData?.contact_image_url">
-                          <div class="contact-image">
-                              <img src="{{ storageURL + contactData.contact_image_url }}" class="img-fluid" alt="contact-us">
-                          </div>
-                      </div>
-                      <div class="col-xl-12">
-                          <div class="contact-title">
-                              <h3>{{ 'get_in_touch' | translate }}</h3>
-                          </div>
-                          <div class="contact-detail">
-                              <div class="row g-4">
-                                  <div class="col-xxl-6 col-lg-12 col-sm-6" *ngIf="contactData?.detail_1?.text">
-                                      <div class="contact-detail-box">
-                                          <div class="contact-icon" *ngIf="!!contactData.detail_1.icon">
-                                              <i [class]="contactData.detail_1.icon"></i>
-                                          </div>
-                                          <div class="contact-detail-title">
-                                              <h4>{{ contactData.detail_1.label }}</h4>
-                                          </div>
-
-                                          <div class="contact-detail-contain">
-                                              <p>{{ contactData.detail_1.text }}</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-xxl-6 col-lg-12 col-sm-6" *ngIf="contactData?.detail_2?.text">
-                                      <div class="contact-detail-box">
-                                          <div class="contact-icon" *ngIf="!!contactData.detail_2.icon">
-                                            <i [class]="contactData.detail_2.icon"></i>
-                                          </div>
-                                          <div class="contact-detail-title">
-                                            <h4>{{ contactData.detail_2.label }}</h4>
-                                          </div>
-
-                                          <div class="contact-detail-contain">
-                                              <p>{{ contactData.detail_2.text }}</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-xxl-6 col-lg-12 col-sm-6" *ngIf="contactData?.detail_3?.text">
-                                      <div class="contact-detail-box">
-                                          <div class="contact-icon" *ngIf="!!contactData.detail_3.icon">
-                                            <i [class]="contactData.detail_3.icon"></i>
-                                          </div>
-                                          <div class="contact-detail-title">
-                                            <h4>{{ contactData.detail_3.label }}</h4>
-                                          </div>
-
-                                          <div class="contact-detail-contain">
-                                              <p>{{ contactData.detail_3.text }}</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-xxl-6 col-lg-12 col-sm-6" *ngIf="contactData?.detail_4?.text">
-                                      <div class="contact-detail-box">
-                                          <div class="contact-icon" *ngIf="!!contactData.detail_4.icon">
-                                            <i [class]="contactData.detail_4.icon"></i>
-                                          </div>
-                                          <div class="contact-detail-title">
-                                            <h4>{{ contactData.detail_4.label }}</h4>
-                                          </div>
-
-                                          <div class="contact-detail-contain">
-                                              <p>{{ contactData.detail_4.text }}</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-6">
-              <div class="title d-xxl-none d-block">
-                  <h2>{{ 'contact_us' | translate }}</h2>
-              </div>
-              <div class="right-sidebar-box">
-                  <div class="row" [formGroup]="form">
-                      <div class="col-12">
-                          <div class="mb-md-4 mb-3 custom-form">
-                              <label for="fullname" class="form-label">{{ 'full_name' | translate }}</label>
-                              <div class="custom-input">
-                                  <input type="text" class="form-control" id="fullname" placeholder="{{ 'enter_full_name' | translate }}" formControlName="name">
-                                  <i class="ri-user-3-fill"></i>
-                                  <div class="invalid-feedback" *ngIf="form.controls['name'].touched && form.controls['name'].errors?.['required']">
-                                    {{ 'name_is_required' | translate }}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-xxl-6 col-lg-12 col-sm-6">
-                          <div class="mb-md-4 mb-3 custom-form">
-                              <label for="email" class="form-label">{{ 'email_address' | translate }}</label>
-                              <div class="custom-input">
-                                  <input type="email" class="form-control" id="email" placeholder="{{ 'enter_email_address' | translate }}" formControlName="email">
-                                  <i class="ri-mail-fill"></i>
-                                  <div class="invalid-feedback" *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']">
-                                    {{ 'email_is_required' | translate }}
-                                  </div>
-                                  <div class="invalid-feedback" *ngIf="form.controls['email'].errors?.['email']">
-                                      {{ 'invalid_email' | translate }}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-xxl-6 col-lg-12 col-sm-6">
-                          <div class="mb-md-4 mb-3 custom-form">
-                              <label for="phonenumner" class="form-label">{{ 'phone_number' | translate }}</label>
-                              <div class="custom-input">
-                                  <input type="number" class="form-control" id="phonenumner" placeholder="{{ 'enter_your_phone_number' | translate }}" formControlName="phone">
-                                  <i class="ri-smartphone-line"></i>
-                                  <div class="invalid-feedback" *ngIf="form.controls['phone'].touched && form.controls['phone'].errors?.['required']">
-                                    {{ 'phone_number_is_required' | translate }}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="mb-md-4 mb-3 custom-form">
-                            <label for="exampleFormControlInput" class="form-label">{{ 'subject' | translate }}</label>
-                            <div class="custom-input">
-                                <input type="text" class="form-control" id="subject" placeholder="{{ 'enter_subject' | translate }}" formControlName="subject">
-                                <i class="ri-user-3-fill"></i>
-                                <div class="invalid-feedback" *ngIf="form.controls['subject'].touched && form.controls['subject'].errors?.['required']">
-                                  {{ 'subject_is_required' | translate }}
-                                </div>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                          <div class="mb-md-4 mb-3 custom-form">
-                              <label for="message" class="form-label">{{ 'message' | translate }}</label>
-                              <div class="custom-textarea">
-                                  <textarea class="form-control" id="message" placeholder="{{ 'enter_your_message' | translate }}" rows="6" formControlName="message"></textarea>
-                                  <i class="ri-chat-2-fill"></i>
-                                  <div class="invalid-feedback" *ngIf="form.controls['message'].touched && form.controls['message'].errors?.['required']">
-                                    {{ 'message_is_required' | translate }}
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <app-button
-                    [class]="'btn btn-animation btn-md fw-bold ms-auto'"
-                    [type]="'button'"
-                    [id]="'send_message'"
-                    [spinner]="true"
-                    (click)="submit()">
-                      {{ 'send_message' | translate }}
-                  </app-button>
-              </div>
-          </div>
-      </div>
-  </div>
 </section>
 
-<section class="map-section">
-  <div class="container-fluid p-0">
-    <div class="map-box">
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d2994.3803116994895!2d55.29773782339708!3d25.222534631321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m5!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!3m2!1d25.2048493!2d55.2707828!4m0!5e1!3m2!1sen!2sin!4v1652217109535!5m2!1sen!2sin"
-            style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+<!-- Contact Information & Form Section -->
+<section class="contact-main-section section-lg-space">
+  <div class="container-fluid-lg">
+    <div class="row g-4">
+      <!-- Company Information Section -->
+      <div class="col-lg-5">
+        <div class="contact-info-card">
+          <div class="card-header-modern">
+            <h3 class="section-title">
+              <i class="ri-information-line"></i>
+              Company Information
+            </h3>
+          </div>
+          <div class="card-body-modern">
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-building-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Company Name</label>
+                <p class="info-value">MANGAL MURTI LANDCRAFTS PRIVATE LIMITED</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-file-text-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Corporate Identification Number (CIN)</label>
+                <p class="info-value">U02005UP2016PTC076855</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-mail-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Email Address</label>
+                <p class="info-value">
+                  <a href="mailto:vinaysaini1990&#64;gmail.com">vinaysaini1990&#64;gmail.com</a>
+                </p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-map-pin-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Registered Address</label>
+                <p class="info-value">
+                  UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4,<br>
+                  GREATER NOIDA WEST, Gautam Buddha Nagar,<br>
+                  Gautam Buddha Nagar, Uttar Pradesh, India - 201318
+                </p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon-wrapper">
+                <i class="ri-global-line"></i>
+              </div>
+              <div class="info-content">
+                <label class="info-label">Website</label>
+                <p class="info-value">
+                  <a href="https://mangalfashion.com" target="_blank">mangalfashion.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form Section -->
+      <div class="col-lg-7">
+        <div class="contact-form-card">
+          <div class="card-header-modern">
+            <h3 class="section-title">
+              <i class="ri-message-3-line"></i>
+              Get In Touch
+            </h3>
+            <p class="section-subtitle">Fill out the form below and we'll get back to you as soon as possible.</p>
+          </div>
+          <div class="card-body-modern">
+            <form [formGroup]="form" (ngSubmit)="submit()">
+              <div class="contact-form-fields">
+                <div class="form-field-wrapper">
+                  <label class="form-label-modern" for="fullname">
+                    <i class="ri-user-line"></i>
+                    {{ 'full_name' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input 
+                      type="text" 
+                      class="form-input-modern" 
+                      id="fullname" 
+                      placeholder="{{ 'enter_full_name' | translate }}" 
+                      formControlName="name">
+                    <i class="ri-user-3-fill input-icon"></i>
+                  </div>
+                  <div class="error-message" *ngIf="form.controls['name'].touched && form.controls['name'].errors?.['required']">
+                    <i class="ri-error-warning-line"></i>
+                    <span>{{ 'name_is_required' | translate }}</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-field-wrapper">
+                    <label class="form-label-modern" for="email">
+                      <i class="ri-mail-line"></i>
+                      {{ 'email_address' | translate }}
+                    </label>
+                    <div class="input-wrapper">
+                      <input 
+                        type="email" 
+                        class="form-input-modern" 
+                        id="email" 
+                        placeholder="{{ 'enter_email_address' | translate }}" 
+                        formControlName="email">
+                      <i class="ri-mail-fill input-icon"></i>
+                    </div>
+                    <div class="error-message" *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']">
+                      <i class="ri-error-warning-line"></i>
+                      <span>{{ 'email_is_required' | translate }}</span>
+                    </div>
+                    <div class="error-message" *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['email']">
+                      <i class="ri-error-warning-line"></i>
+                      <span>{{ 'invalid_email' | translate }}</span>
+                    </div>
+                  </div>
+
+                  <div class="form-field-wrapper">
+                    <label class="form-label-modern" for="phonenumber">
+                      <i class="ri-phone-line"></i>
+                      {{ 'phone_number' | translate }}
+                    </label>
+                    <div class="input-wrapper">
+                      <input 
+                        type="tel" 
+                        class="form-input-modern" 
+                        id="phonenumber" 
+                        placeholder="{{ 'enter_your_phone_number' | translate }}" 
+                        formControlName="phone">
+                      <i class="ri-smartphone-line input-icon"></i>
+                    </div>
+                    <div class="error-message" *ngIf="form.controls['phone'].touched && form.controls['phone'].errors?.['required']">
+                      <i class="ri-error-warning-line"></i>
+                      <span>{{ 'phone_number_is_required' | translate }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field-wrapper">
+                  <label class="form-label-modern" for="subject">
+                    <i class="ri-file-list-line"></i>
+                    {{ 'subject' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <input 
+                      type="text" 
+                      class="form-input-modern" 
+                      id="subject" 
+                      placeholder="{{ 'enter_subject' | translate }}" 
+                      formControlName="subject">
+                    <i class="ri-file-text-line input-icon"></i>
+                  </div>
+                  <div class="error-message" *ngIf="form.controls['subject'].touched && form.controls['subject'].errors?.['required']">
+                    <i class="ri-error-warning-line"></i>
+                    <span>{{ 'subject_is_required' | translate }}</span>
+                  </div>
+                </div>
+
+                <div class="form-field-wrapper">
+                  <label class="form-label-modern" for="message">
+                    <i class="ri-message-2-line"></i>
+                    {{ 'message' | translate }}
+                  </label>
+                  <div class="input-wrapper">
+                    <textarea 
+                      class="form-textarea-modern" 
+                      id="message" 
+                      placeholder="{{ 'enter_your_message' | translate }}" 
+                      rows="6" 
+                      formControlName="message"></textarea>
+                    <i class="ri-chat-2-fill input-icon textarea-icon"></i>
+                  </div>
+                  <div class="error-message" *ngIf="form.controls['message'].touched && form.controls['message'].errors?.['required']">
+                    <i class="ri-error-warning-line"></i>
+                    <span>{{ 'message_is_required' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-submit-wrapper">
+                <button type="submit" class="btn-submit" [disabled]="form.invalid">
+                  <i class="ri-send-plane-fill"></i>
+                  <span>{{ 'send_message' | translate }}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

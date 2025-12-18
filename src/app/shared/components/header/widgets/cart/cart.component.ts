@@ -29,7 +29,7 @@ export class CartComponent {
 
   @Input() style: string = 'basic';
 
-  public cartStyle: string = 'cart_sidebar';
+  public cartStyle: string = 'cart_dropdown'; // Changed to dropdown instead of sidebar
   public shippingFreeAmt: number = 0;
   public cartTotal: number = 0;
   public shippingCal: number = 0;
@@ -39,7 +39,9 @@ export class CartComponent {
   public cartHide: boolean = true;
 
   constructor(private store: Store, public cartService: CartService) {
-    this.themeOption$.subscribe(option => this.cartStyle = option?.general?.cart_style);
+    // Force dropdown behavior instead of sidebar
+    // this.themeOption$.subscribe(option => this.cartStyle = option?.general?.cart_style);
+    this.cartStyle = 'cart_dropdown';
 
     // Calculation
     this.cartTotal$.subscribe(total => {
@@ -62,6 +64,24 @@ export class CartComponent {
     setTimeout(() => {
       this.cartHide = false;
     }, 1000);
+    
+    // Close cart dropdown when clicking outside on mobile
+    document.addEventListener('click', (event: any) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.onhover-dropdown') && !this.cartHide) {
+        // Only close on mobile devices
+        if (window.innerWidth <= 767) {
+          this.cartHide = true;
+        }
+      }
+    });
+  }
+  
+  toggleCart() {
+    // Toggle cart dropdown on mobile
+    if (window.innerWidth <= 767) {
+      this.cartHide = !this.cartHide;
+    }
   }
 
   cartToggle(value: boolean) {

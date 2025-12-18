@@ -1,51 +1,56 @@
-<div class="show-button">
-    <div class="filter-button-group mt-0" *ngIf="filter['layout'] !== 'collection_offcanvas_filter' && filter['layout'] !== 'collection_no_sidebar'">
-        <div class="filter-button d-inline-block d-lg-none">
-            <a (click)="openFilter(true)"><i class="ri-filter-2-fill"></i> {{ 'filter_menu' | translate }}</a>
-        </div>
+<div class="collection-sort-wrapper">
+    <div class="filter-button-group" *ngIf="filter['layout'] !== 'collection_offcanvas_filter' && filter['layout'] !== 'collection_no_sidebar'">
+        <button class="mobile-filter-btn d-inline-block d-lg-none" (click)="openFilter(true)">
+            <i class="ri-filter-2-fill"></i>
+            <span>{{ 'filter_menu' | translate }}</span>
+        </button>
     </div>
-    <div class="top-filter-menu m-0">
-        <div class="category-dropdown">
-            <a href="javascript:void(0)" class="filter-offcanvas-title" (click)="openOffCanvasMenu()"
+    
+    <div class="sort-controls-bar">
+        <div class="sort-controls-left">
+            <a href="javascript:void(0)" class="filter-btn" (click)="openOffCanvasMenu()"
                 *ngIf="filter && filter['layout'] == 'collection_offcanvas_filter'">
-                <i class="ri-filter-2-fill"></i> {{ 'filter_menu' | translate }}
+                <i class="ri-filter-2-fill"></i>
+                <span>{{ 'filter_menu' | translate }}</span>
             </a>
-            <h5 class="text-content">{{ 'sort_by'| translate}} :</h5>
-            <div class="dropdown">
-                <select2 class="custom-select"
-                    [displaySearchStatus]="'hidden'"
-                    [placeholder]="'Sort'"
-                    [value]="filter['sortBy']"
-                    [data]="sorting ? sorting : []"
-                    (update)="sortByFilter($event)">
-                </select2>
-            </div>
+            <a href="javascript:void(0)" class="filter-btn open-sidebar-btn" (click)="openOffCanvasMenu()"
+                *ngIf="filter && (filter['layout'] == 'collection_category_sidebar' || filter['layout'] == 'collection_category_slider')">
+                <i class="ri-menu-line"></i>
+                <span>{{ 'open_filters' | translate }}</span>
+            </a>
         </div>
-        <div class="grid-option d-none d-md-block">
-            <ul>
-                <li class="three-grid" [class.active]="selectedGrid == 'collection_3_grid'">
-                    <a href="javascript:void(0)" (click)="grid('collection_3_grid')">
-                        <img src="assets/svg/grid-3.svg" alt="sort">
-                    </a>
-                </li>
-                <li class="grid-btn d-xxl-inline-block d-none" [class.active]="selectedGrid == 'collection_4_grid'">
-                    <a href="javascript:void(0)" (click)="grid('collection_4_grid')">
-                        <img src="assets/svg/grid-4.svg" class="d-lg-inline-block d-none" alt="sort">
-                        <img src="assets/svg/grid.svg" class="img-fluid d-lg-none d-inline-block" alt="sort">
-                    </a>
-                </li>
-                <li class="grid-btn d-xxl-inline-block d-none" [class.active]="selectedGrid == 'collection_5_grid'">
-                  <a href="javascript:void(0)" (click)="grid('collection_5_grid')">
-                      <img src="assets/svg/grid-5.svg" class="d-lg-inline-block d-none" alt="sort">
-                      <img src="assets/svg/grid.svg" class="img-fluid d-lg-none d-inline-block" alt="sort">
-                  </a>
-              </li>
-                <li class="list-btn" [class.active]="selectedGrid == 'collection_list_view'">
-                    <a href="javascript:void(0)" (click)="grid('collection_list_view')">
-                        <img src="assets/svg/list.svg" alt="sort">
-                    </a>
-                </li>
-            </ul>
+        
+        <div class="grid-view-options d-none d-md-flex">
+            <button type="button" 
+                class="grid-btn" 
+                [class.active]="selectedGrid == 'collection_3_grid'"
+                (click)="grid('collection_3_grid')"
+                title="3 Columns">
+                <img src="assets/svg/grid-3.svg" alt="3 columns">
+            </button>
+            <button type="button" 
+                class="grid-btn" 
+                [class.active]="selectedGrid == 'collection_4_grid'"
+                (click)="grid('collection_4_grid')"
+                title="4 Columns">
+                <img src="assets/svg/grid-4.svg" class="d-lg-inline-block d-none" alt="4 columns">
+                <img src="assets/svg/grid.svg" class="d-lg-none d-inline-block" alt="grid">
+            </button>
+            <button type="button" 
+                class="grid-btn d-xxl-inline-flex d-none" 
+                [class.active]="selectedGrid == 'collection_5_grid'"
+                (click)="grid('collection_5_grid')"
+                title="5 Columns">
+                <img src="assets/svg/grid-5.svg" class="d-lg-inline-block d-none" alt="5 columns">
+                <img src="assets/svg/grid.svg" class="d-lg-none d-inline-block" alt="grid">
+            </button>
+            <button type="button" 
+                class="grid-btn list-view-btn" 
+                [class.active]="selectedGrid == 'collection_list_view'"
+                (click)="grid('collection_list_view')"
+                title="List View">
+                <img src="assets/svg/list.svg" alt="list view">
+            </button>
         </div>
     </div>
 </div>

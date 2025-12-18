@@ -44,9 +44,9 @@ export class ThemesComponent implements OnInit {
     
     // Set additional homepage-specific SEO data
     this.seoService.setSEOData({
-      canonicalUrl: 'https://stylexio.in/',
-      url: 'https://stylexio.in/',
-      image: 'https://stylexio.in/assets/images/hero-banner.jpg'
+      canonicalUrl: 'https://mangal fashion.in/',
+      url: 'https://mangal fashion.in/',
+      image: 'https://mangal fashion.in/assets/images/hero-banner.jpg'
     });
   }
   

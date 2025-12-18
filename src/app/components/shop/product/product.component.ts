@@ -118,7 +118,7 @@ export class ProductComponent implements OnInit, OnDestroy {
    */
   private forceProductSEOUpdate(product: Product, productSlug: string | null): void {
     const slug = productSlug || product.slug || `product-${product.id}`;
-    const baseUrl = 'https://stylexio.in';
+    const baseUrl = 'https://mangal fashion.in';
     const productUrl = `${baseUrl}/product/${slug}`;
 
     // Use custom meta data if available, otherwise generate from product data
@@ -139,7 +139,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       url: productUrl,
       canonicalUrl: product.canonical_url || productUrl,
       type: 'product',
-      author: 'Stylexio'
+      author: 'mangal fashion'
     });
   }
 
@@ -151,7 +151,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     const category = product.categories?.[0]?.name ? ` ${product.categories[0].name}` : '';
     const price = product.sale_price ? `₹${product.sale_price}` : `₹${product.price}`;
     
-    return `${brand}${product.name}${category} - ${price} | Stylexio`;
+    return `${brand}${product.name}${category} - ${price} | mangal fashion`;
   }
 
   /**
@@ -166,7 +166,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     let rawDescription: string = product.meta_description
       || product.short_description
       || product.description
-      || `Shop ${brand}${product.name}${category} online at Stylexio. Premium quality, great prices, fast delivery.${discount}`;
+      || `Shop ${brand}${product.name}${category} online at mangal fashion. Premium quality, great prices, fast delivery.${discount}`;
 
     // Sanitize sizing/measurement notes and HTML, normalize whitespace
     rawDescription = this.stripHtmlTags(this.sanitizeProductDescription(rawDescription));
@@ -198,7 +198,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     sanitized = sanitized.replace(/\s{2,}/g, ' ').replace(/\s([\.,;:!\?])/g, '$1').trim();
 
     if (!sanitized) {
-      sanitized = 'Premium quality, great prices, fast delivery from Stylexio.';
+      sanitized = 'Premium quality, great prices, fast delivery from mangal fashion.';
     }
 
     return sanitized;
@@ -245,7 +245,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
     
     // Add generic keywords
-    keywords.push('buy online', 'Stylexio', 'fashion', 'clothing');
+    keywords.push('buy online', 'mangal fashion', 'fashion', 'clothing');
     
     return keywords.join(', ');
   }

@@ -15,11 +15,11 @@ export class PrivacyPolicyComponent implements OnInit {
   ngOnInit() {
     // Set unique SEO data for Privacy Policy page
     this.seoService.setSEOData({
-      title: 'Privacy Policy – How We Use Your Data | Stylexio',
-      description: 'Learn how Stylexio protects and uses your personal information. Read our comprehensive privacy policy to understand your rights and our data practices.',
-      keywords: 'privacy policy, data protection, personal information, stylexio privacy, data usage',
-      canonicalUrl: 'https://stylexio.in/privacy-policy', // ✅ Canonical URL for SEO
-      url: 'https://stylexio.in/privacy-policy',
+      title: 'Privacy Policy – How We Use Your Data | mangal fashion',
+      description: 'Learn how mangal fashion protects and uses your personal information. Read our comprehensive privacy policy to understand your rights and our data practices.',
+      keywords: 'privacy policy, data protection, personal information, mangal fashion privacy, data usage',
+      canonicalUrl: 'https://mangal fashion.in/privacy-policy', // ✅ Canonical URL for SEO
+      url: 'https://mangal fashion.in/privacy-policy',
       type: 'website'
     });
   }

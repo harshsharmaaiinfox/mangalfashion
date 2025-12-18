@@ -1,22 +1,28 @@
 <ng-template #deleteModal let-modal>
-    <div class="modal-body">
-        <i class="ri-delete-bin-line icon-box"></i>
-        <h5 class="modal-title">{{ 'delete_item' | translate }}?</h5>
-        <p>{{ 'delete_text' | translate }} </p>
-        <div class="button-box">
-            <app-button 
-                [class]="'btn btn-theme-outline btn-md fw-bold'" 
-                [spinner]="false"
-                [id]="'delete_no_btn'"
+    <div class="modern-delete-modal">
+        <div class="delete-modal-header">
+            <div class="delete-icon-wrapper">
+                <i class="ri-delete-bin-line"></i>
+            </div>
+        </div>
+        <div class="delete-modal-body">
+            <h3 class="delete-modal-title">{{ 'delete_item' | translate }}?</h3>
+            <p class="delete-modal-message">{{ 'delete_text' | translate }}</p>
+        </div>
+        <div class="delete-modal-footer">
+            <button 
+                type="button" 
+                class="btn-cancel-delete" 
                 (click)="modal.dismiss('Cancel')">
-                {{ 'no' | translate }}
-            </app-button>
-            <app-button
-                [class]="'btn theme-bg-color btn-md fw-bold text-light'"
-                [id]="'delete_yes_btn'"
+                {{ 'No' | translate }}
+            </button>
+            <button 
+                type="button" 
+                class="btn-confirm-delete" 
                 (click)="delete()">
-                {{ 'yes' | translate }}
-            </app-button>
+                <i class="ri-check-line"></i>
+                <span>{{ 'Yes' | translate }}</span>
+            </button>
         </div>
     </div>
 </ng-template>

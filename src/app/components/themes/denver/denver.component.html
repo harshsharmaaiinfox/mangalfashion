@@ -1,38 +1,91 @@
 <!-- Home Section Start -->
 
 <!-- Hero Slider Start -->
-<section class="hero-slider-section pb-5">
-  <div class="container-fluid-lg">
-    <div class="hero-slider" #heroSlider>
-      <div class="slider-container">
-        <div class="slider-track" #sliderTrack>
-          <div class="slide active" *ngFor="let slide of heroSlides; let i = index" [class.active]="currentSlide === i">
+<section class="hero-slider-section full-width-hero">
+  <div class="hero-slider" #heroSlider>
+    <div class="slider-container">
+      <div class="slider-track" #sliderTrack>
+        <div class="slide active" *ngFor="let slide of heroSlides; let i = index" [class.active]="currentSlide === i">
+          <div class="hero-slide-wrapper">
             <a [href]="slide.link">
-              <img [src]="slide.image" [alt]="slide.alt" class="img-fluid w-100" loading="lazy">
+              <img [src]="slide.image" [alt]="slide.alt" class="img-fluid w-100 hero-image" loading="lazy">
             </a>
           </div>
         </div>
-        
-        <!-- Navigation Arrows -->
-        <button class="slider-nav prev" (click)="previousSlide()" aria-label="Previous slide">
-          <i class="ri-arrow-left-line"></i>
+      </div>
+      
+      <!-- Dots Indicator -->
+      <div class="slider-dots">
+        <button *ngFor="let slide of heroSlides; let i = index" 
+                [class.active]="currentSlide === i"
+                (click)="goToSlide(i)"
+                [attr.aria-label]="'Go to slide ' + (i + 1)">
         </button>
-        <button class="slider-nav next" (click)="nextSlide()" aria-label="Next slide">
-          <i class="ri-arrow-right-line"></i>
-        </button>
-        
-        <!-- Dots Indicator -->
-        <div class="slider-dots">
-          <button *ngFor="let slide of heroSlides; let i = index" 
-                  [class.active]="currentSlide === i"
-                  (click)="goToSlide(i)"
-                  [attr.aria-label]="'Go to slide ' + (i + 1)">
-          </button>
-        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Product Triptych Section Start -->
+<section class="product-triptych-section">
+  <div class="triptych-container">
+    <div class="triptych-panel">
+      <a href="/collections/lehengas" class="panel-link">
+        <div class="panel-image-wrapper">
+          <img src="assets/images/lehanga1.jpg" alt="Lehengas" class="panel-image" loading="lazy">
+        </div>
+        <div class="panel-overlay">
+          <h3 class="panel-title">
+            <span class="title-line-1">WEIGHTLESS</span>
+            <span class="title-line-2">LEHENGAS</span>
+          </h3>
+        </div>
+      </a>
+    </div>
+    <div class="triptych-panel">
+      <a href="/collections/sarees" class="panel-link">
+        <div class="panel-image-wrapper">
+          <img src="assets/images/saare.jpg" alt="Sarees" class="panel-image" loading="lazy">
+        </div>
+        <div class="panel-overlay">
+          <h3 class="panel-title">
+            <span class="title-line-1">STELLAR</span>
+            <span class="title-line-2">SAREES</span>
+          </h3>
+        </div>
+      </a>
+    </div>
+    <div class="triptych-panel">
+      <a href="/collections/suits" class="panel-link">
+        <div class="panel-image-wrapper">
+          <img src="assets/images/suit.jpg" alt="Suits" class="panel-image" loading="lazy">
+        </div>
+        <div class="panel-overlay">
+          <h3 class="panel-title">
+            <span class="title-line-1">CLASSIC</span>
+            <span class="title-line-2">SUITS</span>
+          </h3>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- Product Triptych Section End -->
+
+<!-- Banner Section Start -->
+<section class="tradition-banner-section">
+  <div class="banner-wrapper">
+    <img src="assets/images/banner.png" alt="Tradition Styled Beautifully" class="banner-image" loading="lazy">
+    <div class="banner-overlay">
+      <div class="banner-content">
+        <h2 class="banner-heading">TRADITION, STYLED BEAUTIFULLY</h2>
+        <p class="banner-subtitle">Premium sarees crafted for today's woman</p>
+        <a href="/collections/sarees" class="banner-button">SHOP NOW</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Banner Section End -->
 
 <!-- <section class="home-section-2 home-section-bg pt-md-0 pt-3 overflow-hidden" *ngIf="data?.content?.home_banner">
   <app-theme-home-banner [theme]="'denver'" [data]="data?.content?.home_banner"></app-theme-home-banner>
@@ -40,7 +93,7 @@
 <!-- Home Section End -->
 
 
-<!-- Stylexio Banner End -->
+<!-- mangal fashion Banner End -->
 <!-- Category Section Start -->
 <section *ngIf="data?.content?.categories_icon_list?.status">
   <div class="container-fluid-lg">
@@ -55,90 +108,106 @@
 <!-- Deal Section Start -->
 <section class="product-section product-section-3" *ngIf="data?.content?.products_list_1?.status">
   <div class="container-fluid-lg">
-    <div>
+    <div class="product-section-content">
       <app-title [title]="data?.content?.products_list_1?.title" [style]="'simple'" [headingLevel]="'h1'" class="h1-text">
       </app-title>
-      <h2 class=" p-text-main h1-text" >Welcome to Stylexio, Your trusted fashion destination in Noida. Explore a wide range of menswear online and unique womenswear showcased to elevate everyday looks and redefine occasion wear. We focus on comfort, trend, and quality to bring you standout styles for every season.
- </h2>
-      <app-theme-product [productIds]="data?.content?.products_list_1?.product_ids || []" [style]="'horizontal'"
-        [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'"
-        [boxClass]="'product-box-bg'">
-      </app-theme-product>
+     
+      <div class="product-list-wrapper">
+        <app-theme-product [productIds]="data?.content?.products_list_1?.product_ids || []" [style]="'horizontal'"
+          [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'"
+          [boxClass]="'product-box-bg'">
+        </app-theme-product>
+      </div>
     </div>
   </div>
 </section>
 <!-- Deal Section End -->
 
-<!-- banner section start -->
-<section *ngIf="data?.content?.two_column_banners?.status">
+<!-- Trending Video Slider Section Start -->
+<section class="trending-video-section">
   <div class="container-fluid-lg">
-    <div class="row g-4">
-      <div class="col-xxl-8 col-xl-12 col-md-7">
-        <app-image-link [image]="data?.content?.two_column_banners?.banner_1" [bgImage]="false">
-        </app-image-link>
-      </div>
-      <div class="col-xxl-4 col-xl-12 col-md-5">
-        <app-image-link [image]="data?.content?.two_column_banners?.banner_2" [bgImage]="false">
-        </app-image-link>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- banner section end -->
-
-<!-- Top Seller start -->
-<ng-container *ngIf="data?.content?.seller?.status">
-  <section>
-    <div class="container-fluid-lg">
-      <app-title [title]="data?.content?.seller?.title" [style]="'simple'">
-      </app-title>
-      <app-top-seller [sellerIds]="data?.content?.seller?.store_ids || []"></app-top-seller>
-    </div>
-  </section>
-</ng-container>
-<!-- Top Seller End -->
-
-<!-- Top Selling Section Start -->
-<section class="top-selling-section no-bg-category">
-  <div class="container-fluid-lg">
-    <div class="row">
-      <div class="col-xl-3 col-lg-4 d-lg-block d-none"
-        *ngIf="data?.content?.slider_product_with_banner?.left_side_banners?.status">
-        <div class="ratio_156">
-          <app-image-link [image]="data?.content?.slider_product_with_banner?.left_side_banners?.banner_1"
-            [class]="'banner-contain-2 hover-effect'" [bgImage]="false">
-          </app-image-link>
+    <h2 class="section-title">Trending Looks To Watch</h2>
+    
+    <div class="video-section-layout">
+      <!-- Left Side: Video Carousel -->
+      <div class="video-carousel-column">
+        <div class="video-carousel-wrapper">
+          <button class="carousel-nav-btn carousel-nav-prev" (click)="previousVideo()" aria-label="Previous video">
+            <i class="ri-arrow-left-s-line"></i>
+          </button>
+          
+          <div class="video-carousel-container">
+            <div class="video-carousel-track" #videoCarouselTrack>
+              <div class="video-slide" *ngFor="let video of videoSlides; let i = index" 
+                   [class.active]="currentVideoIndex === i"
+                   [style.transform]="getVideoTransform(i)">
+                <div class="video-slide-content">
+                  <div class="video-overlay-header">
+                    <span class="video-title-text">{{ video.title }}</span>
+                    <div class="video-controls">
+                      <i class="ri-more-2-fill"></i>
+                      <i class="ri-volume-up-line"></i>
+                      <i class="ri-fullscreen-line"></i>
+                    </div>
+                  </div>
+                  
+                  <div class="video-wrapper">
+                    <video 
+                      [src]="video.src" 
+                      [muted]="currentVideoIndex !== i"
+                      [loop]="video.loop"
+                      playsinline
+                      (click)="toggleVideoPlay(i)"
+                      (loadedmetadata)="updateVideoCarouselPosition()">
+                      Your browser does not support the video tag.
+                    </video>
+                    <div class="video-play-overlay" *ngIf="!video.playing" (click)="playVideo(i)">
+                      <i class="ri-play-fill"></i>
+                    </div>
+                  </div>
+                  
+                  <button class="view-button" (click)="viewVideo(i)">
+                    View
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button class="carousel-nav-btn carousel-nav-next" (click)="nextVideo()" aria-label="Next video">
+            <i class="ri-arrow-right-s-line"></i>
+          </button>
         </div>
       </div>
-      <div
-        [ngClass]="data?.content?.slider_product_with_banner?.left_side_banners?.status ? 'col-xl-9 col-lg-8' : 'col-xxl-12 col-lg-12'">
-        <app-four-column-product [data]="data?.content?.slider_product_with_banner?.slider_products"
-          [col]="'col-xl-4 col-lg-6 col-md-4 col-sm-6'"></app-four-column-product>
+      
+      <!-- Right Side: Featured Content -->
+      <div class="featured-content-column">
+        <div class="instant-saree-banner">
+          <div class="banner-content">
+            <p class="introducing-text">Introducing</p>
+            <h2 class="main-title">ONE PIECE DRESS<span class="trademark">™</span></h2>
+            <p class="subtitle-text">For Women</p>
+            <button class="pre-drape-button" (click)="viewAllCollections()">
+              VIEW ALL COLLECTIONS
+            </button>
+            <p class="description-text">Discover elegant one-piece dresses for every occasion</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
-<!-- Top Selling Section End -->
+<!-- Trending Video Slider Section End -->
 
-<!-- banner section start -->
-<section class="section-t-space" *ngIf="data?.content?.coupon_banner?.status && data?.content?.coupon_banner">
-  <div class="container-fluid-lg">
-    <div class="banner-contain">
-      <app-image-link [image]="data?.content?.coupon_banner" [bgImage]="false">
-      </app-image-link>
-    </div>
-  </div>
-</section>
-<!-- banner section End -->
+
+
 
 <!-- Top Selling Section Start -->
 <section class="product-section product-section-3" *ngIf="data?.content?.products_list_2?.status">
   <div class="container-fluid-lg">
     <div>
-      <app-title [title]="data?.content?.products_list_2?.title" [style]="'simple'">
+      <app-title [title]="data?.content?.products_list_2?.title " [style]="'simple'" class="mb-5">
       </app-title>
-      <p class="p-text-main">Find your own signature styles with classic menswear from our premium collections. Whether it is for work, the weekend, or just between the two, Stylexio offers you stylish selections to ensure ultimate comfort and confidence. Shirts, trousers, casual wear, and more-all just about keeping you sharp.Shop the Latest in Men’s Style from timeless classics to modern trends, we make online men’s fashion shopping effortless. Browse our wide range of categories and shop men’s clothing online — from casual essentials to formalwear, outerwear, and more.
- </p>
       <app-theme-product [productIds]="data?.content?.products_list_2?.product_ids || []" [style]="'horizontal'"
         [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'"
         [boxClass]="'product-box-bg'">
@@ -149,12 +218,10 @@
 <!-- Top Selling Section End -->
 
 <!-- Top Selling Section Start -->
-<section class="product-section product-section-3" *ngIf="data?.content?.products_list_3?.status">
+<section class="product-section product-section-3 mt-5" *ngIf="data?.content?.products_list_3?.status">
   <div class="container-fluid-lg">
     <div>
-      <app-title [title]="data?.content?.products_list_3?.title" [style]="'simple'">
-      </app-title>
-      <p class="p-text-main">Our womenswear collection is Affordable, Stylish & On-Trend . From elegantly casual to eye-catching styles, explore unique womenswear for those who are always styled-up. Go ahead and combine fashion-forward with effortless chic for any occasion.</p>
+     
       <app-theme-product [productIds]="data?.content?.products_list_3?.product_ids || []" [style]="'horizontal'"
         [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'"
         [boxClass]="'product-box-bg'">
@@ -163,18 +230,4 @@
   </div>
 </section>
 <!-- Top Selling Section End -->
-
-<!-- Brand Section start -->
-<section class="brand-effect border-brand" *ngIf="data?.content?.brands?.brand_ids && data?.content?.brands?.status">
-  <div class="container-fluid-lg">
-    <app-brand [brandIds]="data?.content?.brands?.brand_ids || []"></app-brand>
-  </div>
-</section>
-<!-- Brand Section end -->
-
-<!-- Newsletter Section Start -->
-<section class="newsletter-section section-b-space" *ngIf="data?.content?.news_letter?.status">
-  <app-newsletter [data]="data?.content?.news_letter!"></app-newsletter>
-</section>
-<!-- Newsletter Section End -->
 

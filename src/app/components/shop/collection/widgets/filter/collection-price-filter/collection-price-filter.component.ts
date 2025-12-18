@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Params } from '../../../../../../shared/interface/core.interface';
 
@@ -7,90 +7,95 @@ import { Params } from '../../../../../../shared/interface/core.interface';
   templateUrl: './collection-price-filter.component.html',
   styleUrls: ['./collection-price-filter.component.scss']
 })
-export class CollectionPriceFilterComponent {
+export class CollectionPriceFilterComponent implements OnChanges {
 
   @Input() filter: Params;
 
-  public prices = [
-    {
-      id: 1,
-      price: 100,
-      text: 'Below',
-      value: '100'
-    },
-    {
-      id: 2,
-      minPrice: 100,
-      maxPrice: 200,
-      value: '0-200'
-    },
-    {
-      id: 3,
-      minPrice: 200,
-      maxPrice: 400,
-      value: '200-400'
-    },
-    {
-      id: 4,
-      minPrice: 400,
-      maxPrice: 600,
-      value: '400-600'
-    },
-    {
-      id: 5,
-      minPrice: 600,
-      maxPrice: 800,
-      value: '600-800'
-    },
-    {
-      id: 6,
-      minPrice: 800,
-      maxPrice: 1000,
-      value: '800-1000'
-    },
-    {
-      id: 7,
-      price: 1000,
-      text: 'Above',
-      value: '1000'
-    }
-  ]
-
-  public selectedPrices: string[] = [];
+  public minRange: number = 0;
+  public maxRange: number = 2000;
+  public minPrice: number = 599;
+  public maxPrice: number = 1799;
 
   constructor(private route: ActivatedRoute,
     private router: Router) {
   }
 
-  ngOnChanges() {
-    this.selectedPrices = this.filter['price'] ? this.filter['price'].split(',') : [];
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.filter && this.filter['price']) {
+      const priceRange = this.filter['price'].split('-');
+      if (priceRange.length === 2) {
+        this.minPrice = parseInt(priceRange[0]) || this.minPrice;
+        this.maxPrice = parseInt(priceRange[1]) || this.maxPrice;
+      }
+    }
   }
 
-  applyFilter(event: Event) {
-    const index = this.selectedPrices.indexOf((<HTMLInputElement>event?.target)?.value);  // checked and unchecked value
+  onPriceChange() {
+    // Ensure min doesn't exceed max and vice versa
+    if (this.minPrice > this.maxPrice) {
+      this.minPrice = this.maxPrice;
+    }
+    if (this.maxPrice < this.minPrice) {
+      this.maxPrice = this.minPrice;
+    }
+    
+    // Ensure values are within range
+    if (this.minPrice < this.minRange) {
+      this.minPrice = this.minRange;
+    }
+    if (this.maxPrice > this.maxRange) {
+      this.maxPrice = this.maxRange;
+    }
+    
+    this.applyFilter();
+  }
 
-    if ((<HTMLInputElement>event?.target)?.checked)
-      this.selectedPrices.push((<HTMLInputElement>event?.target)?.value); // push in array cheked value
-    else
-      this.selectedPrices.splice(index,1);  // removed in array unchecked value
+  onMinSliderChange(event: Event) {
+    const value = parseInt((event.target as HTMLInputElement).value);
+    if (value <= this.maxPrice) {
+      this.minPrice = value;
+    }
+  }
 
+  onMaxSliderChange(event: Event) {
+    const value = parseInt((event.target as HTMLInputElement).value);
+    if (value >= this.minPrice) {
+      this.maxPrice = value;
+    }
+  }
+
+  onSliderChange() {
+    // Ensure min doesn't exceed max
+    if (this.minPrice > this.maxPrice) {
+      this.minPrice = this.maxPrice;
+    }
+    if (this.maxPrice < this.minPrice) {
+      this.maxPrice = this.minPrice;
+    }
+    
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    const priceValue = `${this.minPrice}-${this.maxPrice}`;
+    
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        price: this.selectedPrices.length ? this.selectedPrices?.join(",") : null,
+        price: priceValue,
         page: 1
       },
-      queryParamsHandling: 'merge', // preserve the existing query params in the route
-      skipLocationChange: false  // do trigger navigation
+      queryParamsHandling: 'merge',
+      skipLocationChange: false
     });
   }
 
-  // check if the item are selected
-  checked(item: string){
-    if(this.selectedPrices?.indexOf(item) != -1){
-      return true;
-    }
-    return false;
+  getMinPercent(): number {
+    return ((this.minPrice - this.minRange) / (this.maxRange - this.minRange)) * 100;
+  }
+
+  getRangePercent(): number {
+    return ((this.maxPrice - this.minPrice) / (this.maxRange - this.minRange)) * 100;
   }
 
 }

@@ -16,7 +16,12 @@ export class ThemeOptionService {
   public productBox: string = '';
   public isDigitalProductBox = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    // Auto-hide preloader after 10 seconds as fallback
+    setTimeout(() => {
+      this.preloader = false;
+    }, 10000);
+  }
 
   getThemeOption(): Observable<ThemeOption> {
     return this.http.get<ThemeOption>(`${environment.URL}/themeOptions`);

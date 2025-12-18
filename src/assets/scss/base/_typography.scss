@@ -2,7 +2,9 @@
      Typography scss
 ==========================**/
 body {
-  font-family: $public-sans;
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   position: relative;
   font-size: 14px;
   color: $title-color;

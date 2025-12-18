@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Params } from '../../../../shared/interface/core.interface';
 import * as data from  '../../../../shared/data/owl-carousel';
 import { AttributeService } from '../../../../shared/services/attribute.service';
@@ -8,12 +8,21 @@ import { AttributeService } from '../../../../shared/services/attribute.service'
   templateUrl: './collection-category-slider.component.html',
   styleUrls: ['./collection-category-slider.component.scss']
 })
-export class CollectionCategorySliderComponent {
+export class CollectionCategorySliderComponent implements OnInit {
 
   @Input() filter: Params;
 
   public categorySlider = data.categorySlider;
 
   constructor(public attributeService: AttributeService) {}
+
+  ngOnInit() {
+    // Ensure sidebar is closed by default
+    this.attributeService.offCanvasMenu = false;
+  }
+
+  closeCanvasMenu() {
+    this.attributeService.offCanvasMenu = false;
+  }
 
 }

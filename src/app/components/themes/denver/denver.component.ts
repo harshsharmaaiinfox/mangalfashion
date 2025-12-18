@@ -9,7 +9,7 @@ import { GetBrands } from '../../../shared/action/brand.action';
 import { GetStores } from '../../../shared/action/store.action';
 import { ThemeOptionState } from '../../../shared/state/theme-option.state';
 import { Option } from '../../../shared/interface/theme-option.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-denver',
@@ -22,6 +22,7 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() slug?: string;
   @ViewChild('heroSlider') heroSlider!: ElementRef;
   @ViewChild('sliderTrack') sliderTrack!: ElementRef;
+  @ViewChild('videoCarouselTrack') videoCarouselTrack!: ElementRef;
 
   @Select(ThemeOptionState.themeOptions) themeOption$: Observable<Option>;
 
@@ -38,24 +39,59 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
   
   public heroSlides = [
     {
-      image: 'assets/images/stylexio-banner-1.jpg',
-      alt: 'Stylexio Winter Fashion - Warm Looks Cool Vibes',
-      link: '/collections'
+      image: 'assets/images/1.jpg',
+      alt: 'Mangal Fashion Premium Collection',
+      link: '/collections',
+      saleText: 'FASHION SALE',
+      saleSubtext: 'Running Now!'
     },
     {
-      image: 'assets/images/stylexio-banner-2.jpg',
-      alt: 'Stylexio Seasonal Trends - Meet The Trends Of Season',
-      link: '/collections'
+      image: 'assets/images/3.jpg',
+      alt: 'Mangal Fashion Wedding Collection',
+      link: '/collections',
+      saleText: 'FASHION SALE',
+      saleSubtext: 'UPTO 70% OFF'
+    }
+  ];
+
+  // Video Slider Properties
+  public currentVideoIndex = 0;
+  public videoSlides = [
+    {
+      src: 'assets/images/vdo2.mp4',
+      title: 'Get Ready With Me - Latest Fashion Trends',
+      muted: false,
+      autoplay: false,
+      loop: true,
+      playing: false
+    },
+    {
+      src: 'assets/images/vdo-3.mp4',
+      title: 'Get Ready With Me - Latest Fashion Trends',
+      muted: false,
+      autoplay: false,
+      loop: true,
+      playing: false
+    },
+    {
+      src: 'assets/images/GRWM.mp4',
+      title: 'Get Ready With Me - Latest Fashion Trends',
+      muted: false,
+      autoplay: false,
+      loop: true,
+      playing: false
     }
   ];
 
   constructor(private store: Store,
     private route: ActivatedRoute,
+    private router: Router,
     private themeOptionService: ThemeOptionService) {}
 
   ngAfterViewInit() {
     this.initSlider();
     this.startAutoSlide();
+    this.updateVideoCarouselPosition();
   }
 
   ngOnDestroy() {
@@ -220,6 +256,82 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     })
+  }
+
+  // Video Carousel Methods
+  nextVideo() {
+    this.pauseAllVideos();
+    this.currentVideoIndex = (this.currentVideoIndex + 1) % this.videoSlides.length;
+    this.updateVideoCarouselPosition();
+  }
+
+  previousVideo() {
+    this.pauseAllVideos();
+    this.currentVideoIndex = this.currentVideoIndex === 0 ? this.videoSlides.length - 1 : this.currentVideoIndex - 1;
+    this.updateVideoCarouselPosition();
+  }
+
+  updateVideoCarouselPosition() {
+    // The transform is handled by CSS based on currentVideoIndex
+    setTimeout(() => {
+      const videoElements = document.querySelectorAll('.video-slide video');
+      videoElements.forEach((video: any, index) => {
+        if (index === this.currentVideoIndex) {
+          video.muted = false;
+        } else {
+          video.pause();
+          video.muted = true;
+        }
+      });
+    }, 100);
+  }
+
+  pauseAllVideos() {
+    const videoElements = document.querySelectorAll('.video-slide video');
+    videoElements.forEach((video: any) => {
+      video.pause();
+    });
+  }
+
+  getVideoTransform(index: number): string {
+    const centerIndex = this.currentVideoIndex;
+    const diff = index - centerIndex;
+    const baseScale = 0.75;
+    const activeScale = 1;
+    const scale = index === centerIndex ? activeScale : baseScale;
+    const translateX = diff * 20; // Percentage offset for side slides
+    
+    return `translateX(${translateX}%) scale(${scale})`;
+  }
+
+  toggleVideoPlay(index: number) {
+    const videoElements = document.querySelectorAll('.video-slide video');
+    const video = videoElements[index] as HTMLVideoElement;
+    
+    if (video.paused) {
+      video.play();
+      this.videoSlides[index].playing = true;
+    } else {
+      video.pause();
+      this.videoSlides[index].playing = false;
+    }
+  }
+
+  playVideo(index: number) {
+    const videoElements = document.querySelectorAll('.video-slide video');
+    const video = videoElements[index] as HTMLVideoElement;
+    video.play();
+    this.videoSlides[index].playing = true;
+  }
+
+  viewVideo(index: number) {
+    // Navigate to collections page with sortBy parameter
+    this.router.navigate(['/collections'], { queryParams: { sortBy: 'asc' } });
+  }
+
+  viewAllCollections() {
+    // Navigate to collections page
+    this.router.navigate(['/collections'], { queryParams: { sortBy: 'asc' } });
   }
 
 }
