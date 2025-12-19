@@ -1,9 +1,8 @@
-// Helper function to build collection URL with category slugs
-// Format: /collections?category=currentSlug,parentSlug1,parentSlug2&page=1
-function buildCollectionUrl(item: any, parentSlugs: string[] = []): string {
-  // Put current item slug first, then parent slugs
-  const slugs = [item.slug, ...parentSlugs].filter(Boolean);
-  return `/collections?category=${slugs.join(',')}&page=1`;
+// Helper function to build collection URL with only the clicked item's slug
+// Format: /collections?page=1&category=itemSlug
+function buildCollectionUrl(item: any): string {
+  // Only use the current item's slug, no parent slugs
+  return `/collections?page=1&category=${item.slug}`;
 }
 
 // Helper function to process menu items recursively and update paths
@@ -19,7 +18,7 @@ function processMenuItems(items: any[], parentSlugs: string[] = []): any[] {
     // Update path for link_type === 'link'
     let updatedPath = item.path;
     if (item.link_type === 'link' && item.slug) {
-      updatedPath = buildCollectionUrl(item, parentSlugs);
+      updatedPath = buildCollectionUrl(item);
     }
     
     return {
@@ -112,7 +111,7 @@ const rawMenuOptions: any[] = [
                                 "link_type": "link",
                                 "mega_menu": 0,
                                 "mega_menu_type": null,
-                                "slug": "shirts",
+                                "slug": "shirt",
                                 "path": "Shirts",
                                 "badge_text": null,
                                 "badge_color": null,
