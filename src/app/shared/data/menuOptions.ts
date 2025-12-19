@@ -1,4 +1,37 @@
-export const menuOptions: any[] = [
+// Helper function to build collection URL with category slugs
+// Format: /collections?category=currentSlug,parentSlug1,parentSlug2&page=1
+function buildCollectionUrl(item: any, parentSlugs: string[] = []): string {
+  // Put current item slug first, then parent slugs
+  const slugs = [item.slug, ...parentSlugs].filter(Boolean);
+  return `/collections?category=${slugs.join(',')}&page=1`;
+}
+
+// Helper function to process menu items recursively and update paths
+function processMenuItems(items: any[], parentSlugs: string[] = []): any[] {
+  return items.map(item => {
+    const currentParentSlugs = item.slug ? [...parentSlugs, item.slug] : parentSlugs;
+    
+    // Process children first
+    const processedChild = item.child && item.child.length > 0 
+      ? processMenuItems(item.child, currentParentSlugs)
+      : item.child;
+    
+    // Update path for link_type === 'link'
+    let updatedPath = item.path;
+    if (item.link_type === 'link' && item.slug) {
+      updatedPath = buildCollectionUrl(item, parentSlugs);
+    }
+    
+    return {
+      ...item,
+      child: processedChild,
+      path: updatedPath
+    };
+  });
+}
+
+// Raw menu data
+const rawMenuOptions: any[] = [
             {
                 "id": 169,
                 "title": "Men\u2019s Collection",
@@ -1360,4 +1393,7 @@ export const menuOptions: any[] = [
                 "banner_image": null,
                 "child": []
             }
-        ]
+        ];
+
+// Export processed menu options with updated URLs
+export const menuOptions: any[] = processMenuItems(rawMenuOptions);
