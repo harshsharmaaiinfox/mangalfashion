@@ -2,8 +2,7 @@
     <div class="main-footer section-b-space">
         <div class="row g-md-4 g-3">
             <!-- COLLECTIONS Section -->
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6"
-                (click)="toggle('collections')">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" (click)="toggle('collections')">
                 <div class="footer-column-minimal">
                     <div class="footer-title-minimal" [class.show]="active['collections']">
                         <h4>COLLECTIONS</h4>
@@ -27,8 +26,7 @@
             </div>
 
             <!-- USEFUL LINKS Section -->
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6"
-                (click)="toggle('useful_link')">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" (click)="toggle('useful_link')">
                 <div class="footer-column-minimal">
                     <div class="footer-title-minimal" [class.show]="active['useful_link']">
                         <h4>USEFUL LINKS</h4>
@@ -57,17 +55,8 @@
                     <div class="footer-content-minimal newsletter-section">
                         <p class="newsletter-description">Sign up to Get exclusive offers, latest collections, and style tips!</p>
                         <div class="newsletter-form">
-                            <input 
-                                type="email" 
-                                class="newsletter-input" 
-                                placeholder="E-mail" 
-                                [formControl]="email"
-                                (keyup.enter)="submitNewsletter()">
-                            <button 
-                                type="button" 
-                                class="newsletter-button" 
-                                (click)="submitNewsletter()"
-                                [disabled]="isSubmitting">
+                            <input type="email" class="newsletter-input" placeholder="E-mail" [formControl]="email" (keyup.enter)="submitNewsletter()">
+                            <button type="button" class="newsletter-button" (click)="submitNewsletter()" [disabled]="isSubmitting">
                                 <span *ngIf="!isSubmitting">SUBSCRIBE</span>
                                 <span *ngIf="isSubmitting">...</span>
                             </button>
@@ -96,10 +85,10 @@
                                 <a href="mailto:info&#64;mangalfashion.com" title="Send us an email">
                                     info&#64;mangalfashion.com
                                 </a>
-                              
+
                             </li>
                             <li class="pt-2">
-                                <span class="cin-info">CIN: U02005UP2016PTC076855</span>
+                                <span class="cin-info">CIN: U63999UP2016PTC076855</span>
                             </li>
                         </ul>
                     </div>
@@ -107,7 +96,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Sub Footer -->
     <div class="sub-footer-modern section-small-space">
         <div class="sub-footer-content">
@@ -117,7 +106,7 @@
             <app-footer-social-links [data]="data" *ngIf="data?.footer?.social_media_enable"></app-footer-social-links>
         </div>
     </div>
-    
+
     <!-- Back to Top Button -->
     <button class="back-to-top-button" [class.show]="showBackToTop" (click)="scrollToTop()" type="button" title="Back to Top">
         <i class="ri-arrow-up-line"></i>
