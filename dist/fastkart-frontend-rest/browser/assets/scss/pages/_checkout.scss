@@ -1,6 +1,201 @@
 /**=====================
     Checkout CSS start
 ==========================**/
+// Modern Checkout Styles
+.checkout-section-modern {
+  // Custom Select Modern Styles
+  .custom-select-modern {
+    width: 100% !important;
+    
+    .select2-container {
+      width: 100% !important;
+      
+      .select2-selection {
+        width: 100% !important;
+        background-color: #ffffff !important;
+        border: 1.5px solid #d1d5db !important;
+        border-radius: 8px !important;
+        min-height: 44px !important;
+        height: 44px !important;
+        padding: 0 !important;
+        transition: all 0.2s ease !important;
+        box-sizing: border-box !important;
+
+        &:hover {
+          border-color: #9ca3af !important;
+        }
+
+        &:focus,
+        &:focus-within {
+          border-color: var(--theme-color) !important;
+          box-shadow: 0 0 0 3px rgba(243, 100, 49, 0.1) !important;
+          outline: none !important;
+        }
+
+        .select2-selection__rendered {
+          line-height: 44px !important;
+          padding-left: 1rem !important;
+          padding-right: 2rem !important;
+          color: #1f2937 !important;
+          font-size: 0.95rem !important;
+          
+          .select2-selection__placeholder {
+            color: #9ca3af !important;
+            font-size: 0.9rem !important;
+          }
+        }
+
+        .select2-selection__arrow {
+          height: 44px !important;
+          right: 0.75rem !important;
+          width: 20px !important;
+          
+          b {
+            border-color: #6b7280 transparent transparent transparent !important;
+            border-width: 5px 4px 0 4px !important;
+            margin-top: -2px !important;
+          }
+        }
+      }
+    }
+
+    &.select2-container--open {
+      .select2-selection {
+        border-color: var(--theme-color) !important;
+        box-shadow: 0 0 0 3px rgba(243, 100, 49, 0.1) !important;
+        
+        .select2-selection__arrow b {
+          border-color: transparent transparent #6b7280 transparent !important;
+          border-width: 0 4px 5px 4px !important;
+          margin-top: -3px !important;
+        }
+      }
+    }
+    
+    // Dropdown menu styling
+    .select2-dropdown {
+      border: 1.5px solid #d1d5db !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+      margin-top: 4px !important;
+      
+      .select2-search--dropdown {
+        padding: 0.5rem !important;
+        
+        .select2-search__field {
+          border: 1.5px solid #d1d5db !important;
+          border-radius: 6px !important;
+          padding: 0.5rem 0.75rem !important;
+          font-size: 0.9rem !important;
+          
+          &:focus {
+            border-color: var(--theme-color) !important;
+            outline: none !important;
+          }
+        }
+      }
+      
+      .select2-results {
+        .select2-results__option {
+          padding: 0.625rem 1rem !important;
+          font-size: 0.95rem !important;
+          color: #1f2937 !important;
+          
+          &--highlighted {
+            background-color: rgba(243, 100, 49, 0.1) !important;
+            color: var(--theme-color) !important;
+          }
+          
+          &[aria-selected="true"] {
+            background-color: var(--theme-color) !important;
+            color: #ffffff !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Delivery and Payment Block Styles
+  app-delivery-block,
+  app-payment-block {
+    display: block;
+    width: 100%;
+
+    .delivery-option,
+    .payment-option {
+      padding: 1rem;
+      background-color: #ffffff;
+      border-radius: 10px;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s ease;
+      margin-bottom: 0.75rem;
+
+      &:hover {
+        border-color: rgba(243, 100, 49, 0.3);
+        background-color: #f9fafb;
+      }
+
+      .form-check {
+        .form-check-input {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          accent-color: var(--theme-color);
+        }
+
+        .form-check-label {
+          font-size: 1rem;
+          font-weight: 500;
+          color: #333333;
+          cursor: pointer;
+          margin-left: 0.75rem;
+        }
+      }
+    }
+  }
+
+  // Address Block Styles
+  app-address-block {
+    display: block;
+    width: 100%;
+
+    .delivery-address-box {
+      border-radius: 12px;
+      padding: 1.25rem;
+      background-color: #ffffff;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s ease;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+
+      &:hover {
+        border-color: rgba(243, 100, 49, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .form-check {
+        .form-check-input {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          accent-color: var(--theme-color);
+        }
+      }
+
+      .label {
+        background: linear-gradient(135deg, #F36431 0%, #ff8c5a 100%);
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
 .checkout {
   .checkout-details {
     background-color: #f9f9f9;
