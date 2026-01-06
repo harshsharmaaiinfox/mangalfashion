@@ -78,13 +78,22 @@ export class OtpComponent {
       this.store.dispatch(action).subscribe({
         complete: () => {
           if(this.otpType === 'email'){
-            this.router.navigateByUrl('/auth/update-password'); 
+            this.router.navigateByUrl('/auth/update-password');
           } else{
-            this.router.navigateByUrl('/account/dashboard'); 
+            this.router.navigateByUrl('/account/dashboard');
           }
         }
       })
     }
+  }
+
+  resendOtp() {
+    // Reset the form
+    this.form.reset();
+
+    // Navigate back to login to restart the process
+    // You might want to implement actual resend logic here based on your auth service
+    this.router.navigateByUrl('/auth/login');
   }
 
 }

@@ -1,32 +1,94 @@
 <app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
-<section class="log-in-section otp-section section-b-space">
-  <div class="container-fluid-lg w-100">
-    <div class="row align-items-center">
-      <div class="col-xxl-6 col-xl-5 col-lg-6 d-lg-block d-none ms-auto">
-        <div class="image-contain">
-          <img src="assets/images/inner-page/otp.png" class="img-fluid" alt="OTP verification illustration">
-        </div>
-      </div>
-      <div class="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 mx-auto">
+<section class="login-section section-b-space">
+  <div class="container-fluid-lg">
+    <div class="row justify-content-center">
+      <div class="col-xxl-5 col-xl-6 col-lg-7 col-md-8 col-sm-10">
         <app-alert></app-alert>
-        <div class="log-in-box">
-          <div class="log-in-title">
-            <h3 class="text-title">{{ 'please_enter_the_one_time_password_to_verify_your_account' | translate }}</h3>
-            <h5 class="text-content">{{ 'a_code_has_been_sent_to' | translate }} 
-              <span *ngIf="otpType === 'email'">{{ email }}</span>
-              <span *ngIf="otpType === 'number'">{{ number.phone }}</span>
-            </h5>
+
+        <div class="login-container">
+          <!-- Welcome Text -->
+          <div class="welcome-header">
+            <h1 class="welcome-title">Verify Your Account</h1>
+            <p class="welcome-subtitle">{{ 'Enter the verification code sent to' | translate }}</p>
+            <p class="otp-destination">
+              <span *ngIf="otpType === 'email'" class="destination-text">
+                <i class="ri-mail-line"></i>
+                {{ email }}
+              </span>
+              <span *ngIf="otpType === 'number'" class="destination-text">
+                <i class="ri-phone-line"></i>
+                {{ number.phone }}
+              </span>
+            </p>
           </div>
-          <form [formGroup]="form" (ngSubmit)="submit()">
-            <div class="outer-otp">
-              <div id="otp" class="inner-otp">
-                <input type="text" formControlName="otp" maxlength="5"
-                  oninput="this.value = this.value?.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                  onKeyPress="if(this.value.length==5) return false;" />
+
+          <!-- OTP Card -->
+          <div class="login-card-modern">
+            <form [formGroup]="form" (ngSubmit)="submit()" class="login-form-modern">
+              <!-- OTP Input Field -->
+              <div class="input-field-group">
+                <div class="field-label-row">
+                  <label for="otp" class="field-label">
+                    <i class="ri-lock-password-line"></i>
+                    {{ 'Verification Code' | translate }}
+                  </label>
+                </div>
+                <div class="input-container">
+                  <input
+                    type="text"
+                    class="form-field otp-input"
+                    id="otp"
+                    formControlName="otp"
+                    maxlength="5"
+                    placeholder="{{ 'Enter 5-digit code' | translate }}"
+                    oninput="this.value = this.value?.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                    onKeyPress="if(this.value.length==5) return false;"
+                    [class.field-error]="form.controls['otp'].touched && form.controls['otp'].invalid">
+                </div>
+                <div *ngIf="form.controls['otp'].touched && form.controls['otp'].errors?.['required']" class="field-error-message">
+                  <i class="ri-error-warning-line"></i>
+                  {{ 'Verification code is required' | translate }}
+                </div>
+                <div *ngIf="form.controls['otp'].touched && form.controls['otp'].errors?.['pattern']" class="field-error-message">
+                  <i class="ri-error-warning-line"></i>
+                  {{ 'Please enter a valid 5-digit code' | translate }}
+                </div>
               </div>
+
+              <!-- Submit Button -->
+              <div class="submit-button-wrapper">
+                <app-button [id]="'otp_validate_btn'" [class]="'btn-login-submit'">
+                  {{ 'Validate' | translate }}
+                  <i class="ri-arrow-right-line"></i>
+                </app-button>
+              </div>
+            </form>
+
+            <!-- Divider -->
+            <div class="form-divider">
+              <span class="divider-text">{{ 'OR' | translate }}</span>
             </div>
-            <app-button [class]="'btn btn-animation w-100 mt-3'" [id]="'forgot_btn'">{{ 'validate' | translate }}</app-button>
-          </form>
+
+            <!-- Additional Options -->
+            <div class="otp-options">
+              <p class="resend-text">{{ "Didn't receive the code?" | translate }}</p>
+              <button type="button" class="resend-button" (click)="resendOtp()">
+                <i class="ri-refresh-line"></i>
+                {{ 'Resend Code' | translate }}
+              </button>
+            </div>
+
+            <!-- Back to Login Section -->
+            <div class="signup-section">
+              <p class="signup-question">
+                {{ 'Wrong email or phone?' | translate }}
+              </p>
+              <a [routerLink]="['/auth/login']" class="signup-button">
+                {{ 'Back to Login' | translate }}
+                <i class="ri-arrow-right-line"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
