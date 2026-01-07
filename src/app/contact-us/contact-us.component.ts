@@ -21,6 +21,39 @@ export class ContactUsComponent {
     });
   }
 
+  filterSpecialCharacters(event: any, fieldName: string) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only letters and spaces
+    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.contactForm.get(fieldName)?.setValue(filteredValue);
+    }
+  }
+
+  filterEmailCharacters(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only email-allowed characters: letters, numbers, dot, underscore, hyphen, plus, @
+    const filteredValue = value.replace(/[^a-zA-Z0-9._\-+@]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.contactForm.get('email')?.setValue(filteredValue);
+    }
+  }
+
+  filterPhoneNumber(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only digits and limit to 10 characters
+    const filteredValue = value.replace(/\D/g, '').slice(0, 10);
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.contactForm.get('phone')?.setValue(filteredValue);
+    }
+  }
+
   onSubmit() {
     if (this.contactForm.valid) {
       console.log('Form submitted', this.contactForm.value);

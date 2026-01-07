@@ -106,7 +106,7 @@
                     {{ 'full_name' | translate }}
                   </label>
                                     <div class="input-wrapper">
-                                        <input type="text" class="form-input-modern" id="fullname" placeholder="{{ 'enter_full_name' | translate }}" formControlName="name">
+                                        <input type="text" class="form-input-modern" id="fullname" placeholder="{{ 'enter_full_name' | translate }}" formControlName="name" (input)="filterSpecialCharacters($event, 'name')" pattern="[a-zA-Z\s]+">
                                         <i class="ri-user-3-fill input-icon"></i>
                                     </div>
                                     <div class="error-message" *ngIf="form.controls['name'].touched && form.controls['name'].errors?.['required']">
@@ -122,7 +122,7 @@
                       {{ 'email_address' | translate }}
                     </label>
                                         <div class="input-wrapper">
-                                            <input type="email" class="form-input-modern" id="email" placeholder="{{ 'enter_email_address' | translate }}" formControlName="email">
+                                            <input type="email" class="form-input-modern" id="email" placeholder="{{ 'enter_email_address' | translate }}" formControlName="email" (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
                                             <i class="ri-mail-fill input-icon"></i>
                                         </div>
                                         <div class="error-message" *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']">
@@ -141,7 +141,7 @@
                       {{ 'phone_number' | translate }}
                     </label>
                                         <div class="input-wrapper">
-                                            <input type="tel" class="form-input-modern" id="phonenumber" placeholder="{{ 'enter_your_phone_number' | translate }}" formControlName="phone">
+                                            <input type="tel" class="form-input-modern" id="phonenumber" placeholder="{{ 'enter_your_phone_number' | translate }}" formControlName="phone" (input)="filterPhoneNumber($event)" maxlength="10" pattern="[0-9]{10}">
                                             <i class="ri-smartphone-line input-icon"></i>
                                         </div>
                                         <div class="error-message" *ngIf="form.controls['phone'].touched && form.controls['phone'].errors?.['required']">

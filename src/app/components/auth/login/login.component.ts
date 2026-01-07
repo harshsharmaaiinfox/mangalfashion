@@ -51,6 +51,17 @@ export class LoginComponent {
     });
   }
 
+  filterEmailCharacters(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only email-allowed characters: letters, numbers, dot, underscore, hyphen, plus, @
+    const filteredValue = value.replace(/[^a-zA-Z0-9._\-+@]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.form.get('email')?.setValue(filteredValue);
+    }
+  }
+
   submit() {
     this.form.markAllAsTouched();
     if(this.form.valid) {

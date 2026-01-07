@@ -113,6 +113,17 @@ export class RegisterComponent {
     }
   }
 
+  filterEmailCharacters(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only email-allowed characters: letters, numbers, dot, underscore, hyphen, plus, @
+    const filteredValue = value.replace(/[^a-zA-Z0-9._\-+@]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.form.get('email')?.setValue(filteredValue);
+    }
+  }
+
   // Allow only digits in phone field (block alphabets/special characters)
   allowOnlyDigits(event: KeyboardEvent): void {
     const allowedControlKeys = [

@@ -19,7 +19,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group-modern">
                                             <label for="name" class="form-label-modern">{{ 'Name' | translate }}</label>
-                                            <input type="text" class="form-control-modern" formControlName="name" placeholder="{{ 'Enter Name' | translate }}" id="name">
+                                            <input type="text" class="form-control-modern" formControlName="name" placeholder="{{ 'Enter Name' | translate }}" id="name" (input)="filterSpecialCharacters($event, 'name')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                             <div class="error-message" *ngIf="form?.controls?.['name']?.touched && form.controls['name']?.errors?.['required']">
                                                 {{ 'Name Is Required' | translate }}
                                             </div>
@@ -28,7 +28,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group-modern">
                                             <label for="email" class="form-label-modern">{{ 'Email' | translate }}</label>
-                                            <input type="email" class="form-control-modern" placeholder="{{ 'Enter Email Address' | translate }}" formControlName="email" id="email">
+                                            <input type="email" class="form-control-modern" placeholder="{{ 'Enter Email Address' | translate }}" formControlName="email" id="email" (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
                                             <div class="error-message" *ngIf="form?.controls?.['email']?.touched && form.controls['email']?.errors?.['required']">
                                                 {{ 'Email is Required' | translate }}
                                             </div>
@@ -79,7 +79,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group-modern">
                                                 <label for="sname" class="form-label-modern">{{ 'Title' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="title" id="sname" placeholder="{{ 'Enter Name' | translate }}">
+                                                <input type="text" class="form-control-modern" formControlName="title" id="sname" placeholder="{{ 'Enter Name' | translate }}" (input)="filterSpecialCharacters($event, 'shipping_address.title')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                                 <div *ngIf="form.get('shipping_address.title')?.touched && form.get('shipping_address.title')?.errors?.['required']" class="error-message">
                                                     {{ 'Title is Required' | translate }}
                                                 </div>
@@ -88,7 +88,7 @@
                                         <div class="col-12">
                                             <div class="form-group-modern">
                                                 <label for="saddress" class="form-label-modern">{{ 'Address' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="street" id="saddress" placeholder="{{ 'Enter Address' | translate }}">
+                                                <input type="text" class="form-control-modern" formControlName="street" id="saddress" placeholder="{{ 'Enter Address' | translate }}" (input)="filterSpecialCharacters($event, 'shipping_address.street')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                                 <div *ngIf="form.get('shipping_address.street')?.touched && form.get('shipping_address.street')?.errors?.['required']" class="error-message">
                                                     {{ 'Address is Required' | translate }}
                                                 </div>
@@ -117,7 +117,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
                                                 <label for="scity" class="form-label-modern">{{ 'City' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="city" id="scity" placeholder="{{ 'Enter City' | translate }}">
+                                                <input type="text" class="form-control-modern" formControlName="city" id="scity" placeholder="{{ 'Enter City' | translate }}" (input)="filterSpecialCharacters($event, 'shipping_address.city')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                                 <div *ngIf="form.get('shipping_address.city')?.touched && form.get('shipping_address.city')?.errors?.['required']" class="error-message">
                                                     {{ 'City is Required' | translate }}
                                                 </div>
@@ -157,7 +157,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group-modern">
                                                 <label for="bname" class="form-label-modern">{{ 'Title' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="title" id="bname" placeholder="{{ 'Enter Name' | translate }}">
+                                                <input type="text" class="form-control-modern" formControlName="title" id="bname" placeholder="{{ 'Enter Name' | translate }}" (input)="filterSpecialCharacters($event, 'billing_address.title')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                                 <div *ngIf="form.get('billing_address.title')?.touched && form.get('billing_address.title')?.errors?.['required']" class="error-message">
                                                     {{ 'Title is Required' | translate }}
                                                 </div>
@@ -166,7 +166,7 @@
                                         <div class="col-12">
                                             <div class="form-group-modern">
                                                 <label for="baddress" class="form-label-modern">{{ 'Address' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="street" id="baddress" placeholder="{{ 'Enter Address' | translate }}">
+                                                <input type="text" class="form-control-modern" formControlName="street" id="baddress" placeholder="{{ 'Enter Address' | translate }}" (input)="filterSpecialCharacters($event, 'billing_address.street')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                                 <div *ngIf="form.get('billing_address.street')?.touched && form.get('billing_address.street')?.errors?.['required']" class="error-message">
                                                     {{ 'Address is Required' | translate }}
                                                 </div>
@@ -195,7 +195,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
                                                 <label for="bcity" class="form-label-modern">{{ 'City' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="city" id="bcity" placeholder="{{ 'Enter City' | translate }}">
+                                                <input type="text" class="form-control-modern" formControlName="city" id="bcity" placeholder="{{ 'Enter City' | translate }}" (input)="filterSpecialCharacters($event, 'billing_address.city')" pattern="[a-zA-Z0-9\s\.\-\']+">
                                                 <div *ngIf="form.get('billing_address.city')?.touched && form.get('billing_address.city')?.errors?.['required']" class="error-message">
                                                     {{ 'City is Required' | translate }}
                                                 </div>

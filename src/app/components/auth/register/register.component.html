@@ -52,12 +52,14 @@
                                     </label>
                                 </div>
                                 <div class="input-container">
-                                    <input 
-                                        type="email" 
-                                        class="form-field" 
-                                        id="email" 
-                                        formControlName="email" 
+                                    <input
+                                        type="email"
+                                        class="form-field"
+                                        id="email"
+                                        formControlName="email"
                                         placeholder="{{ 'enter_your_email' | translate }}"
+                                        (input)="filterEmailCharacters($event)"
+                                        pattern="[a-zA-Z0-9._\-+@]+"
                                         [class.field-error]="form.controls['email'].touched && form.controls['email'].invalid">
                                 </div>
                                 <div *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']" class="field-error-message">

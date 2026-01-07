@@ -104,7 +104,7 @@
                     Name
                   </label>
                                     <div class="input-wrapper">
-                                        <input type="text" class="form-input-modern" id="name" placeholder="Enter your full name" formControlName="name">
+                                        <input type="text" class="form-input-modern" id="name" placeholder="Enter your full name" formControlName="name" (input)="filterSpecialCharacters($event, 'name')" pattern="[a-zA-Z\s]+">
                                         <i class="ri-user-3-fill input-icon"></i>
                                     </div>
                                     <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
@@ -120,7 +120,7 @@
                       Email Address
                     </label>
                                         <div class="input-wrapper">
-                                            <input type="email" class="form-input-modern" id="email" placeholder="Enter your email address" formControlName="email">
+                                            <input type="email" class="form-input-modern" id="email" placeholder="Enter your email address" formControlName="email" (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
                                             <i class="ri-mail-fill input-icon"></i>
                                         </div>
                                         <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
@@ -135,7 +135,7 @@
                       Phone Number
                     </label>
                                         <div class="input-wrapper">
-                                            <input type="tel" class="form-input-modern" id="phone" placeholder="Enter your phone number" formControlName="phone">
+                                            <input type="tel" class="form-input-modern" id="phone" placeholder="Enter your phone number" formControlName="phone" (input)="filterPhoneNumber($event)" maxlength="10" pattern="[0-9]{10}">
                                             <i class="ri-smartphone-line input-icon"></i>
                                         </div>
                                         <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">

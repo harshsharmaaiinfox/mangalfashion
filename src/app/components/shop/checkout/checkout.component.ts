@@ -843,6 +843,34 @@ export class CheckoutComponent {
     this.store.dispatch(new ClearCart());
   }
 
+  filterSpecialCharacters(event: any, fieldName: string) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only letters, numbers, spaces, dots, hyphens, and apostrophes
+    const filteredValue = value.replace(/[^a-zA-Z0-9\s\.\-\']/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      // Handle nested form controls
+      if (fieldName.includes('.')) {
+        const [parent, child] = fieldName.split('.');
+        this.form.get(parent)?.get(child)?.setValue(filteredValue);
+      } else {
+        this.form.get(fieldName)?.setValue(filteredValue);
+      }
+    }
+  }
+
+  filterEmailCharacters(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only email-allowed characters: letters, numbers, dot, underscore, hyphen, plus, @
+    const filteredValue = value.replace(/[^a-zA-Z0-9._\-+@]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.form.get('email')?.setValue(filteredValue);
+    }
+  }
+
   ngOnDestroy() {
     // this.store.dispatch(new Clear());
     this.store.dispatch(new ClearCart());

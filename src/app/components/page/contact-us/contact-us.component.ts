@@ -46,6 +46,39 @@ export class ContactUsComponent implements OnInit {
     });
   }
 
+  filterSpecialCharacters(event: any, fieldName: string) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only letters and spaces
+    const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.form.get(fieldName)?.setValue(filteredValue);
+    }
+  }
+
+  filterEmailCharacters(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only email-allowed characters: letters, numbers, dot, underscore, hyphen, plus, @
+    const filteredValue = value.replace(/[^a-zA-Z0-9._\-+@]/g, '');
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.form.get('email')?.setValue(filteredValue);
+    }
+  }
+
+  filterPhoneNumber(event: any) {
+    const input = event.target;
+    const value = input.value;
+    // Allow only digits and limit to 10 characters
+    const filteredValue = value.replace(/\D/g, '').slice(0, 10);
+    if (value !== filteredValue) {
+      input.value = filteredValue;
+      this.form.get('phone')?.setValue(filteredValue);
+    }
+  }
+
   submit() {
     this.form.markAllAsTouched();
     if (this.form.valid) {
