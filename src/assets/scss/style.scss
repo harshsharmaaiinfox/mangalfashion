@@ -317,3 +317,7 @@ button#place_order {
 ul.navbar-nav {
     align-items: center;
 }
+.overlay.show {
+    opacity: 0 !important;
+    visibility: visible;
+}

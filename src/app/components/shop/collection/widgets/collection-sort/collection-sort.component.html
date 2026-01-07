@@ -13,7 +13,7 @@
                 <i class="ri-filter-2-fill"></i>
                 <span>{{ 'filter_menu' | translate }}</span>
             </a>
-            <a href="javascript:void(0)" class="filter-btn open-sidebar-btn" (click)="openOffCanvasMenu()"
+            <a href="javascript:void(0)" class="filter-btn open-sidebar-btn d-lg-inline-block d-none" (click)="openOffCanvasMenu()"
                 *ngIf="filter && (filter['layout'] == 'collection_category_sidebar' || filter['layout'] == 'collection_category_slider')">
                 <i class="ri-menu-line"></i>
                 <span>{{ 'open_filters' | translate }}</span>
