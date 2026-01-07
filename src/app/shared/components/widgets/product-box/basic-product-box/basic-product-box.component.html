@@ -20,11 +20,13 @@
     <!-- Product Image Section -->
     <div class="product-image-wrapper">
         <a [routerLink]="['/product/', product.slug]" class="product-image-link">
-            <img [src]="product.product_thumbnail ?
+            <img appLazyLoad
+                 [src]="product.product_thumbnail ?
                         product.product_thumbnail.original_url :
-                        'assets/images/product.png'" 
-                 class="product-img" 
-                 [alt]="product.name">
+                        'assets/images/product.png'"
+                 class="product-img lazy-loading"
+                 [alt]="product.name"
+                 placeholder="assets/images/placeholder.png">
         </a>
     </div>
 

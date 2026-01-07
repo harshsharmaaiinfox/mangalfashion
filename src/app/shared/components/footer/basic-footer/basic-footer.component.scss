@@ -225,12 +225,22 @@
         }
     }
     
-    // Force all footer sections to be expanded on mobile
-    @media (max-width: 767px) {
+    // Force all footer sections to be expanded on mobile and tablet
+    @media (max-width: 1024px) {
         max-height: 1000px !important;
         opacity: 1 !important;
         visibility: visible !important;
         margin-top: 15px;
+    }
+
+    // Sections that should always be visible (NEWSLETTER, ADDRESS)
+    &.always-visible {
+        @media (max-width: 991px) {
+            max-height: 1000px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            margin-top: 0;
+        }
     }
 }
 

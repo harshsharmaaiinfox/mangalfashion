@@ -8,6 +8,9 @@ import { Select2Module } from 'ng-select2-component';
 import { SwiperModule } from 'swiper/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
+// Directives
+import { LazyLoadDirective } from './directives/lazy-load.directive';
+
 // Components
 import { HeaderComponent } from './components/header/header.component';
 import { ClassicHeaderComponent } from './components/header/classic-header/classic-header.component';
@@ -154,6 +157,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     ChangePasswordModalComponent,
     EditProfileModalComponent,
     ClickOutsideDirective,
+    LazyLoadDirective,
     TitleComponent,
     PaginationComponent,
     CategoriesComponent,
@@ -226,6 +230,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     AlertComponent,
     ButtonComponent,
     ClickOutsideDirective,
+    LazyLoadDirective,
     TitleComponent,
     PaginationComponent,
     NgbModule,

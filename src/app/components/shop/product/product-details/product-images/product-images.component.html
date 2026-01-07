@@ -29,9 +29,11 @@
                       </audio>
                     </ng-container>
                     <ng-template #showImage>
-                      <img [src]="firstImage?.original_url || 'assets/images/product.png'" 
-                           class="img-fluid product-full-image" 
-                           [alt]="product?.name || 'Product'">
+                      <img appLazyLoad
+                           [src]="firstImage?.original_url || 'assets/images/product.png'"
+                           class="img-fluid product-full-image lazy-loading"
+                           [alt]="product?.name || 'Product'"
+                           placeholder="assets/images/placeholder.png">
                     </ng-template>
                   </ng-template>
                 </ng-container>
@@ -49,9 +51,11 @@
                       </audio>
                     </ng-container>
                     <ng-template #showThumbnailImage>
-                      <img [src]="product?.product_thumbnail?.original_url || 'assets/images/product.png'" 
-                           class="img-fluid product-full-image" 
-                           [alt]="product?.name || 'Product'">
+                      <img appLazyLoad
+                           [src]="product?.product_thumbnail?.original_url || 'assets/images/product.png'"
+                           class="img-fluid product-full-image lazy-loading"
+                           [alt]="product?.name || 'Product'"
+                           placeholder="assets/images/placeholder.png">
                     </ng-template>
                   </ng-template>
                 </ng-template>

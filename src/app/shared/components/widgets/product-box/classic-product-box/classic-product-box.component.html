@@ -9,9 +9,13 @@
             </button>
         </div>
         <a [routerLink]="['/product/', product.slug]">
-            <img [src]="product.product_thumbnail ?
+            <img appLazyLoad
+                 [src]="product.product_thumbnail ?
                  product.product_thumbnail.original_url :
-                 'assets/images/product.png'" class="img-fluid" [alt]="product.name">
+                 'assets/images/product.png'"
+                 class="img-fluid lazy-loading"
+                 [alt]="product.name"
+                 placeholder="assets/images/placeholder.png">
         </a>
         <app-product-hover-action [product]="product" *ngIf="!close"></app-product-hover-action>
         <div class="product-header-top" *ngIf="close">
