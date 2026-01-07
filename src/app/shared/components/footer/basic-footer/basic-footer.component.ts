@@ -31,15 +31,15 @@ export class BasicFooterComponent {
   }
   
   checkMobileAndOpenTabs() {
-    // Check if mobile on initialization
-    if (window.innerWidth <= 767) {
+    // Check if mobile or tablet on initialization
+    if (window.innerWidth <= 1024) {
       this.active['collections'] = true;
       this.active['useful_link'] = true;
     }
-    
+
     // Listen for window resize to handle orientation changes
     window.addEventListener('resize', () => {
-      if (window.innerWidth <= 767) {
+      if (window.innerWidth <= 1024) {
         this.active['collections'] = true;
         this.active['useful_link'] = true;
       } else {

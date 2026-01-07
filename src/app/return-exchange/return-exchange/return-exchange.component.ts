@@ -19,8 +19,8 @@ export class ReturnExchangeComponent implements OnInit {
       title: 'Easy 7-Day Return Policy – Shop Risk-Free | Mangal Fashion',
       description: 'Shop with confidence at Mangal Fashion. Our easy 7-day return policy ensures you can shop risk-free. Learn about our simple return and exchange process.',
       keywords: 'return policy, exchange policy, 7-day return, shop risk-free, mangal fashion returns',
-      canonicalUrl: 'https://mangalfashion.com/return-policy',
-      url: 'https://mangalfashion.com/return-policy',
+      canonicalUrl: 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/return-policy',
+      url: 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/return-policy',
       type: 'website'
     });
   }
