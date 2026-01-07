@@ -46,6 +46,24 @@
   }
 }
 
+// Invisible overlay for desktop click-outside functionality
+.overlay-desktop {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9; // Behind sidebar (z-index: 10) so sidebar stays on top
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &.show {
+    visibility: visible;
+  }
+}
+
 .shop-section {
   .left-box {
     .shop-left-sidebar {

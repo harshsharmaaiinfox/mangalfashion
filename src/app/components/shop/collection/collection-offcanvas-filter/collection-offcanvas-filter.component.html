@@ -2,7 +2,8 @@
     <div class="container-fluid-lg">
         <div class="row">
             <div class="col-12">
-                <div class="left-box top-filter" [class.show]="attributeService.offCanvasMenu">
+                <div class="overlay-desktop d-none d-lg-block" [class.show]="attributeService.offCanvasMenu" (click)="closeCanvasMenu()"></div>
+                <div class="left-box top-filter" [class.show]="attributeService.offCanvasMenu" (click)="$event.stopPropagation()">
                     <app-collection-sidebar [filter]="filter"></app-collection-sidebar>
                 </div>
             </div>
