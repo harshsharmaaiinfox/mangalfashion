@@ -293,16 +293,16 @@ html.dark {
           i {
             color: #ddd;
           }
-          
+
           &:hover i {
             color: #ff6b6b;
           }
         }
-        
+
         .custom-account-dropdown {
           .account-trigger .account-icon-wrapper i {
             color: #ddd;
-            
+
             &:hover {
               color: #ff6b6b;
             }
@@ -311,33 +311,33 @@ html.dark {
       }
     }
   }
-  
+
   .modern-mobile-menu {
     background: #1a1a1a !important;
-    
+
     .modern-menu-body {
       background: #1a1a1a;
-      
+
       .navbar-nav {
         .nav-item {
           border-bottom-color: #333;
-          
+
           .nav-link {
             color: #ddd;
-            
+
             &:hover {
               background: linear-gradient(90deg, rgba(30, 131, 202, 0.1) 0%, transparent 100%);
               color: #1E83CA;
             }
           }
-          
+
           .dropdown-menu {
             background: #222;
-            
+
             .dropdown-item {
               color: #bbb;
               border-bottom-color: #333;
-              
+
               &:hover {
                 background: rgba(30, 131, 202, 0.1);
                 color: #1E83CA;
@@ -350,3 +350,9 @@ html.dark {
   }
 }
 
+// Hide wishlist icon on mobile screens
+@media (max-width: 767px) {
+  .rightside-box .right-side-menu .right-side:nth-child(1) {
+    display: none !important;
+  }
+}

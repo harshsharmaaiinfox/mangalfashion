@@ -88,18 +88,29 @@ export class LayoutComponent {
     );
     this.themeOptionService.preloader = true;
     const getCategories$ = this.store.dispatch(new GetCategories({ status: 1 }));
-    const getBlog$ = this.store.dispatch(new GetBlogs({ status: 1, paginate: 10 }));
+
+    // Only call GetBlogs if not on home page
+    const currentUrl = this.router.url;
+    const getBlog$ = currentUrl === '/' || currentUrl.startsWith('/?') || currentUrl === '/home' ?
+      null : this.store.dispatch(new GetBlogs({ status: 1, paginate: 10 }));
+
     const getProductBySearch$ = this.store.dispatch(new GetProductBySearch());
     const getPages$ = this.store.dispatch(new GetPages({ status: 1 }));
     const getMenu$ = this.store.dispatch(new GetMenu({ status: 1 }));
     this.store.dispatch(new GetWishlist())
-    
+
     // Set timeout to hide preloader after 5 seconds even if API calls fail
     setTimeout(() => {
       this.themeOptionService.preloader = false;
     }, 5000);
-    
-    forkJoin([getCategories$, getProductBySearch$ , getPages$, getBlog$, getMenu$]).subscribe({
+
+    // Conditionally include getBlog$ in forkJoin only if it's not null
+    const actions = [getCategories$, getProductBySearch$, getPages$, getMenu$];
+    if (getBlog$) {
+      actions.push(getBlog$);
+    }
+
+    forkJoin(actions).subscribe({
       next: () => {
         this.themeOptionService.preloader = false;
       },

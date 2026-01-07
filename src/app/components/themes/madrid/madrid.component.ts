@@ -42,11 +42,8 @@ export class MadridComponent {
         paginate: this.data?.content?.products_ids.length,
         ids: this.data?.content?.products_ids?.join(',')
       }));
-      const getBrand$ = this.store.dispatch(new GetBrands({ 
-        status: 1,
-        ids: this.data?.content?.brands?.brand_ids?.join()
-      }));
-      const getStore$ = this.store.dispatch(new GetStores({ 
+
+      const getStore$ = this.store.dispatch(new GetStores({
         status: 1,
         ids: this.data?.content?.seller?.store_ids?.join()
       }));
@@ -55,10 +52,23 @@ export class MadridComponent {
         ids: this.data?.content?.featured_blogs?.blog_ids?.join(',')
       }));
 
+      // Conditionally call GetBrands only if brand_ids exist and are not empty
+      const brandIds = this.data?.content?.brands?.brand_ids;
+      const getBrand$ = brandIds && brandIds.length > 0 ?
+        this.store.dispatch(new GetBrands({
+          status: 1,
+          ids: brandIds.join()
+        })) : null;
+
       // Skeleton Loader
       document.body.classList.add('skeleton-body');
-  
-      forkJoin([getProducts$, getBlogs$, getBrand$, getStore$]).subscribe({
+
+      const actions = [getProducts$, getBlogs$, getStore$];
+      if (getBrand$) {
+        actions.push(getBrand$);
+      }
+
+      forkJoin(actions).subscribe({
         complete: () => {
           document.body.classList.remove('skeleton-body');
           this.themeOptionService.preloader = false;

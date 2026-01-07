@@ -61,9 +61,6 @@ export class CartComponent {
       }
     });
 
-    setTimeout(() => {
-      this.cartHide = false;
-    }, 1000);
     
     // Close cart dropdown when clicking outside on mobile
     document.addEventListener('click', (event: any) => {

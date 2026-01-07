@@ -49,12 +49,9 @@ export class CairoComponent {
         status: 1,
         paginate: this.data?.content?.products_ids.length,
         ids: this.data?.content?.products_ids?.join(',')
-      }));  
-      const getBrand$ = this.store.dispatch(new GetBrands({ 
-        status: 1,
-        ids: this.data?.content?.brands?.brand_ids?.join()
       }));
-      const getStore$ = this.store.dispatch(new GetStores({ 
+
+      const getStore$ = this.store.dispatch(new GetStores({
         status: 1,
         ids: this.data?.content?.seller?.store_ids?.join()
       }));
@@ -62,14 +59,27 @@ export class CairoComponent {
         status: 1
       }));
       const getCategoryProduct$ = this.store.dispatch(new GetCategoryProducts(
-        { category_ids: this.data.content?.categories_products?.category_ids?.join(',') 
+        { category_ids: this.data.content?.categories_products?.category_ids?.join(',')
       }));
+
+      // Conditionally call GetBrands only if brand_ids exist and are not empty
+      const brandIds = this.data?.content?.brands?.brand_ids;
+      const getBrand$ = brandIds && brandIds.length > 0 ?
+        this.store.dispatch(new GetBrands({
+          status: 1,
+          ids: brandIds.join()
+        })) : null;
 
       // Skeleton Loader
       document.body.classList.add('skeleton-body');
       document.body.classList.add('cairo');
 
-      forkJoin([getProducts$, getBrand$, getStore$, getBlogs$, getCategoryProduct$]).subscribe({
+      const actions = [getProducts$, getStore$, getBlogs$, getCategoryProduct$];
+      if (getBrand$) {
+        actions.push(getBrand$);
+      }
+
+      forkJoin(actions).subscribe({
         complete: () => {
           document.body.classList.remove('skeleton-body');
           this.themeOptionService.preloader = false;
