@@ -297,30 +297,27 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="checkout-step-item">
-                                <div class="checkout-step-icon">
-                                    <i class="ri-bank-card-line"></i>
-                                </div>
-                                <div class="checkout-step-content">
-                                    <div class="checkout-step-header">
-                                        <h4>{{ 'Payment Options' | translate }}</h4>
-                                    </div>
-                                    <div class="checkout-step-body">
-                                        <div class="empty-box" *ngIf="!(user$ | async)">
-                                            <h2>{{ 'No Payment Options Found' | translate }}</h2>
-                                        </div>
-                                        <app-payment-block *ngIf="(accessToken$ | async)" [setting]="(setting$ | async)!" (selectPaymentMethod)="selectPaymentMethod($event)">
-                                        </app-payment-block>
-                                    </div>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <!-- Right Column - Order Summary -->
-            <div class="col-xxl-4 col-xl-5">
+            <div class="col-xxl-4 col-xl-5 mt-0">
+                <!-- Payment Options Section -->
+                <div class="payment-options-card" *ngIf="(accessToken$ | async)">
+                    <div class="payment-options-header pb-3">
+                        <h3 class="payment-options-title">{{ 'Payment Options' | translate }}</h3>
+                    </div>
+                    <div class="payment-options-body">
+                        <div class="empty-box" *ngIf="!(setting$ | async)?.payment_methods?.length">
+                            <h2>{{ 'No Payment Options Found' | translate }}</h2>
+                        </div>
+                        <app-payment-block *ngIf="(setting$ | async)?.payment_methods?.length" [setting]="(setting$ | async)!" (selectPaymentMethod)="selectPaymentMethod($event)">
+                        </app-payment-block>
+                    </div>
+                </div>
+
                 <div class="order-summary-card">
                     <div class="order-summary-header">
                         <h3 class="order-summary-title">

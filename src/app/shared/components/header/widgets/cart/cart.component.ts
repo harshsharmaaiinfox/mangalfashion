@@ -62,23 +62,18 @@ export class CartComponent {
     });
 
     
-    // Close cart dropdown when clicking outside on mobile
+    // Close cart dropdown when clicking outside
     document.addEventListener('click', (event: any) => {
       const target = event.target as HTMLElement;
       if (!target.closest('.onhover-dropdown') && !this.cartHide) {
-        // Only close on mobile devices
-        if (window.innerWidth <= 767) {
-          this.cartHide = true;
-        }
+        this.cartHide = true;
       }
     });
   }
   
   toggleCart() {
-    // Toggle cart dropdown on mobile
-    if (window.innerWidth <= 767) {
-      this.cartHide = !this.cartHide;
-    }
+    // Toggle cart dropdown on mobile, allow on desktop too for better UX
+    this.cartHide = !this.cartHide;
   }
 
   cartToggle(value: boolean) {

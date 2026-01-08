@@ -290,6 +290,135 @@
       padding: 1.5rem 2rem;
     }
 
+  // Payment Options Card (Outside Order Summary)
+  .payment-options-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(243, 100, 49, 0.1);
+
+    .payment-options-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, #F36431 0%, #ff8c5a 100%);
+      color: #ffffff;
+
+      .checkout-step-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+
+      .payment-options-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        color: #ffffff;
+
+        i {
+          font-size: 1.75rem;
+        }
+      }
+    }
+
+    .payment-options-body {
+      padding: 1.5rem 2rem;
+
+      .checkout-detail {
+        .row {
+          margin: 0;
+
+          .col-xxl-6 {
+            margin-bottom: 1rem;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            .payment-option {
+              margin: 0;
+
+              .payment-category {
+                .form-check.custom-form-check {
+                  margin: 0;
+                  padding: 1rem;
+                  background: #f9fafb;
+                  border-radius: 12px;
+                  border: 1px solid #e5e7eb;
+                  transition: all 0.3s ease;
+
+                  &:hover {
+                    border-color: var(--theme-color);
+                    box-shadow: 0 4px 12px rgba(243, 100, 49, 0.15);
+                    background: #ffffff;
+                  }
+
+                  &.hide-check-box {
+                    .form-check-input {
+                      display: none;
+                    }
+
+                    .form-check-label {
+                      display: flex;
+                      align-items: center;
+                      gap: 0.75rem;
+                      font-size: 0.95rem;
+                      font-weight: 600;
+                      color: #222222;
+                      cursor: pointer;
+                      margin: 0;
+
+                      &::before {
+                        content: '';
+                        width: 18px;
+                        height: 18px;
+                        border: 2px solid #d1d5db;
+                        border-radius: 50%;
+                        flex-shrink: 0;
+                        transition: all 0.3s ease;
+                      }
+
+                      .payment-icon {
+                        width: 32px;
+                        height: 32px;
+                        object-fit: contain;
+                        flex-shrink: 0;
+                      }
+                    }
+
+                    input[type="radio"]:checked + .form-check-label {
+                      color: var(--theme-color);
+
+                      &::before {
+                        background: var(--theme-color);
+                        border-color: var(--theme-color);
+                        box-shadow: 0 0 0 3px rgba(243, 100, 49, 0.2);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
     .order-items-section {
       margin-bottom: 1.5rem;
       padding-bottom: 1.5rem;
@@ -661,10 +790,15 @@
 // Responsive Styles
 @media (max-width: 1199px) {
   .checkout-section-modern {
+    .payment-options-card,
     .order-summary-card {
       position: relative;
       top: 0;
       margin-top: 2rem;
+
+      &:first-child {
+        margin-top: 0;
+      }
     }
   }
 }
@@ -702,6 +836,26 @@
         .checkout-step-content {
           padding: 1.25rem;
         }
+      }
+    }
+
+    .payment-options-card {
+      .payment-options-header {
+        padding: 1.25rem 1.5rem;
+
+        .checkout-step-number {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+
+        .payment-options-title {
+          font-size: 1.25rem;
+        }
+      }
+
+      .payment-options-body {
+        padding: 1.25rem 1.5rem;
       }
     }
 
