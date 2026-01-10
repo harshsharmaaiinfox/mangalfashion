@@ -33,8 +33,15 @@
               <h5 class="cart-item-name">
                 {{ item?.variation ? item?.variation?.name : item?.product?.name }}
               </h5>
+              <div class="cart-item-rating" *ngIf="item?.product">
+                <ngb-rating [rate]="item?.product?.rating_count || 0" [readonly]="true" [max]="5"></ngb-rating>
+                <span class="rating-count">{{ item?.product?.reviews_count || 0 }} {{ 'review' | translate }}</span>
+              </div>
+              <div class="cart-item-description" *ngIf="item?.product?.short_description">
+                <p [innerHTML]="item?.product?.short_description"></p>
+              </div>
               <div class="cart-item-price">
-                {{ (item?.variation ? item.variation.sale_price : item?.product && item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price)! | currencySymbol }}
+                {{ (item?.variation ? item.variation.sale_price : item?.product && item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price) || 0 | currencySymbol }}
               </div>
             </div>
             <div class="cart-item-quantity">

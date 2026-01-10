@@ -1,21 +1,5 @@
 <ng-container *ngIf="!product?.is_external else isExternalProduct">
-    <app-button [id]="'add-to-cart'+product.id"
-        [class]="cartItem && cartItem.quantity > 0 ? 'btn btn-add-cart addcart-button active' : 'btn btn-add-cart addcart-button'"
-        [iconClass]="iconClass"
-        [spinner]="false"
-        (click)="addToCart(product, 1)"
-        *ngIf="product.stock_status == 'in_stock' else outStock">
-        {{ text | translate  }}
-    </app-button>
-    <ng-template #outStock>
-        <app-button [id]="'out-of-stock'+product.id"
-            [class]="'btn btn-add-cart addcart-button'"
-            [spinner]="false"
-            [iconClass]="iconClass"
-            [disabled]="true">
-            {{ (text ? 'out_of_stock' : '') | translate  }}
-        </app-button>
-    </ng-template>
+    <!-- Show quantity controls if product is already in cart -->
     <ng-container *ngIf="cartItem && cartItem.quantity > 0">
         <div class="cart_qty qty-box" [class.open]="cartItem && cartItem.quantity > 0">
             <div class="input-group">
@@ -38,6 +22,27 @@
                 </app-button>
             </div>
         </div>
+    </ng-container>
+
+    <!-- Show Add to Cart button only if product is not in cart -->
+    <ng-container *ngIf="!cartItem || cartItem.quantity <= 0">
+        <app-button [id]="'add-to-cart'+product.id"
+            [class]="'btn btn-add-cart addcart-button'"
+            [iconClass]="iconClass"
+            [spinner]="false"
+            (click)="addToCart(product, 1)"
+            *ngIf="product.stock_status == 'in_stock' else outStock">
+            {{ text | translate  }}
+        </app-button>
+        <ng-template #outStock>
+            <app-button [id]="'out-of-stock'+product.id"
+                [class]="'btn btn-add-cart addcart-button'"
+                [spinner]="false"
+                [iconClass]="iconClass"
+                [disabled]="true">
+                {{ (text ? 'out_of_stock' : '') | translate  }}
+            </app-button>
+        </ng-template>
     </ng-container>
 </ng-container>
 <ng-template #isExternalProduct>

@@ -1,12 +1,14 @@
 import { Component, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Cart, CartAddOrUpdate } from '../../../../interface/cart.interface';
 import { CartState } from '../../../../state/cart.state';
 import { ClearCart, UpdateCart, DeleteCart } from '../../../../action/cart.action';
 import { Router } from '@angular/router';
 import { CartService } from '../../../../services/cart.service';
+import { ProductService } from '../../../../services/product.service';
+import { Product } from '../../../../interface/product.interface';
 
 @Component({
   selector: 'app-cart-popup-modal',
@@ -27,11 +29,38 @@ export class CartPopupModalComponent implements OnDestroy {
     private modalService: NgbModal,
     private store: Store,
     private router: Router,
-    public cartService: CartService
+    public cartService: CartService,
+    private productService: ProductService
   ) {}
 
   async openModal() {
     this.modalOpen = true;
+
+    // Fetch full product details with ratings for cart items
+    this.cartItem$.subscribe(cartItems => {
+      if (cartItems && cartItems.length > 0) {
+        const productRequests = cartItems
+          .filter(item => item.product && item.product.slug)
+          .map(item => this.productService.getProductBySlug(item.product!.slug));
+
+        if (productRequests.length > 0) {
+          forkJoin(productRequests).subscribe({
+            next: (products: Product[]) => {
+              // Update cart items with full product data including ratings
+              cartItems.forEach((item, index) => {
+                if (products[index]) {
+                  item.product = { ...item.product, ...products[index] };
+                }
+              });
+            },
+            error: (error) => {
+              console.error('Error fetching product details:', error);
+            }
+          });
+        }
+      }
+    });
+
     this.modalService.open(this.cartPopupModal, {
       ariaLabelledBy: 'Cart-Popup-Modal',
       centered: true,
