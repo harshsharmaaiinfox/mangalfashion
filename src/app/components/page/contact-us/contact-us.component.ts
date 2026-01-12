@@ -39,10 +39,10 @@ export class ContactUsComponent implements OnInit {
       title: 'Contact Mangal Fashion – We\'re Here to Help You 24/7',
       description: 'Get in touch with Mangal Fashion customer support. We\'re available 24/7 to help with orders, products, and any questions you may have.',
       keywords: 'contact us, customer support, help, mangal fashion contact, customer service',
-      canonicalUrl: 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/Contact-Us',
-      url: 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/Contact-Us',
+      canonicalUrl: 'https://mangalfashion.com/Contact-Us',
+      url: 'https://mangalfashion.com/Contact-Us',
       type: 'website',
-      image: 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/assets/images/contact-us.jpg'
+      image: 'https://mangalfashion.com/assets/images/contact-us.jpg'
     });
   }
 

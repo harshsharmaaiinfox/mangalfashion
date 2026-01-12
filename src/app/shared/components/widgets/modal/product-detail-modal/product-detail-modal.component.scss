@@ -52,7 +52,7 @@
         .view-image-slider {
           background: #f8f9fa !important;
           border-radius: 12px;
-          padding: 20px;
+          padding: 0px;
           margin-bottom: 20px;
 
           .slider-image {
@@ -147,25 +147,40 @@
             }
           }
 
-          .pickup-box {
-            margin-bottom: 20px !important;
+          .product-gray-box {
+            background-color: #f9f9f9 !important;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
 
             .product-info {
               .product-info-list {
-                background: #f8f9fa !important;
-                border-radius: 8px !important;
-                padding: 16px !important;
-                list-style: none !important;
+                list-style: none;
+                padding: 0 !important;
                 margin: 0 !important;
+                background: transparent !important;
 
                 li {
-                  font-size: 13px !important;
-                  color: #495057 !important;
-                  padding: 6px 0 !important;
-                  border-bottom: 1px solid #e9ecef !important;
+                  display: flex;
+                  align-items: center;
+                  padding: 8px 0 !important;
+                  border-bottom: 1px dashed #ddd !important;
+                  font-size: 14px !important;
+                  color: #333 !important;
 
                   &:last-child {
                     border-bottom: none !important;
+                  }
+
+                  .label {
+                    font-weight: 600;
+                    min-width: 120px;
+                    color: #666;
+                  }
+
+                  .value {
+                    font-weight: 600;
+                    color: #222;
                   }
                 }
               }
@@ -174,6 +189,67 @@
 
           .selection-section {
             margin-bottom: 24px !important;
+
+            ::ng-deep app-variant-attributes {
+              .select-package {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+
+                li {
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50% !important;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border: 1px solid #eee;
+                  cursor: pointer;
+                  transition: all 0.3s;
+                  margin-right: 0;
+                  background: #fff;
+
+                  ::ng-deep app-button {
+                    width: 100%;
+                    height: 100%;
+
+                    button {
+                      background: transparent !important;
+                      color: inherit !important;
+                      padding: 0 !important;
+                      width: 100%;
+                      height: 100%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      border: none !important;
+                      font-size: 14px;
+                      font-weight: 500;
+                    }
+                  }
+
+                  &:hover {
+                    border-color: #000;
+                  }
+
+                  &.active {
+                    background-color: #000 !important;
+                    border-color: #000 !important;
+                    color: #fff !important;
+
+                    ::ng-deep app-button button {
+                      color: #fff !important;
+                    }
+                  }
+
+                  &.disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                    background: #f5f5f5;
+                  }
+                }
+              }
+            }
           }
 
           .modal-button {
@@ -458,4 +534,3 @@ html.dark {
     }
   }
 }
-

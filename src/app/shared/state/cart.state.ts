@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { of, tap } from "rxjs";
-import { GetCartItems, AddToCartLocalStorage, AddToCart, UpdateCart, DeleteCart, 
-          CloseStickyCart, ToggleSidebarCart, ClearCart, ReplaceCart, SyncCart } from "../action/cart.action";
+import {
+  GetCartItems, AddToCartLocalStorage, AddToCart, UpdateCart, DeleteCart,
+  CloseStickyCart, ToggleSidebarCart, ClearCart, ReplaceCart, SyncCart
+} from "../action/cart.action";
 import { Cart, CartModel } from "../interface/cart.interface";
 import { CartService } from "../services/cart.service";
 import { NotificationService } from "../services/notification.service";
@@ -73,7 +75,7 @@ export class CartState {
         next: result => {
           // Set Selected Varaint
           result.items.filter((item: Cart) => {
-            if(item?.variation) {
+            if (item?.variation) {
               item.variation.selected_variation = item?.variation?.attribute_values?.map(values => values.value)?.join('/');
             }
           });
@@ -109,12 +111,12 @@ export class CartState {
             if (index == -1) {
               output.items = [...state.items, ...result.items];
             } else {
-              if(cart[index].product?.wholesales?.length) {
+              if (cart[index].product?.wholesales?.length) {
                 let wholesale = cart[index].product.wholesales.find(value => value.min_qty <= cart[index].quantity && value.max_qty >= cart[index].quantity) || null;
-                if(wholesale && cart[index].product.wholesale_price_type == 'fixed') {
+                if (wholesale && cart[index].product.wholesale_price_type == 'fixed') {
                   cart[index].sub_total = cart[index].quantity * wholesale.value;
                   cart[index].wholesale_price = cart[index].sub_total / cart[index].quantity;
-                } else if(wholesale && cart[index].product.wholesale_price_type == 'percentage') {
+                } else if (wholesale && cart[index].product.wholesale_price_type == 'percentage') {
                   cart[index].sub_total = cart[index].quantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index].product.sale_price);
                   cart[index].sub_total = cart[index].sub_total - (cart[index].sub_total * (wholesale.value / 100));
                   cart[index].wholesale_price = cart[index].sub_total / cart[index].quantity;
@@ -130,7 +132,7 @@ export class CartState {
 
             // Set Selected Variant
             output.items.filter(item => {
-              if(item?.variation) {
+              if (item?.variation) {
                 item.variation.selected_variation = item?.variation?.attribute_values?.map(values => values.value)?.join('/');
               }
             });
@@ -159,93 +161,67 @@ export class CartState {
 
   @Action(AddToCartLocalStorage)
   addToLocalStorage(ctx: StateContext<CartStateModel>, action: AddToCartLocalStorage) {
+    const state = ctx.getState();
+    const items = [...state.items];
+    const salePrice = action.payload.variation ? action.payload.variation.sale_price : action.payload.product?.sale_price;
 
-    let salePrice = action.payload.variation ?  action.payload.variation.sale_price : action.payload.product?.sale_price;
-    let result: CartModel = {
-      is_digital_only: false,
-      items: [{
-        id: Number(Math.floor(Math.random() * 10000).toString().padStart(4, '0')), // Generate Random Id
+    let existingItemIndex = -1;
+    if (action.payload.variation_id) {
+      existingItemIndex = items.findIndex(item => item.variation_id == action.payload.variation_id);
+    } else {
+      existingItemIndex = items.findIndex(item => item.product_id == action.payload.product_id && !item.variation_id);
+    }
+
+    if (existingItemIndex > -1) {
+      const existingItem = items[existingItemIndex];
+      const productQty = existingItem?.variation ? existingItem?.variation?.quantity : existingItem?.product?.quantity;
+
+      if (productQty < existingItem.quantity + action.payload.quantity) {
+        this.notificationService.showError(`You can not add more items than available. In stock ${productQty} items.`);
+        return false;
+      }
+
+      items[existingItemIndex] = {
+        ...existingItem,
+        quantity: existingItem.quantity + action.payload.quantity,
+        sub_total: (existingItem.quantity + action.payload.quantity) * (existingItem.variation ? existingItem.variation.sale_price : existingItem.product.sale_price)
+      };
+    } else {
+      const newItem: Cart = {
+        id: Number(Math.floor(Math.random() * 10000).toString().padStart(4, '0')),
         quantity: action.payload.quantity,
-        sub_total: salePrice ? salePrice * action.payload.quantity : 0,
         product: action.payload.product!,
         product_id: action.payload.product_id,
         wholesale_price: null,
         variation: action.payload.variation!,
-        variation_id: action.payload.variation_id
-      }]
+        variation_id: action.payload.variation_id,
+        sub_total: action.payload.quantity * (action.payload.variation ? action.payload.variation.sale_price : (action.payload.product?.sale_price || 0))
+      };
+      items.push(newItem);
     }
 
-    const state = ctx.getState();
-    const cart = [...state.items];
-    const index = cart.findIndex(item => item.id === result.items[0].id);
-
-    let output = { ...state };
-
-    if (index == -1) {
-      if(!state.items.length){
-        output.items = [...state.items, ...result.items]
-      }else {
-        if(result.items[0].variation){
-          if(state.items.find(item => item.variation_id == result.items[0].variation_id)){
-
-            cart.find((item) => {
-              if(item.variation_id){
-                if(item.variation_id == result.items[0].variation_id){
-
-                const productQty = item?.variation?.quantity;
-
-                if (productQty < item?.quantity + action?.payload.quantity) {
-                  this.notificationService.showError(`You can not add more items than available. In stock ${productQty} items.`);
-                  return false;
-                }
-
-                  item.quantity = item?.quantity + result.items[0].quantity;
-                  item.sub_total = item?.quantity * (item?.variation?.sale_price);
-                }
-              }
-              
-            })
-          }else{
-            output.items = [...state.items, ...result.items]
+    const finalItems = items.map(item => {
+      if (item.variation) {
+        return {
+          ...item,
+          variation: {
+            ...item.variation,
+            selected_variation: item.variation.attribute_values?.map(values => values.value)?.join('/')
           }
-        }
-        else if(state.items.find(item => item.product_id == result.items[0].product_id)){
-          cart.find((item) => {
-            if(item.product_id == result.items[0].product_id){
-              const productQty = item?.product?.quantity;
-
-              if (productQty < item?.quantity + action?.payload.quantity) {
-                this.notificationService.showError(`You can not add more items than available. In stock ${productQty} items.`);
-                return false;
-              }
-
-              item.quantity = item?.quantity + result.items[0].quantity;
-              item.sub_total = item?.quantity * (item.product.sale_price);
-            }
-          })
-        }else{
-          output.items = [...state.items, ...result.items]
-        }
+        };
       }
-    }
-
-    // Set Selected Varaint
-    output.items.filter(item => {
-      if(item?.variation) {
-        item.variation.selected_variation = item?.variation?.attribute_values?.map(values => values.value)?.join('/');
-      }
+      return item;
     });
 
-    // Calculate Total
-    output.total = output.items.reduce((prev, curr: Cart) => {
-      return (prev + Number(curr.sub_total));
-    }, 0);
+    const total = finalItems.reduce((prev, curr) => prev + Number(curr.sub_total), 0);
 
-    output.stickyCartOpen = true;
-    output.sidebarCartOpen = true;
-    output.is_digital_only = output.items.map(item => item.product && item?.product?.product_type).every(item => item == 'digital');
-
-    ctx.patchState(output);
+    ctx.patchState({
+      items: finalItems,
+      total: total,
+      is_digital_only: finalItems.map(item => item.product?.product_type).every(type => type == 'digital'),
+      stickyCartOpen: true,
+      sidebarCartOpen: true
+    });
 
     setTimeout(() => {
       this.store.dispatch(new CloseStickyCart());
@@ -254,60 +230,65 @@ export class CartState {
 
   @Action(UpdateCart)
   update(ctx: StateContext<CartStateModel>, action: UpdateCart) {
-    
     const state = ctx.getState();
-    const cart = [...state.items];
-    const index = cart.findIndex(item => Number(item.id) === Number(action.payload.id));
+    const items = [...state.items];
+    const index = items.findIndex(item => Number(item.id) === Number(action.payload.id));
 
-    if(cart[index]?.variation && action.payload.variation_id && 
-      Number(cart[index].id) === Number(action.payload.id) &&
-      Number(cart[index]?.variation_id) != Number(action.payload.variation_id)) {
-        return this.store.dispatch(new ReplaceCart(action.payload));
+    if (index === -1) return;
+
+    const currentItem = items[index];
+
+    if (currentItem?.variation && action.payload.variation_id &&
+      Number(currentItem.id) === Number(action.payload.id) &&
+      Number(currentItem?.variation_id) != Number(action.payload.variation_id)) {
+      return this.store.dispatch(new ReplaceCart(action.payload));
     }
 
-    const productQty = cart[index]?.variation ? cart[index]?.variation?.quantity : cart[index]?.product?.quantity;
+    const productQty = currentItem?.variation ? currentItem?.variation?.quantity : currentItem?.product?.quantity;
+    const newQuantity = currentItem.quantity + action.payload.quantity;
 
-    if (productQty < cart[index]?.quantity + action?.payload.quantity) {
+    if (productQty < newQuantity) {
       this.notificationService.showError(`You can not add more items than available. In stock ${productQty} items.`);
       return false;
     }
 
-    if(cart[index]?.variation) {
-      cart[index].variation.selected_variation = cart[index]?.variation?.attribute_values?.map(values => values.value)?.join('/');
-    }
-    cart[index].quantity = cart[index]?.quantity + action?.payload.quantity;
-    cart[index].sub_total = cart[index]?.quantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index].product.sale_price);
-
-    if(cart[index].product?.wholesales?.length) {
-      let wholesale = cart[index].product.wholesales.find(value => value.min_qty <= cart[index].quantity && value.max_qty >= cart[index].quantity) || null;
-      if(wholesale && cart[index].product.wholesale_price_type == 'fixed') {
-        cart[index].sub_total = cart[index].quantity * wholesale.value;
-        cart[index].wholesale_price = cart[index].sub_total / cart[index].quantity;
-      } else if(wholesale && cart[index].product.wholesale_price_type == 'percentage') {
-        cart[index].sub_total = cart[index].quantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index].product.sale_price);
-        cart[index].sub_total = cart[index].sub_total - (cart[index].sub_total * (wholesale.value / 100));
-        cart[index].wholesale_price = cart[index].sub_total / cart[index].quantity;
-      } else {
-        cart[index].sub_total = cart[index]?.quantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index].product.sale_price);
-        cart[index].wholesale_price = null;
-      }
-    } else {
-      cart[index].sub_total = cart[index]?.quantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index].product.sale_price);
-      cart[index].wholesale_price = null;
-    }
-
-    if (cart[index].quantity < 1) {
+    if (newQuantity < 1) {
       this.store.dispatch(new DeleteCart(action.payload.id!));
       return of();
     }
 
-    let total = state.items.reduce((prev, curr: Cart) => {
-      return (prev + Number(curr.sub_total));
-    }, 0);
+    // IMMUTABLE UPDATE
+    const updatedItem = {
+      ...currentItem,
+      quantity: newQuantity,
+      sub_total: newQuantity * (currentItem?.variation ? currentItem?.variation?.sale_price : currentItem.product.sale_price)
+    };
+
+    if (updatedItem.product?.wholesales?.length) {
+      let wholesale = updatedItem.product.wholesales.find(value => value.min_qty <= newQuantity && value.max_qty >= newQuantity) || null;
+      if (wholesale && updatedItem.product.wholesale_price_type == 'fixed') {
+        updatedItem.sub_total = newQuantity * wholesale.value;
+        updatedItem.wholesale_price = updatedItem.sub_total / newQuantity;
+      } else if (wholesale && updatedItem.product.wholesale_price_type == 'percentage') {
+        let basePrice = updatedItem.variation ? updatedItem.variation.sale_price : updatedItem.product.sale_price;
+        updatedItem.sub_total = (newQuantity * basePrice) - ((newQuantity * basePrice) * (wholesale.value / 100));
+        updatedItem.wholesale_price = updatedItem.sub_total / newQuantity;
+      } else {
+        updatedItem.wholesale_price = null;
+      }
+    } else {
+      updatedItem.wholesale_price = null;
+    }
+
+    const updatedItems = [...items];
+    updatedItems[index] = updatedItem;
+
+    const total = updatedItems.reduce((prev, curr: Cart) => prev + Number(curr.sub_total), 0);
 
     ctx.patchState({
       ...state,
-      is_digital_only: cart.map(item => item.product && item?.product?.product_type).every(item => item == 'digital'),
+      items: updatedItems,
+      is_digital_only: updatedItems.map(item => item.product && item?.product?.product_type).every(item => item == 'digital'),
       total: total
     });
 
@@ -316,6 +297,18 @@ export class CartState {
     }
     return this.cartService.updateCart(action.payload).pipe(
       tap({
+        next: result => {
+          // Sync with server response
+          if (result && result.items) {
+            const currentState = ctx.getState();
+            ctx.patchState({
+              ...currentState,
+              items: result.items,
+              total: result.total || currentState.total,
+              is_digital_only: result.items.map(item => item.product?.product_type).every(type => type == 'digital')
+            });
+          }
+        },
         error: err => {
           throw new Error(err?.error?.message);
         }
@@ -325,43 +318,56 @@ export class CartState {
 
   @Action(ReplaceCart)
   replace(ctx: StateContext<CartStateModel>, action: ReplaceCart) {
-    
     const state = ctx.getState();
-    const cart = [...state.items];
-    const index = cart.findIndex(item => Number(item.id) === Number(action.payload.id));
+    const items = [...state.items];
+    const index = items.findIndex(item => Number(item.id) === Number(action.payload.id));
+
+    if (index === -1) return;
+
+    let currentItem = { ...items[index] };
 
     // Update Cart If cart id same but variant id is different
-    if(cart[index]?.variation && action.payload.variation_id && 
-      Number(cart[index].id) === Number(action.payload.id) &&
-      Number(cart[index]?.variation_id) != Number(action.payload.variation_id)) {
-      cart[index].variation = action.payload.variation!;
-      cart[index].variation_id = action.payload.variation_id;
-      cart[index].variation.selected_variation = cart[index]?.variation?.attribute_values?.map(values => values.value)?.join('/')
+    if (currentItem.variation && action.payload.variation_id &&
+      Number(currentItem.id) === Number(action.payload.id) &&
+      Number(currentItem?.variation_id) != Number(action.payload.variation_id)) {
+
+      const newVariation = {
+        ...action.payload.variation!,
+        selected_variation: action.payload.variation!.attribute_values?.map(values => values.value)?.join('/')
+      };
+
+      currentItem = {
+        ...currentItem,
+        variation: newVariation,
+        variation_id: action.payload.variation_id
+      };
     }
 
-    cart[index].quantity = 0;
-    
-    const productQty = cart[index]?.variation ? cart[index]?.variation?.quantity : cart[index]?.product?.quantity;
+    const productQty = currentItem.variation ? currentItem.variation.quantity : currentItem.product.quantity;
+    const newQuantity = action.payload.quantity;
 
-    if (productQty < cart[index]?.quantity + action?.payload.quantity) {
+    if (productQty < newQuantity) {
       this.notificationService.showError(`You can not add more items than available. In stock ${productQty} items.`);
       return false;
     }
 
-    cart[index].quantity = cart[index]?.quantity + action?.payload.quantity;
-    cart[index].sub_total = cart[index]?.quantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index].product.sale_price);
-
-    if (cart[index].quantity < 1) {
+    if (newQuantity < 1) {
       this.store.dispatch(new DeleteCart(action.payload.id!));
       return of();
     }
 
-    let total = state.items.reduce((prev, curr: Cart) => {
-      return (prev + Number(curr.sub_total));
-    }, 0);
+    const updatedItem = {
+      ...currentItem,
+      quantity: newQuantity,
+      sub_total: newQuantity * (currentItem.variation ? currentItem.variation.sale_price : currentItem.product.sale_price)
+    };
+
+    items[index] = updatedItem;
+    const total = items.reduce((prev, curr) => prev + Number(curr.sub_total), 0);
 
     ctx.patchState({
       ...state,
+      items: items,
       total: total
     });
 

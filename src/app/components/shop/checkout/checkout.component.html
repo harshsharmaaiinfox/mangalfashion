@@ -7,7 +7,8 @@
             <div class="col-xxl-8 col-xl-7">
                 <div class="checkout-left-wrapper">
                     <!-- Guest Checkout Section -->
-                    <div class="checkout-form-section" *ngIf="(setting$ | async)?.activation?.guest_checkout && !(accessToken$ | async)">
+                    <div class="checkout-form-section"
+                        *ngIf="(setting$ | async)?.activation?.guest_checkout && !(accessToken$ | async)">
                         <!-- Account Details Card -->
                         <div class="checkout-card">
                             <div class="checkout-card-header">
@@ -19,36 +20,50 @@
                                     <div class="col-md-4">
                                         <div class="form-group-modern">
                                             <label for="name" class="form-label-modern">{{ 'Name' | translate }}</label>
-                                            <input type="text" class="form-control-modern" formControlName="name" placeholder="{{ 'Enter Name' | translate }}" id="name" (input)="filterSpecialCharacters($event, 'name')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                            <div class="error-message" *ngIf="form?.controls?.['name']?.touched && form.controls['name']?.errors?.['required']">
+                                            <input type="text" class="form-control-modern" formControlName="name"
+                                                placeholder="{{ 'Enter Name' | translate }}" id="name"
+                                                (input)="filterSpecialCharacters($event, 'name')"
+                                                pattern="[a-zA-Z0-9\s\.\-\']+">
+                                            <div class="error-message"
+                                                *ngIf="form?.controls?.['name']?.touched && form.controls['name']?.errors?.['required']">
                                                 {{ 'Name Is Required' | translate }}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group-modern">
-                                            <label for="email" class="form-label-modern">{{ 'Email' | translate }}</label>
-                                            <input type="email" class="form-control-modern" placeholder="{{ 'Enter Email Address' | translate }}" formControlName="email" id="email" (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
-                                            <div class="error-message" *ngIf="form?.controls?.['email']?.touched && form.controls['email']?.errors?.['required']">
+                                            <label for="email" class="form-label-modern">{{ 'Email' | translate
+                                                }}</label>
+                                            <input type="email" class="form-control-modern"
+                                                placeholder="{{ 'Enter Email Address' | translate }}"
+                                                formControlName="email" id="email"
+                                                (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
+                                            <div class="error-message"
+                                                *ngIf="form?.controls?.['email']?.touched && form.controls['email']?.errors?.['required']">
                                                 {{ 'Email is Required' | translate }}
                                             </div>
-                                            <div *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['email']" class="error-message">
+                                            <div *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['email']"
+                                                class="error-message">
                                                 {{ 'Invalid Email' | translate }}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group-modern">
-                                            <label class="form-label-modern" for="phoneno">{{ 'Phone Number' | translate }}</label>
-                                            <input type="number" class="form-control-modern" formControlName="phone" placeholder="{{ 'enter_phone' | translate }}" name="phone" id="phoneno">
+                                            <label class="form-label-modern" for="phoneno">{{ 'Phone Number' | translate
+                                                }}</label>
+                                            <input type="number" class="form-control-modern" formControlName="phone"
+                                                placeholder="{{ 'enter_phone' | translate }}" name="phone" id="phoneno">
                                         </div>
-                                        <div class="error-message" *ngIf="form?.controls?.['phone']?.touched && form.controls['phone']?.errors?.['required']">
+                                        <div class="error-message"
+                                            *ngIf="form?.controls?.['phone']?.touched && form.controls['phone']?.errors?.['required']">
                                             {{ 'Phone is Required' | translate }}
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-check-modern">
-                                            <input type="checkbox" class="form-check-input-modern" id="account" formControlName="create_account">
+                                            <input type="checkbox" class="form-check-input-modern" id="account"
+                                                formControlName="create_account">
                                             <label class="form-check-label-modern" for="account">
                                                 {{ 'Create an Account?' | translate }}
                                             </label>
@@ -56,9 +71,13 @@
                                     </div>
                                     <div class="col-md-6" *ngIf="form.controls['create_account'].value">
                                         <div class="form-group-modern">
-                                            <label for="pass" class="form-label-modern">{{ 'Password' | translate }}</label>
-                                            <input type="password" class="form-control-modern" formControlName="password" placeholder="{{ 'Enter Password' | translate }}" id="pass">
-                                            <div class="error-message" *ngIf="form?.controls?.['password']?.touched && form.controls['password']?.errors?.['required']">
+                                            <label for="pass" class="form-label-modern">{{ 'Password' | translate
+                                                }}</label>
+                                            <input type="password" class="form-control-modern"
+                                                formControlName="password"
+                                                placeholder="{{ 'Enter Password' | translate }}" id="pass">
+                                            <div class="error-message"
+                                                *ngIf="form?.controls?.['password']?.touched && form.controls['password']?.errors?.['required']">
                                                 {{ 'Password is Required' | translate }}
                                             </div>
                                         </div>
@@ -78,57 +97,87 @@
                                     <div class="row g-3" formGroupName="shipping_address">
                                         <div class="col-md-12">
                                             <div class="form-group-modern">
-                                                <label for="sname" class="form-label-modern">{{ 'Title' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="title" id="sname" placeholder="{{ 'Enter Name' | translate }}" (input)="filterSpecialCharacters($event, 'shipping_address.title')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                                <div *ngIf="form.get('shipping_address.title')?.touched && form.get('shipping_address.title')?.errors?.['required']" class="error-message">
+                                                <label for="sname" class="form-label-modern">{{ 'Title' | translate
+                                                    }}</label>
+                                                <input type="text" class="form-control-modern" formControlName="title"
+                                                    id="sname" placeholder="{{ 'Enter Name' | translate }}"
+                                                    (input)="filterSpecialCharacters($event, 'shipping_address.title')"
+                                                    pattern="[a-zA-Z0-9\s\.\-\']+">
+                                                <div *ngIf="form.get('shipping_address.title')?.touched && form.get('shipping_address.title')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'Title is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group-modern">
-                                                <label for="saddress" class="form-label-modern">{{ 'Address' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="street" id="saddress" placeholder="{{ 'Enter Address' | translate }}" (input)="filterSpecialCharacters($event, 'shipping_address.street')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                                <div *ngIf="form.get('shipping_address.street')?.touched && form.get('shipping_address.street')?.errors?.['required']" class="error-message">
+                                                <label for="saddress" class="form-label-modern">{{ 'Address' | translate
+                                                    }}</label>
+                                                <input type="text" class="form-control-modern" formControlName="street"
+                                                    id="saddress" placeholder="{{ 'Enter Address' | translate }}"
+                                                    (input)="filterSpecialCharacters($event, 'shipping_address.street')"
+                                                    pattern="[a-zA-Z0-9\s\.\-\']+">
+                                                <div *ngIf="form.get('shipping_address.street')?.touched && form.get('shipping_address.street')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'Address is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
-                                                <label for="scountry" class="form-label-modern">{{ 'Country' | translate }}</label>
-                                                <select2 class="custom-select-modern" [data]="(countries$ | async) ? (countries$ | async)! : []" [placeholder]="'Select Country' | translate" (update)="shippingCountryChange($event)" formControlName="country_id" resettable>
+                                                <label for="scountry" class="form-label-modern">{{ 'Country' | translate
+                                                    }}</label>
+                                                <select2 class="custom-select-modern"
+                                                    [data]="(countries$ | async) ? (countries$ | async)! : []"
+                                                    [placeholder]="'Select Country' | translate"
+                                                    (update)="shippingCountryChange($event)"
+                                                    formControlName="country_id" resettable>
                                                 </select2>
-                                                <div *ngIf="form.get('shipping_address.country_id')?.touched && form.get('shipping_address.country_id')?.errors?.['required']" class="error-message">
+                                                <div *ngIf="form.get('shipping_address.country_id')?.touched && form.get('shipping_address.country_id')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'Country is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
-                                                <label for="sstate" class="form-label-modern">{{ 'State' | translate }}</label>
-                                                <select2 class="custom-select-modern" [data]="(shippingStates$ | async) ? (shippingStates$ | async)! : []" [placeholder]="'Select State' | translate" formControlName="state_id">
+                                                <label for="sstate" class="form-label-modern">{{ 'State' | translate
+                                                    }}</label>
+                                                <select2 class="custom-select-modern"
+                                                    [data]="(shippingStates$ | async) ? (shippingStates$ | async)! : []"
+                                                    [placeholder]="'Select State' | translate"
+                                                    formControlName="state_id">
                                                 </select2>
-                                                <div *ngIf="form.get('shipping_address.state_id')?.touched && form.get('shipping_address.state_id')?.errors?.['required']" class="error-message">
+                                                <div *ngIf="form.get('shipping_address.state_id')?.touched && form.get('shipping_address.state_id')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'State is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
-                                                <label for="scity" class="form-label-modern">{{ 'City' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="city" id="scity" placeholder="{{ 'Enter City' | translate }}" (input)="filterSpecialCharacters($event, 'shipping_address.city')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                                <div *ngIf="form.get('shipping_address.city')?.touched && form.get('shipping_address.city')?.errors?.['required']" class="error-message">
+                                                <label for="scity" class="form-label-modern">{{ 'City' | translate
+                                                    }}</label>
+                                                <input type="text" class="form-control-modern" formControlName="city"
+                                                    id="scity" placeholder="{{ 'Enter City' | translate }}"
+                                                    (input)="filterSpecialCharacters($event, 'shipping_address.city')"
+                                                    pattern="[a-zA-Z0-9\s\.\-\']+">
+                                                <div *ngIf="form.get('shipping_address.city')?.touched && form.get('shipping_address.city')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'City is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group-modern">
-                                                <label class="form-label-modern" for="sphone">{{ 'Phone Number' | translate }}</label>
-                                                <input type="number" class="form-control-modern" formControlName="phone" placeholder="{{ 'Enter Phone' | translate }}" name="phone" id="sphone">
+                                                <label class="form-label-modern" for="sphone">{{ 'Phone Number' |
+                                                    translate }}</label>
+                                                <input type="number" class="form-control-modern" formControlName="phone"
+                                                    placeholder="{{ 'Enter Phone' | translate }}" name="phone"
+                                                    id="sphone">
                                             </div>
-                                            <div *ngIf="form.get('shipping_address.phone')?.touched && form.get('shipping_address.phone')?.errors?.['required']" class="error-message">
+                                            <div *ngIf="form.get('shipping_address.phone')?.touched && form.get('shipping_address.phone')?.errors?.['required']"
+                                                class="error-message">
                                                 {{ 'Phone is Required' | translate }}
                                             </div>
                                         </div>
@@ -148,7 +197,8 @@
                                     <div class="row g-3" formGroupName="billing_address">
                                         <div class="col-md-12" *ngIf="form.controls['shipping_address']?.valid">
                                             <div class="form-check-modern">
-                                                <input type="checkbox" class="form-check-input-modern" id="same_shipping" formControlName="same_shipping">
+                                                <input type="checkbox" class="form-check-input-modern"
+                                                    id="same_shipping" formControlName="same_shipping">
                                                 <label class="form-check-label-modern" for="same_shipping">
                                                     {{ 'Same as Shipping' | translate }}
                                                 </label>
@@ -156,57 +206,87 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group-modern">
-                                                <label for="bname" class="form-label-modern">{{ 'Title' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="title" id="bname" placeholder="{{ 'Enter Name' | translate }}" (input)="filterSpecialCharacters($event, 'billing_address.title')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                                <div *ngIf="form.get('billing_address.title')?.touched && form.get('billing_address.title')?.errors?.['required']" class="error-message">
+                                                <label for="bname" class="form-label-modern">{{ 'Title' | translate
+                                                    }}</label>
+                                                <input type="text" class="form-control-modern" formControlName="title"
+                                                    id="bname" placeholder="{{ 'Enter Name' | translate }}"
+                                                    (input)="filterSpecialCharacters($event, 'billing_address.title')"
+                                                    pattern="[a-zA-Z0-9\s\.\-\']+">
+                                                <div *ngIf="form.get('billing_address.title')?.touched && form.get('billing_address.title')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'Title is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group-modern">
-                                                <label for="baddress" class="form-label-modern">{{ 'Address' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="street" id="baddress" placeholder="{{ 'Enter Address' | translate }}" (input)="filterSpecialCharacters($event, 'billing_address.street')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                                <div *ngIf="form.get('billing_address.street')?.touched && form.get('billing_address.street')?.errors?.['required']" class="error-message">
+                                                <label for="baddress" class="form-label-modern">{{ 'Address' | translate
+                                                    }}</label>
+                                                <input type="text" class="form-control-modern" formControlName="street"
+                                                    id="baddress" placeholder="{{ 'Enter Address' | translate }}"
+                                                    (input)="filterSpecialCharacters($event, 'billing_address.street')"
+                                                    pattern="[a-zA-Z0-9\s\.\-\']+">
+                                                <div *ngIf="form.get('billing_address.street')?.touched && form.get('billing_address.street')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'Address is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
-                                                <label for="bcountry" class="form-label-modern">{{ 'Country' | translate }}</label>
-                                                <select2 class="custom-select-modern" [data]="(countries$ | async) ? (countries$ | async)! : []" [placeholder]="'Select Country' | translate" (update)="billingCountryChange($event)" formControlName="country_id" resettable>
+                                                <label for="bcountry" class="form-label-modern">{{ 'Country' | translate
+                                                    }}</label>
+                                                <select2 class="custom-select-modern"
+                                                    [data]="(countries$ | async) ? (countries$ | async)! : []"
+                                                    [placeholder]="'Select Country' | translate"
+                                                    (update)="billingCountryChange($event)" formControlName="country_id"
+                                                    resettable>
                                                 </select2>
-                                                <div *ngIf="form.get('billing_address.country_id')?.touched && form.get('billing_address.country_id')?.errors?.['required']" class="error-message">
+                                                <div *ngIf="form.get('billing_address.country_id')?.touched && form.get('billing_address.country_id')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'Country is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
-                                                <label for="bstate" class="form-label-modern">{{ 'State' | translate }}</label>
-                                                <select2 class="custom-select-modern" [data]="(billingStates$ | async) ? (billingStates$ | async)! : []" formControlName="state_id" [placeholder]="'Select State' | translate">
+                                                <label for="bstate" class="form-label-modern">{{ 'State' | translate
+                                                    }}</label>
+                                                <select2 class="custom-select-modern"
+                                                    [data]="(billingStates$ | async) ? (billingStates$ | async)! : []"
+                                                    formControlName="state_id"
+                                                    [placeholder]="'Select State' | translate">
                                                 </select2>
-                                                <div *ngIf="form.get('billing_address.state_id')?.touched && form.get('billing_address.state_id')?.errors?.['required']" class="error-message">
+                                                <div *ngIf="form.get('billing_address.state_id')?.touched && form.get('billing_address.state_id')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'State is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group-modern">
-                                                <label for="bcity" class="form-label-modern">{{ 'City' | translate }}</label>
-                                                <input type="text" class="form-control-modern" formControlName="city" id="bcity" placeholder="{{ 'Enter City' | translate }}" (input)="filterSpecialCharacters($event, 'billing_address.city')" pattern="[a-zA-Z0-9\s\.\-\']+">
-                                                <div *ngIf="form.get('billing_address.city')?.touched && form.get('billing_address.city')?.errors?.['required']" class="error-message">
+                                                <label for="bcity" class="form-label-modern">{{ 'City' | translate
+                                                    }}</label>
+                                                <input type="text" class="form-control-modern" formControlName="city"
+                                                    id="bcity" placeholder="{{ 'Enter City' | translate }}"
+                                                    (input)="filterSpecialCharacters($event, 'billing_address.city')"
+                                                    pattern="[a-zA-Z0-9\s\.\-\']+">
+                                                <div *ngIf="form.get('billing_address.city')?.touched && form.get('billing_address.city')?.errors?.['required']"
+                                                    class="error-message">
                                                     {{ 'City is Required' | translate }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group-modern">
-                                                <label class="form-label-modern" for="bphone">{{ 'Phone Number' | translate }}</label>
-                                                <input type="number" class="form-control-modern" formControlName="phone" placeholder="{{ 'Enter Phone' | translate }}" name="phone" id="bphone" maxlength="10" minlength="10">
+                                                <label class="form-label-modern" for="bphone">{{ 'Phone Number' |
+                                                    translate }}</label>
+                                                <input type="number" class="form-control-modern" formControlName="phone"
+                                                    placeholder="{{ 'Enter Phone' | translate }}" name="phone"
+                                                    id="bphone" maxlength="10" minlength="10">
                                             </div>
-                                            <div *ngIf="form.get('billing_address.phone')?.touched && form.get('billing_address.phone')?.errors?.['required']" class="error-message">
+                                            <div *ngIf="form.get('billing_address.phone')?.touched && form.get('billing_address.phone')?.errors?.['required']"
+                                                class="error-message">
                                                 {{ 'Phone is Required' | translate }}
                                             </div>
                                         </div>
@@ -222,7 +302,8 @@
                                 <h3 class="checkout-card-title">{{ 'Delivery Options' | translate }}</h3>
                             </div>
                             <div class="checkout-card-body">
-                                <app-delivery-block [setting]="(setting$ | async)!" (selectDelivery)="selectDelivery($event)">
+                                <app-delivery-block [setting]="(setting$ | async)!"
+                                    (selectDelivery)="selectDelivery($event)">
                                 </app-delivery-block>
                             </div>
                         </div>
@@ -237,7 +318,8 @@
                                 <div class="empty-box" *ngIf="!(setting$ | async)?.payment_methods?.length">
                                     <h2>{{ 'No Payment Options Found' | translate }}</h2>
                                 </div>
-                                <app-payment-block *ngIf="(accessToken$ | async)" [setting]="(setting$ | async)!" (selectPaymentMethod)="selectPaymentMethod($event)">
+                                <app-payment-block [setting]="(setting$ | async)!"
+                                    (selectPaymentMethod)="selectPaymentMethod($event)">
                                 </app-payment-block>
                             </div>
                         </div>
@@ -253,12 +335,14 @@
                                 <div class="checkout-step-content">
                                     <div class="checkout-step-header">
                                         <h4>{{ 'Shipping Address' | translate }}</h4>
-                                        <a href="javascript:void(0)" class="btn-add-new" (click)="AddressModal.openModal()">
+                                        <a href="javascript:void(0)" class="btn-add-new"
+                                            (click)="AddressModal.openModal()">
                                             <i class="ri-add-line"></i> {{ 'Add New' | translate }}
                                         </a>
                                     </div>
                                     <div class="checkout-step-body">
-                                        <app-address-block [addresses]="(user$ | async)?.address" [type]="'shipping'" (selectAddress)="selectShippingAddress($event)">
+                                        <app-address-block [addresses]="(user$ | async)?.address" [type]="'shipping'"
+                                            (selectAddress)="selectShippingAddress($event)">
                                         </app-address-block>
                                     </div>
                                 </div>
@@ -270,12 +354,14 @@
                                 <div class="checkout-step-content">
                                     <div class="checkout-step-header">
                                         <h4>{{ 'Billing_address' | translate }}</h4>
-                                        <a href="javascript:void(0)" class="btn-add-new" (click)="AddressModal.openModal()">
+                                        <a href="javascript:void(0)" class="btn-add-new"
+                                            (click)="AddressModal.openModal()">
                                             <i class="ri-add-line"></i> {{ 'Add New' | translate }}
                                         </a>
                                     </div>
                                     <div class="checkout-step-body">
-                                        <app-address-block [addresses]="(user$ | async)?.address" [type]="'billing'" (selectAddress)="selectBillingAddress($event)">
+                                        <app-address-block [addresses]="(user$ | async)?.address" [type]="'billing'"
+                                            (selectAddress)="selectBillingAddress($event)">
                                         </app-address-block>
                                     </div>
                                 </div>
@@ -292,7 +378,8 @@
                                         <div class="empty-box" *ngIf="!(user$ | async)">
                                             <h2>{{ 'No Delivery Options Found' | translate }}</h2>
                                         </div>
-                                        <app-delivery-block [setting]="(setting$ | async)!" (selectDelivery)="selectDelivery($event)">
+                                        <app-delivery-block [setting]="(setting$ | async)!"
+                                            (selectDelivery)="selectDelivery($event)">
                                         </app-delivery-block>
                                     </div>
                                 </div>
@@ -305,7 +392,7 @@
             <!-- Right Column - Order Summary -->
             <div class="col-xxl-4 col-xl-5 mt-0">
                 <!-- Payment Options Section -->
-                <div class="payment-options-card" *ngIf="(accessToken$ | async)">
+                <div class="payment-options-card">
                     <div class="payment-options-header pb-3">
                         <h3 class="payment-options-title">{{ 'Payment Options' | translate }}</h3>
                     </div>
@@ -313,7 +400,8 @@
                         <div class="empty-box" *ngIf="!(setting$ | async)?.payment_methods?.length">
                             <h2>{{ 'No Payment Options Found' | translate }}</h2>
                         </div>
-                        <app-payment-block *ngIf="(setting$ | async)?.payment_methods?.length" [setting]="(setting$ | async)!" (selectPaymentMethod)="selectPaymentMethod($event)">
+                        <app-payment-block *ngIf="(setting$ | async)?.payment_methods?.length"
+                            [setting]="(setting$ | async)!" (selectPaymentMethod)="selectPaymentMethod($event)">
                         </app-payment-block>
                     </div>
                 </div>
@@ -326,7 +414,8 @@
                     </div>
                     <div class="order-summary-body">
                         <div class="order-items-section">
-                            <app-no-data [class]="'empty-cart'" [image]="'assets/svg/empty-items.svg'" [text]="'No Items Cart'" *ngIf="!(cartItem$ | async)?.length">
+                            <app-no-data [class]="'empty-cart'" [image]="'assets/svg/empty-items.svg'"
+                                [text]="'No Items Cart'" *ngIf="!(cartItem$ | async)?.length">
                             </app-no-data>
                             <ul class="order-items-list" *ngIf="(cartItem$ | async)?.length">
                                 <li *ngFor="let item of cartItem$ | async" class="order-item">
@@ -343,7 +432,9 @@
                                         </h5>
                                         <div class="order-item-price-info">
                                             <span class="order-item-price">
-                                                {{ (item?.variation ? item.variation.sale_price : item?.product && item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price)! | currencySymbol }}
+                                                {{ (item?.variation ? item.variation.sale_price : item?.product &&
+                                                item?.wholesale_price ? item?.wholesale_price :
+                                                item?.product?.sale_price)! | currencySymbol }}
                                             </span>
                                             <span class="order-item-quantity">× {{ item.quantity }}</span>
                                         </div>
@@ -362,58 +453,78 @@
                                         <div class="summary-row">
                                             <span class="summary-label">{{ 'Subtotal' | translate }}</span>
                                             <span class="summary-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.sub_total | currencySymbol) : 'Not Calculated Yet' | translate ) }}
+                                                {{ (checkoutTotal ? (checkoutTotal.total.sub_total | currencySymbol) :
+                                                (((cartTotal$ | async) ?? 0) | currencySymbol)) }}
                                             </span>
                                         </div>
                                         <div class="summary-row" *ngIf="!(cartDigital$ | async)">
                                             <span class="summary-label">{{ 'Shipping' | translate }}</span>
                                             <span class="summary-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.shipping_total | currencySymbol) : 'Not Calculated Yet' | translate) }}
+                                                {{ (checkoutTotal ? (checkoutTotal.total.shipping_total |
+                                                currencySymbol) : (0 | currencySymbol)) }}
                                             </span>
                                         </div>
                                         <div class="summary-row">
-                                            <span class="summary-label">{{ 'Tax' | translate  }}</span>
+                                            <span class="summary-label">{{ 'Tax' | translate }}</span>
                                             <span class="summary-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.tax_total | currencySymbol) : 'Not Calculated Yet' | translate ) }}
+                                                {{ (checkoutTotal ? (checkoutTotal.total.tax_total | currencySymbol) :
+                                                (0 | currencySymbol)) }}
                                             </span>
                                         </div>
-                                        <div class="summary-row" *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.point?.balance">
-                                            <span class="summary-label" [class.active]="form.controls['points_amount'].value">
-                                                {{ 'Points' | translate  }}
+                                        <div class="summary-row"
+                                            *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.point?.balance">
+                                            <span class="summary-label"
+                                                [class.active]="form.controls['points_amount'].value">
+                                                {{ 'Points' | translate }}
                                             </span>
-                                            <span class="summary-value" [class.active]="form.controls['points_amount'].value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.convert_point_amount! | currencySymbol) : 'Not Calculated Yet' | translate ) }}
+                                            <span class="summary-value"
+                                                [class.active]="form.controls['points_amount'].value">
+                                                {{ (checkoutTotal ? (checkoutTotal.total.convert_point_amount! |
+                                                currencySymbol) : 'Not Calculated Yet' | translate ) }}
                                             </span>
                                         </div>
-                                        <div class="summary-row checkbox-row" *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.point?.balance">
+                                        <div class="summary-row checkbox-row"
+                                            *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.point?.balance">
                                             <label class="form-check-label-modern" for="ponts">
                                                 {{ 'Point Text' | translate }}
                                             </label>
-                                            <input class="form-check-input-modern" type="checkbox" id="ponts" (change)="togglePoint($event)">
+                                            <input class="form-check-input-modern" type="checkbox" id="ponts"
+                                                (change)="togglePoint($event)">
                                         </div>
-                                        <div class="summary-row" *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.wallet?.balance">
-                                            <span class="summary-label" [class.active]="form.controls['wallet_balance'].value">
-                                                {{ 'Wallet Balance' | translate  }}
+                                        <div class="summary-row"
+                                            *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.wallet?.balance">
+                                            <span class="summary-label"
+                                                [class.active]="form.controls['wallet_balance'].value">
+                                                {{ 'Wallet Balance' | translate }}
                                             </span>
-                                            <span class="summary-value" [class.active]="form.controls['wallet_balance'].value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.convert_wallet_balance! | currencySymbol) : 'Not Calculated Yet' | translate ) }}
+                                            <span class="summary-value"
+                                                [class.active]="form.controls['wallet_balance'].value">
+                                                {{ (checkoutTotal ? (checkoutTotal.total.convert_wallet_balance! |
+                                                currencySymbol) : 'Not Calculated Yet' | translate ) }}
                                             </span>
                                         </div>
-                                        <div class="summary-row checkbox-row" *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.wallet?.balance">
+                                        <div class="summary-row checkbox-row"
+                                            *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.wallet?.balance">
                                             <label class="form-check-label-modern" for="wallet">
                                                 {{ 'Wallet Text' | translate }}
                                             </label>
-                                            <input class="form-check-input-modern" type="checkbox" id="wallet" (change)="toggleWallet($event)">
+                                            <input class="form-check-input-modern" type="checkbox" id="wallet"
+                                                (change)="toggleWallet($event)">
                                         </div>
-                                        <div class="coupon-section" *ngIf="(user$ | async) && checkoutTotal">
-                                            <a class="coupon-toggle" (click)="showCoupon()" *ngIf="!coupon && !appliedCoupon">
+                                        <div class="coupon-section" *ngIf="checkoutTotal">
+                                            <a class="coupon-toggle" (click)="showCoupon()"
+                                                *ngIf="!coupon && !appliedCoupon">
                                                 <i class="ri-coupon-line me-2"></i>
                                                 <span>{{ 'Have a Promo Code?' | translate }}</span>
                                             </a>
                                             <div class="coupon-input-wrapper" *ngIf="coupon && !appliedCoupon">
                                                 <div class="coupon-input-group" [class.error]="couponError">
-                                                    <input type="text" class="form-control-modern" [class.is-invalid]="couponError" id="coupon" #cpn placeholder="{{ 'Enter Promo Code Here'  | translate  }}...">
-                                                    <app-button [class]="'btn-apply-coupon'" [type]="'button'" [id]="'coupon_apply'" (click)="cpn.value && setCoupon(cpn.value)">
+                                                    <input type="text" class="form-control-modern"
+                                                        [class.is-invalid]="couponError" id="coupon" #cpn
+                                                        placeholder="{{ 'Enter Promo Code Here'  | translate  }}...">
+                                                    <app-button [class]="'btn-apply-coupon'" [type]="'button'"
+                                                        [id]="'coupon_apply'"
+                                                        (click)="cpn.value && setCoupon(cpn.value)">
                                                         {{ 'Apply' | translate }}
                                                     </app-button>
                                                 </div>
@@ -423,16 +534,21 @@
                                             </div>
                                             <div class="coupon-applied" *ngIf="appliedCoupon">
                                                 <div class="coupon-success-content">
-                                                    <img src="assets/images/offer.gif" class="coupon-icon" alt="offer gif">
+                                                    <img src="assets/images/offer.gif" class="coupon-icon"
+                                                        alt="offer gif">
                                                     <div class="coupon-success-text">
                                                         <h4>
                                                             {{ 'You Saved' | translate }}
-                                                            <span class="coupon-amount">{{ checkoutTotal.total.coupon_total_discount | currencySymbol }}</span> {{ 'With This Code' | translate }} 🎉
+                                                            <span class="coupon-amount">{{
+                                                                checkoutTotal.total.coupon_total_discount |
+                                                                currencySymbol }}</span> {{ 'With This Code' | translate
+                                                            }} 🎉
                                                         </h4>
                                                         <p>{{ 'Coupon Applied' | translate }}</p>
                                                     </div>
                                                 </div>
-                                                <a href="javascript:void(0)" class="coupon-remove" (click)="couponRemove()">
+                                                <a href="javascript:void(0)" class="coupon-remove"
+                                                    (click)="couponRemove()">
                                                     {{ 'Remove' | translate}}
                                                 </a>
                                             </div>
@@ -441,11 +557,13 @@
                                         <div class="summary-row total-row">
                                             <span class="summary-label">{{ 'Total' | translate }}</span>
                                             <span class="summary-value total-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.total | currencySymbol) : 'Not Calculated Yet' | translate ) }}
+                                                {{ (checkoutTotal ? (checkoutTotal.total.total | currencySymbol) :
+                                                (((cartTotal$ | async) ?? 0) | currencySymbol)) }}
                                             </span>
                                         </div>
                                     </div>
-                                    <app-button [class]="'btn btn-place-order'" [id]="'place_order'" [disabled]="loading || !(form.valid && checkoutTotal)">
+                                    <app-button [class]="'btn btn-place-order'" [id]="'place_order'"
+                                        [disabled]="loading || !(form.valid && checkoutTotal)">
                                         <i class="ri-lock-line"></i> {{ 'Place Order' | translate }}
                                     </app-button>
                                 </div>
@@ -478,28 +596,29 @@
                         <meta charset="UTF-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1">
                         <title>UPI Payment Modal</title>
-                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+                            rel="stylesheet">
                         <style>
                             .modal-header {
                                 background-color: #007bff;
                                 color: white;
                                 border-bottom: none;
                             }
-                            
+
                             .modal-body {
                                 text-align: center;
                             }
-                            
+
                             .qr-container {
                                 border: 1px solid #ddd;
                                 padding: 10px;
                                 border-radius: 5px;
                             }
-                            
+
                             .payment-icons img {
                                 margin: 5px;
                             }
-                            
+
                             .upi-id {
                                 font-weight: bold;
                                 background-color: #f8f9fa;
@@ -517,8 +636,10 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Order ID: <span class="badge bg-light text-dark">#9990</span></h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <h5 class="modal-title">Order ID: <span
+                                                class="badge bg-light text-dark">#9990</span></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body payByNeoKred">
                                         <app-loader *ngIf="loading"></app-loader>
@@ -528,7 +649,10 @@
                                             </div>
                                             <p class="mt-2 upi-id">9643790758&amp;YESBANK</p>
                                             <p class="text-muted">
-                                                Please scan the QR code with any UPI app to pay for your order. After payment, enter the UPI Reference ID or Transaction Number (e.g. 401422121258) on the next screen. We'll manually verify your payment using the provided information.
+                                                Please scan the QR code with any UPI app to pay for your order. After
+                                                payment, enter the UPI Reference ID or Transaction Number (e.g.
+                                                401422121258) on the next screen. We'll manually verify your payment
+                                                using the provided information.
                                             </p>
                                             <div class="payment-icons">
                                                 <img src="/assets/images/payments.png" alt="UPI">
@@ -542,8 +666,10 @@
                                     </div>
                                     <div class="modal-footer">
                                         <h5 class="me-auto">₹ 1100.00</h5>
-                                        <button type="button" class="btn btn-primary" (click)="paybyNeoNext()" *ngIf="!payByNeoStep">Next</button>
-                                        <button type="button" class="btn btn-primary" (click)="paybyNeoDone()" *ngIf="payByNeoStep">Close</button>
+                                        <button type="button" class="btn btn-primary" (click)="paybyNeoNext()"
+                                            *ngIf="!payByNeoStep">Next</button>
+                                        <button type="button" class="btn btn-primary" (click)="paybyNeoDone()"
+                                            *ngIf="payByNeoStep">Close</button>
                                     </div>
                                 </div>
                             </div>

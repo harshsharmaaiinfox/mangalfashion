@@ -157,7 +157,6 @@
         <!-- Empty Cart State -->
         <app-no-data
             [class]="'no-data-added'"
-            [image]="'assets/svg/empty-items.svg'"
             [text]="'No Items Added'"
             [description]="'It appears that nothing has been added to your cart.'"
             *ngIf="!(cartItem$ | async)?.length">

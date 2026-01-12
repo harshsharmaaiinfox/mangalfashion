@@ -1,27 +1,13 @@
 <ng-container *ngIf="!product?.is_external else isExternalProduct">
-    <!-- Show quantity controls if product is already in cart -->
+    <!-- Show Go to Cart button if product is already in cart -->
     <ng-container *ngIf="cartItem && cartItem.quantity > 0">
-        <div class="cart_qty qty-box" [class.open]="cartItem && cartItem.quantity > 0">
-            <div class="input-group">
-                <app-button
-                    [id]="'qty-left-minus'+product.id"
-                    [spinner]="false"
-                    [class]="'qty-left-minus'"
-                    (click)="addToCart(product, -1)">
-                    <i class="ri-subtract-line"></i>
-                </app-button>
-                <input class="form-control input-number qty-input" type="text" name="quantity"
-                    value="{{cartItem && cartItem.quantity ? cartItem.quantity : cartItem}}"
-                    readonly>
-                <app-button
-                    [id]="'qty-right-plus'+product.id"
-                    [spinner]="false"
-                    [class]="'qty-left-plus'"
-                    (click)="addToCart(product, 1)">
-                    <i class="{{ iconClass ? iconClass : 'ri-add-fill' }}"></i>
-                </app-button>
-            </div>
-        </div>
+        <app-button [id]="'go-to-cart'+product.id"
+            [class]="'btn btn-add-cart addcart-button'"
+            [iconClass]="'ri-shopping-cart-line'"
+            [spinner]="false"
+            [routerLink]="['/cart']">
+            {{ 'Go to Cart' | translate  }}
+        </app-button>
     </ng-container>
 
     <!-- Show Add to Cart button only if product is not in cart -->

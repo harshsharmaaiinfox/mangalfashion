@@ -2,105 +2,104 @@
   <div class="modal-content cart-popup-content">
     <div class="modal-header cart-popup-header">
       <div class="cart-popup-title">
-        <span class="product-count">{{ (cartItem$ | async)?.length || 0 }} {{ ((cartItem$ | async)?.length == 1 ? 'Product' : 'Products') | translate }}</span>
+        <span class="product-count">{{ (cartItem$ | async)?.length || 0 }} {{ ((cartItem$ | async)?.length == 1 ?
+          'Product' : 'Products') | translate }}</span>
         <a href="javascript:void(0)" class="clear-cart-link" (click)="clearCart()">
           {{ 'Clear cart' | translate }}
         </a>
       </div>
-      <button 
-        type="button" 
-        class="btn-close-modal" 
-        (click)="modal.dismiss('Cross click')"
-        aria-label="Close">
+      <button type="button" class="btn-close-modal" (click)="modal.dismiss('Cross click')" aria-label="Close">
         <i class="ri-close-line"></i>
       </button>
     </div>
-    
+
     <div class="modal-body cart-popup-body">
-      <div class="cart-items-list" *ngIf="(cartItem$ | async)?.length">
-        <div class="cart-item" *ngFor="let item of cartItem$ | async">
+      <div class="cart-items-list" *ngIf="(enrichedCartItems$ | async)?.length">
+        <div class="cart-item" *ngFor="let item of enrichedCartItems$ | async; trackBy: trackByItem">
           <div class="cart-item-image">
             <img [src]="item?.variation && item?.variation?.variation_image
                         ? item?.variation?.variation_image?.original_url
                         : item?.product?.product_thumbnail
                         ? item?.product?.product_thumbnail?.original_url
-                        : 'assets/images/product.png'" 
-                class="img-fluid" 
-                [alt]="item?.product?.name">
+                        : 'assets/images/product.png'" class="img-fluid" [alt]="item?.product?.name">
           </div>
           <div class="cart-item-info">
-            <div class="cart-item-details">
-              <h5 class="cart-item-name">
-                {{ item?.variation ? item?.variation?.name : item?.product?.name }}
-              </h5>
-              <div class="cart-item-rating" *ngIf="item?.product">
-                <ngb-rating [rate]="item?.product?.rating_count || 0" [readonly]="true" [max]="5"></ngb-rating>
-                <span class="rating-count">{{ item?.product?.reviews_count || 0 }} {{ 'review' | translate }}</span>
-              </div>
-              <div class="cart-item-description" *ngIf="item?.product?.short_description">
-                <p [innerHTML]="item?.product?.short_description"></p>
-              </div>
-              <div class="cart-item-price">
-                {{ (item?.variation ? item.variation.sale_price : item?.product && item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price) || 0 | currencySymbol }}
+            <h5 class="cart-item-name">
+              {{ item?.variation ? item?.variation?.name : item?.product?.name }}
+            </h5>
+            <div class="cart-item-price">
+              {{ (item?.variation ? item.variation.sale_price : item?.product && item?.wholesale_price ?
+              item?.wholesale_price : item?.product?.sale_price) || 0 | currencySymbol }}
+            </div>
+            <div class="cart-item-rating" *ngIf="item?.product">
+              <ngb-rating [rate]="item?.product?.rating_count || 0" [readonly]="true" [max]="5"></ngb-rating>
+              <span class="rating-count" *ngIf="(item?.product?.reviews_count ?? 0) > 0">{{ item?.product?.reviews_count
+                }} Review{{ (item?.product?.reviews_count ?? 0) > 1 ? 's' : '' }}</span>
+            </div>
+
+            <div class="product-details-section">
+              <h6 class="details-title">Product Details:</h6>
+              <div class="details-content">
+                <p class="product-description" *ngIf="item?.product?.short_description"
+                  [innerHTML]="item?.product?.short_description"></p>
+                <ul class="product-info-list">
+                  <li *ngIf="item?.product?.sku">
+                    <strong>SKU:</strong> {{ item?.product?.sku }}
+                  </li>
+                  <li>
+                    <strong>Stock Status:</strong>
+                    <span class="stock-status" [class.in-stock]="item?.product?.stock_status === 'in_stock'"
+                      [class.out-of-stock]="item?.product?.stock_status !== 'in_stock'">
+                      {{ item?.product?.stock_status === 'in_stock' ? 'In Stock' : 'Out of Stock' }}
+                    </span>
+                  </li>
+                  <li *ngIf="item?.product?.quantity">
+                    <strong>Quantity:</strong> {{ item?.product?.quantity }} Items Left
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="cart-item-quantity">
+
+            <div class="cart-item-actions">
               <div class="qty-box">
                 <div class="input-group">
-                  <button
-                    type="button"
-                    class="btn qty-btn qty-minus"
-                    [id]="'qty-minus-'+item.product.id"
+                  <button type="button" class="btn qty-btn qty-minus" [id]="'qty-minus-'+item.id"
                     (click)="updateQuantity(item, -1)">
                     <i class="ri-subtract-line"></i>
                   </button>
-                  <input class="form-control qty-input" 
-                         type="text" 
-                         name="quantity" 
-                         [value]="item?.quantity" 
-                         readonly>
-                  <button
-                    type="button"
-                    class="btn qty-btn qty-plus"
-                    [id]="'qty-plus-'+item.product.id"
+                  <input class="form-control qty-input" type="text" name="quantity" [value]="item?.quantity" readonly>
+                  <button type="button" class="btn qty-btn qty-plus" [id]="'qty-plus-'+item.id"
                     (click)="updateQuantity(item, 1)">
                     <i class="ri-add-line"></i>
                   </button>
                 </div>
               </div>
+              <div class="item-total">
+                <span class="total-label">Total:</span>
+                <span class="total-value">{{ ((item?.variation ? item.variation.sale_price : item?.product &&
+                  item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price) || 0) * (item?.quantity ||
+                  1) | currencySymbol }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="empty-cart-message" *ngIf="!(cartItem$ | async)?.length">
+
+      <div class="empty-cart-message" *ngIf="!(enrichedCartItems$ | async)?.length">
         <i class="ri-shopping-cart-line"></i>
         <p>{{ 'Your Cart Is Currently Empty' | translate }}</p>
       </div>
     </div>
 
     <div class="modal-footer cart-popup-footer" *ngIf="(cartItem$ | async)?.length">
-      <div class="cart-total-section">
-        <div class="total-row">
-          <span class="total-label">{{ 'Total' | translate }}:</span>
-          <span class="total-value">{{ (cartTotal$ | async)! | currencySymbol }}</span>
-        </div>
-      </div>
       <div class="cart-action-buttons">
-        <button
-          type="button"
-          class="btn btn-view-cart"
-          (click)="viewCart()">
+        <button type="button" class="btn btn-view-cart" (click)="viewCart()">
           {{ 'View Cart' | translate }}
         </button>
-        <button
-          type="button"
-          class="btn btn-checkout"
-          (click)="checkout()">
+        <button type="button" class="btn btn-checkout" (click)="checkout()">
           {{ 'Checkout' | translate }}
         </button>
       </div>
     </div>
   </div>
 </ng-template>
-

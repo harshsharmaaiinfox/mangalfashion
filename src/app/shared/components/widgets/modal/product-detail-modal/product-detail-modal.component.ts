@@ -6,7 +6,7 @@ import { Product, Variation } from '../../../../interface/product.interface';
 import { Cart, CartAddOrUpdate } from '../../../../interface/cart.interface';
 import { AddToCart } from '../../../../action/cart.action';
 import { CartState } from '../../../../state/cart.state';
-import * as data from  '../../../../../shared/data/owl-carousel';
+import * as data from '../../../../../shared/data/owl-carousel';
 
 @Component({
   selector: 'app-product-detail-modal',
@@ -32,7 +32,7 @@ export class ProductDetailModalComponent {
 
   public activeSlide: string = '0';
   public totalPrice: number = 0;
-  
+
   public productMainThumbSlider = data.productMainThumbSlider;
   public productThumbSlider = data.productThumbSlider;
 
@@ -52,7 +52,7 @@ export class ProductDetailModalComponent {
     this.modalService.open(this.productDetailModal, {
       ariaLabelledBy: 'Product-Detail-Modal',
       centered: true,
-      windowClass: 'theme-modal view-modal modal-lg'
+      windowClass: 'theme-modal view-modal modal-xl'
     }).result.then((result) => {
       `Result ${result}`
     }, (reason) => {
@@ -65,16 +65,16 @@ export class ProductDetailModalComponent {
   }
 
   updateQuantity(qty: number) {
-    if(1 > this.productQty + (qty)) return;
+    if (1 > this.productQty + (qty)) return;
     this.productQty = this.productQty + (qty);
     this.wholesalePriceCal();
   }
 
   wholesalePriceCal() {
     let wholesale = this.product.wholesales.find(value => value.min_qty <= this.productQty && value.max_qty >= this.productQty) || null;
-    if(wholesale && this.product.wholesale_price_type == 'fixed') {
+    if (wholesale && this.product.wholesale_price_type == 'fixed') {
       this.totalPrice = this.productQty * wholesale.value;
-    } else if(wholesale && this.product.wholesale_price_type == 'percentage') {
+    } else if (wholesale && this.product.wholesale_price_type == 'percentage') {
       this.totalPrice = this.productQty * (this.selectedVariation ? this.selectedVariation.sale_price : this.product.sale_price);
       this.totalPrice = this.totalPrice - (this.totalPrice * (wholesale.value / 100));
     } else {
@@ -83,9 +83,9 @@ export class ProductDetailModalComponent {
   }
 
   addToCart(product: Product) {
-    if(product) {
+    if (product) {
       const params: CartAddOrUpdate = {
-        id: this.cartItem && (this.selectedVariation && this.cartItem?.variation && 
+        id: this.cartItem && (this.selectedVariation && this.cartItem?.variation &&
           this.selectedVariation?.id == this.cartItem?.variation?.id) ? this.cartItem.id : null,
         product_id: product?.id!,
         product: product ? product : null,
@@ -112,9 +112,9 @@ export class ProductDetailModalComponent {
   }
 
   externalProductLink(link: string) {
-    if(link) {
+    if (link) {
       window.open(link, "_blank");
     }
   }
-  
+
 }

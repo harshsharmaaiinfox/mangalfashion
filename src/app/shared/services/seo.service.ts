@@ -262,9 +262,9 @@ export class SeoService {
       "@type": "Organization",
       "name": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
       "legalName": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
-      "url": "https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
-      "logo": "https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/assets/images/logo.png",
-      "email": "info@MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
+      "url": "https://mangalfashion.com",
+      "logo": "https://mangalfashion.com/assets/images/logo.png",
+      "email": "info@mangalfashion.com",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST",
@@ -280,7 +280,7 @@ export class SeoService {
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "email": "info@MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
+        "email": "info@mangalfashion.com",
         "contactType": "customer service"
       }
     };
@@ -325,7 +325,7 @@ export class SeoService {
         "name": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/assets/images/logo.png"
+          "url": "https://mangalfashion.com/assets/images/logo.png"
         }
       },
       "datePublished": article.publishedDate,
@@ -447,7 +447,7 @@ export class SeoService {
       description: 'Discover new season shirts jackets suits denim and more at MANGAL MURTI LANDCRAFTS PRIVATE LIMITED. Premium quality fast shipping across India COD and easy returns.',
       keywords: 'activewear, gym wear, joggers, men\'s clothes, women\'s clothes, stylish outfits, comfort fit, performance clothing, mangalfashion',
       type: 'website',
-      url: 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED/'
+      url: 'https://mangalfashion.com/'
     });
   }
 
@@ -465,7 +465,7 @@ export class SeoService {
    * Set SEO data specifically for product pages
    * This method provides a convenient way to set all product-related SEO data
    */
-  setProductPageSEO(product: any, productSlug: string | null, baseUrl: string = 'https://MANGAL MURTI LANDCRAFTS PRIVATE LIMITED'): void {
+  setProductPageSEO(product: any, productSlug: string | null, baseUrl: string = 'https://mangalfashion.com'): void {
     // Handle null/undefined slug
     const slug = productSlug || product.slug || `product-${product.id}`;
     const productUrl = `${baseUrl}/product/${slug}`;

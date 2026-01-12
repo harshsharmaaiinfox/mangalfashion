@@ -1,7 +1,7 @@
 import { Component, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { Cart, CartAddOrUpdate } from '../../../../interface/cart.interface';
 import { CartState } from '../../../../state/cart.state';
 import { ClearCart, UpdateCart, DeleteCart } from '../../../../action/cart.action';
@@ -22,8 +22,14 @@ export class CartPopupModalComponent implements OnDestroy {
   @Select(CartState.cartItems) cartItem$: Observable<Cart[]>;
   @Select(CartState.cartTotal) cartTotal$: Observable<number>;
 
+  // Observable to hold enriched cart items with rating data
+  public enrichedCartItems$ = new BehaviorSubject<Cart[]>([]);
+
   public closeResult: string;
   public modalOpen: boolean = false;
+
+  // Cache to store fetched product details with ratings
+  private productCache = new Map<string, Product>();
 
   constructor(
     private modalService: NgbModal,
@@ -31,35 +37,65 @@ export class CartPopupModalComponent implements OnDestroy {
     private router: Router,
     public cartService: CartService,
     private productService: ProductService
-  ) {}
+  ) {
+    // Reactively update enriched cart items whenever the store's cart items change
+    this.cartItem$.subscribe(items => {
+      console.log('Cart items updated in store, re-enriching...', items?.length);
+      this.enrichCartItems(items || []);
+    });
+  }
+
+  private enrichCartItems(cartItems: Cart[]) {
+    const enrichedItems = cartItems.map(item => {
+      const cachedProduct = item.product?.slug ? this.productCache.get(item.product.slug) : null;
+      if (cachedProduct) {
+        // Prefer the highest rating we've seen (API vs what's in Cart)
+        // to prevent 0 ratings from the API overwriting valid data
+        const finalRating = Math.max(cachedProduct.rating_count || 0, item.product?.rating_count || 0);
+        const finalReviews = Math.max(cachedProduct.reviews_count || 0, item.product?.reviews_count || 0);
+
+        return {
+          ...item,
+          product: {
+            ...item.product,
+            ...cachedProduct,
+            rating_count: finalRating,
+            reviews_count: finalReviews,
+            reviews: cachedProduct.reviews || item.product?.reviews || []
+          }
+        };
+      }
+      return item;
+    });
+    this.enrichedCartItems$.next(enrichedItems);
+  }
 
   async openModal() {
     this.modalOpen = true;
 
-    // Fetch full product details with ratings for cart items
-    this.cartItem$.subscribe(cartItems => {
-      if (cartItems && cartItems.length > 0) {
-        const productRequests = cartItems
-          .filter(item => item.product && item.product.slug)
-          .map(item => this.productService.getProductBySlug(item.product!.slug));
+    const cartItems = this.store.selectSnapshot(CartState.cartItems);
+    this.enrichCartItems(cartItems || []);
 
-        if (productRequests.length > 0) {
-          forkJoin(productRequests).subscribe({
-            next: (products: Product[]) => {
-              // Update cart items with full product data including ratings
-              cartItems.forEach((item, index) => {
-                if (products[index]) {
-                  item.product = { ...item.product, ...products[index] };
-                }
-              });
-            },
-            error: (error) => {
-              console.error('Error fetching product details:', error);
-            }
-          });
-        }
+    if (cartItems && cartItems.length > 0) {
+      const productRequests = cartItems
+        .filter(item => item.product && item.product.slug && !this.productCache.has(item.product.slug))
+        .map(item => this.productService.getProductBySlug(item.product!.slug));
+
+      if (productRequests.length > 0) {
+        forkJoin(productRequests).subscribe({
+          next: (products: Product[]) => {
+            products.forEach(p => {
+              if (p.slug) this.productCache.set(p.slug, p);
+            });
+            // Re-enrich with newly fetched data
+            this.enrichCartItems(this.store.selectSnapshot(CartState.cartItems) || []);
+          },
+          error: (error) => {
+            console.error('Error fetching product details:', error);
+          }
+        });
       }
-    });
+    }
 
     this.modalService.open(this.cartPopupModal, {
       ariaLabelledBy: 'Cart-Popup-Modal',
@@ -86,6 +122,10 @@ export class CartPopupModalComponent implements OnDestroy {
 
   closeModal() {
     this.modalService.dismissAll();
+  }
+
+  trackByItem(index: number, item: Cart) {
+    return item.id;
   }
 
   updateQuantity(item: Cart, qty: number) {

@@ -89,7 +89,8 @@
                     <div class="right-sidebar-modal">
                         <h4 class="title-name">{{ selectedVariation ? selectedVariation.name : product.name }}</h4>
                         <h4 class="price">
-                            {{ (selectedVariation ? selectedVariation.sale_price : product.sale_price) | currencySymbol }}
+                            {{ (selectedVariation ? selectedVariation.sale_price : product.sale_price) | currencySymbol
+                            }}
                             <del *ngIf="selectedVariation ? selectedVariation.discount : product.discount">
                                 {{ (selectedVariation ? selectedVariation.price : product.price) | currencySymbol }}
                             </del>
@@ -107,17 +108,26 @@
                             <h4>{{ 'product_details' | translate }}:</h4>
                             <p [innerHTML]="product.short_description"></p>
                         </div>
-                        <div class="pickup-box">
+
+                        <div class="product-gray-box">
                             <div class="product-info">
                                 <ul class="product-info-list product-info-list-2">
-                                    <li *ngIf="product.sku">{{ 'sku' | translate }}: {{ product.sku }}</li>
-                                    <li *ngIf="product.stock_status">{{ 'stock_status' | translate }}:
-                                        {{ product.stock_status! | titleCase }}</li>
-                                    <li *ngIf="product.quantity > 0">{{ 'quantity' | translate }}:
-                                        {{ product.quantity }} {{ 'items_left' | translate }}</li>
+                                    <li *ngIf="product.sku">
+                                        <span class="label">{{ 'sku' | translate }}:</span>
+                                        <span class="value">{{ product.sku }}</span>
+                                    </li>
+                                    <li *ngIf="product.stock_status">
+                                        <span class="label">{{ 'stock_status' | translate }}:</span>
+                                        <span class="value">{{ product.stock_status! | titleCase }}</span>
+                                    </li>
+                                    <li *ngIf="product.quantity > 0">
+                                        <span class="label">{{ 'quantity' | translate }}:</span>
+                                        <span class="value">{{ product.quantity }} {{ 'items_left' | translate }}</span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
+
                         <ng-container *ngIf="product.wholesales?.length">
                             <table class="table mt-2 mb-4 modal-table">
                                 <thead>
@@ -125,7 +135,8 @@
                                         <th class="border-top-0">{{ 'Min QTY' | translate }}</th>
                                         <th class="border-top-0">{{ 'Max QTY' | translate }}</th>
                                         <th class="border-top-0">
-                                            {{ (product.wholesale_price_type == 'fixed' ? 'Unit Price' : 'Percentage' ) | translate }}
+                                            {{ (product.wholesale_price_type == 'fixed' ? 'Unit Price' : 'Percentage' )
+                                            | translate }}
                                         </th>
                                     </tr>
                                 </thead>
@@ -133,13 +144,14 @@
                                     <tr *ngFor="let wholesale of product.wholesales">
                                         <td>{{ wholesale.min_qty }}</td>
                                         <td>{{ wholesale.max_qty }}</td>
-                                        <td>{{ (product.wholesale_price_type == 'fixed'? (wholesale.value | currencySymbol) : wholesale.value +'% Off') }}
+                                        <td>{{ (product.wholesale_price_type == 'fixed'? (wholesale.value |
+                                            currencySymbol) : wholesale.value +'% Off') }}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4>{{ 'Total Price:' | translate }} <span
-                                    class="theme-color">{{ totalPrice | currencySymbol }}</span></h4>
+                            <h4>{{ 'Total Price:' | translate }} <span class="theme-color">{{ totalPrice |
+                                    currencySymbol }}</span></h4>
                         </ng-container>
                         <div class="selection-section mt-3" *ngIf="product.attributes?.length">
                             <app-variant-attributes [product]="product" [attributes]="product.attributes || []"
@@ -169,20 +181,20 @@
                                     <i class="ri-shopping-cart-line"></i> {{ 'Add To Cart' | translate }}
                                 </app-button>
                                 <ng-template #outStock>
-                                    <app-button
-                                        [class]="'btn view-button icon text-white fw-bold btn-md'"
+                                    <app-button [class]="'btn view-button icon text-white fw-bold btn-md'"
                                         [id]="'cartDetailsbtnOs'+product.id" [spinner]="false" [disabled]="true">
                                         {{
-                                            ((selectedVariation && selectedVariation.status && selectedVariation.quantity < productQty || (!selectedVariation && product.quantity < productQty)) ? 'out_of_stock'
-                                            : 'Add To Cart') | translate }}
-                                    </app-button>
+                                        ((selectedVariation && selectedVariation.status && selectedVariation.quantity <
+                                            productQty || (!selectedVariation && product.quantity < productQty))
+                                            ? 'out_of_stock' : 'Add To Cart' ) | translate }} </app-button>
                                 </ng-template>
                             </ng-container>
                             <ng-template #isExternalProduct>
                                 <app-button [id]="'externalBtn'+product.id"
                                     [class]="'btn btn-md fw-bold icon text-white'"
                                     (click)="externalProductLink(product.external_url)">
-                                    {{ (product.external_button_text ? product.external_button_text : 'buy_now') | translate }}
+                                    {{ (product.external_button_text ? product.external_button_text : 'buy_now') |
+                                    translate }}
                                 </app-button>
                             </ng-template>
                         </div>
