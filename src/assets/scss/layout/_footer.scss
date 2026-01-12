@@ -628,12 +628,13 @@ footer {
 
     &.footer-color-3 {
       background-color: #1d2328;
+
       .main-footer {
         .footer-contain {
           ul {
             li {
-              a{
-                &::before{
+              a {
+                &::before {
                   content: unset;
                 }
               }
@@ -1195,7 +1196,6 @@ footer {
 
 // Mangal Fashion About Section
 .mangal-fashion-about {
-  background-color: $white;
   padding: calc(40px + (60 - 40) * ((100vw - 320px) / (1920 - 320))) 0;
   border-top: 1px solid rgba($border-color, 0.1);
 
