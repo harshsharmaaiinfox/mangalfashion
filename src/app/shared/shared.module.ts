@@ -99,6 +99,8 @@ import { StandardProductBoxComponent } from './components/widgets/product-box/st
 import { ProductHoverActionComponent } from './components/widgets/product-box/widgets/product-hover-action/product-hover-action.component';
 import { ProductCartButtonComponent } from './components/widgets/product-box/widgets/product-cart-button/product-cart-button.component';
 import { SearchDropdownComponent } from './components/header/widgets/search/search-dropdown/search-dropdown.component';
+import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
+import { CartSidebarComponent } from './components/widgets/cart-sidebar/cart-sidebar.component';
 import { SeoHeadingComponent } from './components/seo-heading.component';
 
 // Directives
@@ -202,7 +204,8 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     ProductCartButtonComponent,
     SearchDropdownComponent,
     BreadcrumbDigitalComponent,
-    SeoHeadingComponent
+    SeoHeadingComponent,
+    CartSidebarComponent
   ],
   imports: [
     CommonModule,
@@ -214,7 +217,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     Select2Module,
     SwiperModule,
     TranslateModule,
-    
+
   ],
   providers: [CurrencyPipe],
   exports: [
@@ -270,7 +273,8 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     HighlighterPipe,
     SearchFilterPipe,
     BreadcrumbDigitalComponent,
-    SeoHeadingComponent
+    SeoHeadingComponent,
+    CartSidebarComponent
   ]
 })
 export class SharedModule { }

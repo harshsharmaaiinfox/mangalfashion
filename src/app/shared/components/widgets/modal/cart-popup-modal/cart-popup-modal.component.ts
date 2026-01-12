@@ -4,11 +4,13 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { Cart, CartAddOrUpdate } from '../../../../interface/cart.interface';
 import { CartState } from '../../../../state/cart.state';
-import { ClearCart, UpdateCart, DeleteCart } from '../../../../action/cart.action';
+import { ClearCart, UpdateCart, DeleteCart, AddToCart } from '../../../../action/cart.action';
 import { Router } from '@angular/router';
 import { CartService } from '../../../../services/cart.service';
 import { ProductService } from '../../../../services/product.service';
 import { Product } from '../../../../interface/product.interface';
+
+import { Attribute, AttributeValue } from '../../../../interface/attribute.interface';
 
 @Component({
   selector: 'app-cart-popup-modal',
@@ -19,81 +21,38 @@ export class CartPopupModalComponent implements OnDestroy {
 
   @ViewChild("cartPopupModal", { static: false }) cartPopupModal: TemplateRef<any>;
 
-  @Select(CartState.cartItems) cartItem$: Observable<Cart[]>;
-  @Select(CartState.cartTotal) cartTotal$: Observable<number>;
-
-  // Observable to hold enriched cart items with rating data
-  public enrichedCartItems$ = new BehaviorSubject<Cart[]>([]);
-
   public closeResult: string;
   public modalOpen: boolean = false;
+  public product: Product | null = null;
+  public quantity: number = 1;
 
-  // Cache to store fetched product details with ratings
-  private productCache = new Map<string, Product>();
+  public sizeAttribute: Attribute | null = null;
+  public selectedSize: AttributeValue | null = null;
 
   constructor(
     private modalService: NgbModal,
     private store: Store,
-    private router: Router,
-    public cartService: CartService,
-    private productService: ProductService
-  ) {
-    // Reactively update enriched cart items whenever the store's cart items change
-    this.cartItem$.subscribe(items => {
-      console.log('Cart items updated in store, re-enriching...', items?.length);
-      this.enrichCartItems(items || []);
-    });
-  }
+    public cartService: CartService
+  ) { }
 
-  private enrichCartItems(cartItems: Cart[]) {
-    const enrichedItems = cartItems.map(item => {
-      const cachedProduct = item.product?.slug ? this.productCache.get(item.product.slug) : null;
-      if (cachedProduct) {
-        // Prefer the highest rating we've seen (API vs what's in Cart)
-        // to prevent 0 ratings from the API overwriting valid data
-        const finalRating = Math.max(cachedProduct.rating_count || 0, item.product?.rating_count || 0);
-        const finalReviews = Math.max(cachedProduct.reviews_count || 0, item.product?.reviews_count || 0);
-
-        return {
-          ...item,
-          product: {
-            ...item.product,
-            ...cachedProduct,
-            rating_count: finalRating,
-            reviews_count: finalReviews,
-            reviews: cachedProduct.reviews || item.product?.reviews || []
-          }
-        };
-      }
-      return item;
-    });
-    this.enrichedCartItems$.next(enrichedItems);
-  }
-
-  async openModal() {
+  async openModal(product: Product) {
     this.modalOpen = true;
+    this.product = product;
+    this.quantity = 1; // Reset quantity
 
-    const cartItems = this.store.selectSnapshot(CartState.cartItems);
-    this.enrichCartItems(cartItems || []);
+    // Reset and find Size attribute
+    this.sizeAttribute = null;
+    this.selectedSize = null;
 
-    if (cartItems && cartItems.length > 0) {
-      const productRequests = cartItems
-        .filter(item => item.product && item.product.slug && !this.productCache.has(item.product.slug))
-        .map(item => this.productService.getProductBySlug(item.product!.slug));
+    if (this.product && this.product.attributes) {
+      // Find attribute by name 'Size' (case-insensitive)
+      this.sizeAttribute = this.product.attributes.find(attr =>
+        attr.name.toLowerCase() === 'size'
+      ) || null;
 
-      if (productRequests.length > 0) {
-        forkJoin(productRequests).subscribe({
-          next: (products: Product[]) => {
-            products.forEach(p => {
-              if (p.slug) this.productCache.set(p.slug, p);
-            });
-            // Re-enrich with newly fetched data
-            this.enrichCartItems(this.store.selectSnapshot(CartState.cartItems) || []);
-          },
-          error: (error) => {
-            console.error('Error fetching product details:', error);
-          }
-        });
+      if (this.sizeAttribute && this.sizeAttribute.attribute_values.length > 0) {
+        // Select first value by default
+        this.selectedSize = this.sizeAttribute.attribute_values[0];
       }
     }
 
@@ -124,35 +83,32 @@ export class CartPopupModalComponent implements OnDestroy {
     this.modalService.dismissAll();
   }
 
-  trackByItem(index: number, item: Cart) {
-    return item.id;
-  }
-
-  updateQuantity(item: Cart, qty: number) {
-    const params: CartAddOrUpdate = {
-      id: item?.id,
-      product_id: item?.product?.id,
-      product: item?.product ? item?.product : null,
-      variation_id: item?.variation_id ? item?.variation_id : null,
-      variation: item?.variation ? item?.variation : null,
-      quantity: qty
+  updateQuantity(qty: number) {
+    if (this.quantity + qty >= 1) {
+      this.quantity += qty;
     }
-    this.store.dispatch(new UpdateCart(params));
-    this.cartService.updateQty();
   }
 
-  clearCart() {
-    this.store.dispatch(new ClearCart());
+  selectSize(value: AttributeValue) {
+    this.selectedSize = value;
   }
 
-  viewCart() {
-    this.closeModal();
-    this.router.navigate(['/cart']);
-  }
-
-  checkout() {
-    this.closeModal();
-    this.router.navigate(['/checkout']);
+  addToCart() {
+    if (this.product) {
+      const params: CartAddOrUpdate = {
+        id: null, // New item
+        product: this.product,
+        product_id: this.product.id,
+        variation_id: null, // If we had variation logic we'd map size to variation here
+        variation: null,
+        quantity: this.quantity
+      }
+      this.store.dispatch(new AddToCart(params)).subscribe({
+        complete: () => {
+          this.closeModal();
+        }
+      });
+    }
   }
 
   ngOnDestroy() {

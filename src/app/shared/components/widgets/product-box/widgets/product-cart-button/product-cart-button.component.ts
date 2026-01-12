@@ -14,11 +14,11 @@ import { CartPopupModalComponent } from '../../../modal/cart-popup-modal/cart-po
   styleUrl: './product-cart-button.component.scss'
 })
 export class ProductCartButtonComponent {
-  
+
   @Input() product: Product;
   @Input() text: string;
   @Input() iconClass: string;
-  
+
   @Select(CartState.cartItems) cartItem$: Observable<Cart[]>;
 
   @ViewChild("productDetailModal") productDetailModal: ProductDetailModalComponent;
@@ -29,7 +29,7 @@ export class ProductCartButtonComponent {
   public saleStartDate: number | null;
 
   constructor(private store: Store) {
-	}
+  }
 
   ngOnInit() {
     this.cartItem$.subscribe(items => {
@@ -38,28 +38,13 @@ export class ProductCartButtonComponent {
   }
 
   addToCart(product: Product, qty: number) {
-    const params: CartAddOrUpdate = {
-      id: this.cartItem ? this.cartItem.id : null,
-      product: product,
-      product_id: product?.id,
-      variation_id: this.cartItem ? this.cartItem?.variation_id : null,
-      variation: this.cartItem ? this.cartItem?.variation : null,
-      quantity: qty
+    if (this.cartPopupModal) {
+      this.cartPopupModal.openModal(product);
     }
-    this.store.dispatch(new AddToCart(params)).subscribe({
-      complete: () => {
-        // Open cart popup modal after adding to cart
-        if (qty > 0 && this.cartPopupModal) {
-          setTimeout(() => {
-            this.cartPopupModal.openModal();
-          }, 100);
-        }
-      }
-    });
   }
 
   externalProductLink(link: string) {
-    if(link) {
+    if (link) {
       window.open(link, "_blank");
     }
   }

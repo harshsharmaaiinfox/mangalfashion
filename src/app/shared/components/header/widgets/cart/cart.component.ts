@@ -1,8 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ClearCart, DeleteCart, 
-         ToggleSidebarCart, UpdateCart } from '../../../../action/cart.action';
+import {
+  ClearCart, DeleteCart,
+  ToggleSidebarCart, UpdateCart
+} from '../../../../action/cart.action';
 import { CartState } from '../../../../state/cart.state';
 import { ThemeOptionState } from '../../../../state/theme-option.state';
 import { SettingState } from '../../../../state/setting.state';
@@ -48,9 +50,9 @@ export class CartComponent {
       this.setting$.subscribe(setting => this.shippingFreeAmt = setting?.general?.min_order_free_shipping);
       this.cartTotal = total;
       this.shippingCal = (this.cartTotal * 100) / this.shippingFreeAmt;
-      if(this.shippingCal > 100) {
+      if (this.shippingCal > 100) {
         this.shippingCal = 100;
-        if(this.confetti == 0) {
+        if (this.confetti == 0) {
           this.confetti = 1;
           setTimeout(() => {
             this.confetti = 2;
@@ -61,7 +63,7 @@ export class CartComponent {
       }
     });
 
-    
+
     // Close cart dropdown when clicking outside
     document.addEventListener('click', (event: any) => {
       const target = event.target as HTMLElement;
@@ -70,10 +72,9 @@ export class CartComponent {
       }
     });
   }
-  
+
   toggleCart() {
-    // Toggle cart dropdown on mobile, allow on desktop too for better UX
-    this.cartHide = !this.cartHide;
+    this.store.dispatch(new ToggleSidebarCart(true));
   }
 
   cartToggle(value: boolean) {
@@ -97,7 +98,7 @@ export class CartComponent {
     this.store.dispatch(new DeleteCart(id));
   }
 
-  clearCart(){
+  clearCart() {
     this.store.dispatch(new ClearCart());
   }
 
