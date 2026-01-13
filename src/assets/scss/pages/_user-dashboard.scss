@@ -150,9 +150,9 @@
           position: relative;
           @include pseudowh($width: calc(93px + (108 - 93) * ((100vw - 320px) / (1920 - 320))),
             $height: calc(93px + (108 - 93) * ((100vw - 320px) / (1920 - 320))));
-            box-shadow: 2px 3px 8px rgba(34, 34, 34, 0.19);
-            border-radius: 0 0 100% 100%;
-            overflow: hidden;
+          box-shadow: 2px 3px 8px rgba(34, 34, 34, 0.19);
+          border-radius: 0 0 100% 100%;
+          overflow: hidden;
 
           &:hover {
             .user-icon {
@@ -202,7 +202,7 @@
               line-height: 1;
             }
 
-            @include mq-max(lg){
+            @include mq-max(lg) {
               opacity: 1;
               height: auto;
               border-radius: 0 0 100% 100%;
@@ -213,6 +213,7 @@
               padding-block: 5px;
               border: unset;
               background-color: rgba($title-color, 0.8);
+
               html.dark & {
                 background-color: #2a2d2d;
               }
@@ -237,7 +238,7 @@
 
             &.close-icon {
               top: 0;
-            }           
+            }
 
             html.dark & {
               border: 3px solid #454545;
@@ -326,7 +327,7 @@
           h3 {
             font-size: calc(18px + (22 - 18) * ((100vw - 320px) / (1920 - 320)));
             font-weight: 600;
-            letter-spacing: 0.7px;
+            letter-spaGSTg: 0.7px;
           }
 
           h6 {
@@ -601,7 +602,7 @@
           margin: 0;
           font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
           line-height: 1.5;
-          letter-spacing: 0.3px;
+          letter-spaGSTg: 0.3px;
         }
       }
 
@@ -674,7 +675,7 @@
                 font-weight: 600;
                 display: flex;
                 align-items: center;
-                letter-spacing: 0.6px;
+                letter-spaGSTg: 0.6px;
                 font-size: calc(17px + (20 - 17) * ((100vw - 320px) / (1920 - 320)));
 
                 span {
@@ -701,7 +702,7 @@
               h6 {
                 margin-top: 6px;
                 font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
-                letter-spacing: 0.6px;
+                letter-spaGSTg: 0.6px;
                 font-weight: 300;
                 line-height: 1.5;
               }
@@ -822,7 +823,7 @@
             border-radius: 4px;
             color: #ffffff;
             font-size: 12px;
-            letter-spacing: 0.8px;
+            letter-spaGSTg: 0.8px;
 
             body.rtl & {
               right: unset;
@@ -904,7 +905,7 @@
                       border-radius: 4px;
                       color: #ffffff;
                       font-size: 12px;
-                      letter-spacing: 0.8px;
+                      letter-spaGSTg: 0.8px;
                     }
                   }
                 }

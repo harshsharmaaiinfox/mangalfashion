@@ -29,6 +29,11 @@ export class CartPopupModalComponent implements OnDestroy {
   public sizeAttribute: Attribute | null = null;
   public selectedSize: AttributeValue | null = null;
 
+  public waistAttribute: Attribute | null = null;
+  public selectedWaist: AttributeValue | null = null;
+
+  public addToCartLoader: boolean = false;
+
   constructor(
     private modalService: NgbModal,
     private store: Store,
@@ -39,10 +44,13 @@ export class CartPopupModalComponent implements OnDestroy {
     this.modalOpen = true;
     this.product = product;
     this.quantity = 1; // Reset quantity
+    this.addToCartLoader = false; // Reset loader
 
     // Reset and find Size attribute
     this.sizeAttribute = null;
     this.selectedSize = null;
+    this.waistAttribute = null;
+    this.selectedWaist = null;
 
     if (this.product && this.product.attributes) {
       // Find attribute by name 'Size' (case-insensitive)
@@ -53,6 +61,16 @@ export class CartPopupModalComponent implements OnDestroy {
       if (this.sizeAttribute && this.sizeAttribute.attribute_values.length > 0) {
         // Select first value by default
         this.selectedSize = this.sizeAttribute.attribute_values[0];
+      }
+
+      // Find attribute by name 'Waist' (case-insensitive)
+      this.waistAttribute = this.product.attributes.find(attr =>
+        attr.name.toLowerCase() === 'waist'
+      ) || null;
+
+      if (this.waistAttribute && this.waistAttribute.attribute_values.length > 0) {
+        // Select first value by default
+        this.selectedWaist = this.waistAttribute.attribute_values[0];
       }
     }
 
@@ -93,19 +111,60 @@ export class CartPopupModalComponent implements OnDestroy {
     this.selectedSize = value;
   }
 
+  selectWaist(value: AttributeValue) {
+    this.selectedWaist = value;
+  }
+
   addToCart() {
     if (this.product) {
+      this.addToCartLoader = true; // Start loader
+      let selectedVariation: any = null;
+      let selectedVariationId: number | null = null;
+
+      // If product has variations
+      if (this.product.type === 'classified' && this.product.variations && this.product.variations.length > 0) {
+
+        // Find variation that matches the selected attributes (Size and/or Waist)
+        const foundVariation = this.product.variations.find(variation => {
+          let match = true;
+
+          // Check Size match if size is selected
+          if (this.selectedSize) {
+            const sizeMatch = variation.attribute_values?.some(attrVal => attrVal.id === this.selectedSize?.id);
+            if (!sizeMatch) match = false;
+          }
+
+          // Check Waist match if waist is selected
+          if (this.selectedWaist) {
+            const waistMatch = variation.attribute_values?.some(attrVal => attrVal.id === this.selectedWaist?.id);
+            if (!waistMatch) match = false;
+          }
+
+          return match;
+        });
+
+        if (foundVariation) {
+          selectedVariation = foundVariation;
+          selectedVariationId = foundVariation.id;
+        }
+      }
+
       const params: CartAddOrUpdate = {
         id: null, // New item
         product: this.product,
         product_id: this.product.id,
-        variation_id: null, // If we had variation logic we'd map size to variation here
-        variation: null,
+        variation_id: selectedVariationId,
+        variation: selectedVariation,
         quantity: this.quantity
       }
+
       this.store.dispatch(new AddToCart(params)).subscribe({
         complete: () => {
+          this.addToCartLoader = false; // Stop loader
           this.closeModal();
+        },
+        error: () => {
+          this.addToCartLoader = false; // Stop loader on error
         }
       });
     }

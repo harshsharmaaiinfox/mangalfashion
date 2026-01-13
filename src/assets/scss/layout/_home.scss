@@ -51,7 +51,7 @@
     }
 
     .ls-expanded {
-      letter-spacing: 2.2px;
+      letter-spaGSTg: 2.2px;
     }
 
     h1 {
@@ -203,7 +203,7 @@
 
     h5 {
       font-size: calc(15px + (18 - 15) * ((100vw - 320px) / (1920 - 320)));
-      letter-spacing: 1px;
+      letter-spaGSTg: 1px;
 
       body.rtl & {
         text-align: left;
@@ -212,7 +212,7 @@
 
     h6 {
       font-size: 14px;
-      letter-spacing: 0.1px;
+      letter-spaGSTg: 0.1px;
       color: $content-color;
 
       body.rtl & {
@@ -253,7 +253,7 @@
     p {
       margin-bottom: 0;
       color: $content-color;
-      letter-spacing: 0.8px;
+      letter-spaGSTg: 0.8px;
       line-height: calc(19px + (27 - 19) * ((100vw - 320px) / (1920 - 320)));
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -392,7 +392,7 @@
 
       h5 {
         font-size: calc(15px + (18 - 15) * ((100vw - 320px) / (1920 - 320)));
-        letter-spacing: 1px;
+        letter-spaGSTg: 1px;
       }
 
       h6 {
@@ -405,7 +405,7 @@
         margin-bottom: 0;
         line-height: 1.5;
         color: $content-color;
-        letter-spacing: 0.8px;
+        letter-spaGSTg: 0.8px;
       }
 
       .shop-now-button {

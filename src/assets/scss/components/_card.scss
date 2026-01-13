@@ -102,7 +102,7 @@
   h5 {
     font-size: calc(18px + (24 - 18) * ((100vw - 320px) / (1920 - 320)));
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spaGSTg: 0.03em;
     position: relative;
 
     &:after {
@@ -149,7 +149,7 @@
 .card {
   margin-bottom: $card-margin-bottom;
   border: none;
-  letter-spacing: 0.5px;
+  letter-spaGSTg: 0.5px;
   border-radius: 15px;
   padding: 25px;
 
@@ -273,7 +273,7 @@
       color: $card-header-span-color;
       margin-top: 5px;
       display: block;
-      letter-spacing: 1px;
+      letter-spaGSTg: 1px;
     }
 
     .card-header-right {

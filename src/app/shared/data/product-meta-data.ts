@@ -1663,10 +1663,10 @@ export const PRODUCT_META_DATA: { [key: number]: ProductMetaData } = {
       "canonical_url": "https://mangal fashion.in/product/relaxed-fit-carpenter-jeans"
     },
     "4441": {
-      "meta_title": "Jacinto Denim Jacket mangal fashion",
-      "meta_description": "Shop Jacinto Denim Jacket at mangal fashion. Premium quality with fast PAN India shipping COD and easy returns. Limited stock order today.",
-      "meta_keywords": "Jacinto Denim Jacket",
-      "canonical_url": "https://mangal fashion.in/product/jacinto-denim-jacket"
+      "meta_title": "JaGSTto Denim Jacket mangal fashion",
+      "meta_description": "Shop JaGSTto Denim Jacket at mangal fashion. Premium quality with fast PAN India shipping COD and easy returns. Limited stock order today.",
+      "meta_keywords": "JaGSTto Denim Jacket",
+      "canonical_url": "https://mangal fashion.in/product/jaGSTto-denim-jacket"
     },
     "4442": {
       "meta_title": "Men Original Jeans mangal fashion",

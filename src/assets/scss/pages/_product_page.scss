@@ -52,12 +52,13 @@
   h4 {
     font-weight: 600;
     margin-bottom: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320)));
-    letter-spacing: 0.4px;
+    letter-spaGSTg: 0.4px;
     font-size: calc(15px + (16 - 15) * ((100vw - 320px) / (1920 - 320)));
-    color: var(--theme-color); /* MANGAL Orange heading */
+    color: var(--theme-color);
+    /* MANGAL Orange heading */
     position: relative;
     display: inline-block;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -65,7 +66,8 @@
       left: 0;
       width: 40px;
       height: 3px;
-      background-color: var(--theme-color-secondary); /* MURTI Blue accent */
+      background-color: var(--theme-color-secondary);
+      /* MURTI Blue accent */
       border-radius: 2px;
     }
   }
@@ -235,8 +237,7 @@
         gap: 15px;
         width: 100%;
         border-radius: 10px;
-        padding: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320)))
-          calc(16px + (26 - 16) * ((100vw - 320px) / (1920 - 320)));
+        padding: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320))) calc(16px + (26 - 16) * ((100vw - 320px) / (1920 - 320)));
         background: $light-gray;
 
         @include mq-max(xs) {
@@ -352,9 +353,7 @@
             white-space: nowrap;
             display: block;
             font-weight: 600;
-            font-size: calc(
-              14px + (15 - 14) * ((100vw - 320px) / (1920 - 320))
-            );
+            font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
 
             &:hover {
               color: var(--theme-color);
@@ -458,11 +457,9 @@
     border-top: 1px solid $border-color;
 
     ul {
-      @include flex_wrap(
-        $dis: flex,
+      @include flex_wrap($dis: flex,
         $wrap: wrap,
-        $gap: calc(9px + (12 - 9) * ((100vw - 320px) / (1920 - 320)))
-      );
+        $gap: calc(9px + (12 - 9) * ((100vw - 320px) / (1920 - 320))));
       align-items: center;
 
       body.rtl & {
@@ -549,7 +546,8 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 18px;
-    color: var(--theme-color); /* MANGAL Orange */
+    color: var(--theme-color);
+    /* MANGAL Orange */
   }
 }
 
@@ -557,22 +555,24 @@
   .product-left-box {
     position: sticky;
     top: 0;
-    background-color: #ffffff; /* Clean white background */
+    background-color: #ffffff;
+    /* Clean white background */
 
     .owl-carousel {
       .owl-stage-outer {
         margin-right: 0;
       }
     }
-    
+
     // Main Product Image Wrapper - Full Size
     .product-main-image-wrapper {
       width: 100%;
       margin-bottom: 0;
     }
-    
+
     .product-main-image {
-      background-color: #ffffff; /* Clean white background */
+      background-color: #ffffff;
+      /* Clean white background */
       border-radius: 4px;
       overflow: hidden;
       width: 100%;
@@ -583,35 +583,36 @@
       align-items: center;
       justify-content: center;
       padding: 0;
-      
+
       @include mq-max(xl) {
         min-height: 500px;
         max-height: 800px;
       }
-      
+
       @include mq-max(md) {
         min-height: 400px;
         max-height: 600px;
       }
-      
+
       @include mq-max(sm) {
         min-height: 350px;
         max-height: 500px;
       }
-      
+
       .product-full-image {
         width: 100%;
         height: auto;
         max-height: 100%;
-        object-fit: contain; /* Show full image without cropping */
+        object-fit: contain;
+        /* Show full image without cropping */
         display: block;
         transition: transform 0.3s ease;
-        
+
         &:hover {
           transform: scale(1.02);
         }
       }
-      
+
       img {
         width: 100%;
         height: auto;
@@ -619,7 +620,7 @@
         object-fit: contain;
         display: block;
       }
-      
+
       video {
         width: 100%;
         height: auto;
@@ -629,7 +630,8 @@
     }
 
     .slider-image {
-      background-color: #ffffff; /* Clean white background */
+      background-color: #ffffff;
+      /* Clean white background */
       border-radius: 4px;
       overflow: hidden;
       min-height: 400px;
@@ -638,20 +640,21 @@
       align-items: center;
       justify-content: center;
       padding: 10px;
-      
+
       img {
         width: 100%;
         height: auto;
         max-height: 100%;
-        object-fit: contain; /* Show full image without cropping */
+        object-fit: contain;
+        /* Show full image without cropping */
         display: block;
         transition: transform 0.3s ease;
-        
+
         &:hover {
           transform: scale(1.05);
         }
       }
-      
+
       video {
         width: 100%;
         height: auto;
@@ -659,18 +662,19 @@
         object-fit: contain;
       }
     }
-    
+
     .col-grid-box {
       .slider-image {
         min-height: 300px;
         max-height: 550px;
-        aspect-ratio: 1 / 1; /* Square aspect ratio for grid images */
-        
+        aspect-ratio: 1 / 1;
+        /* Square aspect ratio for grid images */
+
         @include mq-max(md) {
           min-height: 250px;
           max-height: 450px;
         }
-        
+
         @include mq-max(sm) {
           min-height: 200px;
           max-height: 350px;
@@ -682,7 +686,8 @@
       height: 100%;
 
       .slider-image {
-        background-color: #ffffff; /* Clean white background */
+        background-color: #ffffff;
+        /* Clean white background */
         height: calc(120px + (150 - 120) * ((100vw - 320px) / (1920 - 320)));
 
         button {
@@ -778,7 +783,8 @@
 
     .product-label-tag {
       padding: 5px 13px;
-      background-color: var(--theme-color); /* MANGAL Orange */
+      background-color: var(--theme-color);
+      /* MANGAL Orange */
       font-size: 14px;
       color: #ffffff;
       font-weight: 500;
@@ -792,7 +798,8 @@
         height: 15px;
         top: 0;
         right: -15px;
-        border-bottom: solid 15px var(--theme-color); /* MANGAL Orange */
+        border-bottom: solid 15px var(--theme-color);
+        /* MANGAL Orange */
         border-left: solid 15px transparent;
         border-right: solid 15px transparent;
         transform: rotate(180deg);
@@ -805,7 +812,8 @@
         height: 15px;
         top: 16px;
         right: -15px;
-        border-bottom: solid 15px var(--theme-color); /* MANGAL Orange */
+        border-bottom: solid 15px var(--theme-color);
+        /* MANGAL Orange */
         border-left: solid 15px transparent;
         border-right: solid 15px transparent;
         transform: rotate(0);
@@ -817,15 +825,17 @@
       }
 
       &.warning-label-tag {
-        background-color: var(--theme-color-secondary); /* MURTI Blue for featured */
+        background-color: var(--theme-color-secondary);
+        /* MURTI Blue for featured */
 
         &::before,
         &::after {
-          border-bottom-color: var(--theme-color-secondary); /* MURTI Blue */
+          border-bottom-color: var(--theme-color-secondary);
+          /* MURTI Blue */
         }
       }
 
-      + .product-label-tag {
+      +.product-label-tag {
         margin-top: 13px;
       }
     }
@@ -872,72 +882,77 @@
     .name {
       font-weight: 700;
       margin-bottom: 8px;
-      color: #000000; /* Black title */
-      
+      color: #000000;
+      /* Black title */
+
       &.product-title-large {
         font-size: calc(24px + (32 - 24) * ((100vw - 320px) / (1920 - 320)));
         font-weight: 700;
         margin-bottom: 12px;
         line-height: 1.3;
-        color: #000000; /* Black title */
+        color: #000000;
+        /* Black title */
         background: linear-gradient(135deg, #000000 0%, var(--theme-color) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
     }
-    
+
     .brand-box-suggection {
       margin-bottom: 8px;
-      
+
       h5 {
         font-size: calc(13px + (15 - 13) * ((100vw - 320px) / (1920 - 320)));
         font-weight: 500;
-        color: #000000; /* Black text */
+        color: #000000;
+        /* Black text */
         margin-bottom: 0;
-        
+
         span {
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spaGSTg: 0.5px;
         }
       }
     }
-    
+
     .price-section-modern {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 12px;
       flex-wrap: wrap;
-      
+
       .discount-badge {
-        background-color: var(--theme-color); /* MANGAL Orange */
+        background-color: var(--theme-color);
+        /* MANGAL Orange */
         color: #ffffff;
         padding: 6px 12px;
         border-radius: 4px;
         font-weight: 600;
         font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        
+        letter-spaGSTg: 0.5px;
+
         span {
           display: block;
         }
       }
-      
+
       .price-display {
         display: flex;
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
-        
+
         .price-current {
           font-size: calc(22px + (28 - 22) * ((100vw - 320px) / (1920 - 320)));
           font-weight: 700;
-          color: var(--theme-color); /* MANGAL Orange price */
+          color: var(--theme-color);
+          /* MANGAL Orange price */
           margin: 0;
         }
-        
+
         .price-old {
           font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320)));
           color: $content-color;
@@ -951,11 +966,12 @@
       @include flex_common($dis: flex, $align: center, $justify: space-between);
       gap: 5px;
       flex-wrap: wrap;
-      
+
       // Rating stars - orange color
       ::ng-deep ngb-rating {
         .star {
-          color: var(--theme-color) !important; /* MANGAL Orange for stars */
+          color: var(--theme-color) !important;
+          /* MANGAL Orange for stars */
           fill: var(--theme-color) !important;
         }
       }
@@ -978,11 +994,9 @@
 
       &-box {
         @include mq-max(3xl) {
-          @include flex_common(
-            $dis: flex,
+          @include flex_common($dis: flex,
             $align: center,
-            $justify: space-between
-          );
+            $justify: space-between);
         }
 
         @include mq-max(xs) {
@@ -1070,11 +1084,9 @@
       }
 
       .select-package {
-        @include flex_wrap(
-          $dis: flex,
+        @include flex_wrap($dis: flex,
           $wrap: wrap,
-          $gap: calc(5px + (13 - 5) * ((100vw - 320px) / (1920 - 320)))
-        );
+          $gap: calc(5px + (13 - 5) * ((100vw - 320px) / (1920 - 320))));
 
         @include mq-max(md) {
           justify-content: center;
@@ -1175,14 +1187,17 @@
 
       .circle {
         li {
-          border: 1px solid #CC471F; /* Custom orange border */
-          border-radius: 4px !important; /* Square shape */
+          border: 1px solid #CC471F;
+          /* Custom orange border */
+          border-radius: 4px !important;
+          /* Square shape */
           padding: 3px;
           transition: all 0.3s ease-in-out;
 
           &:hover {
-            border-color: #CC471F; /* Keep orange border on hover */
-            
+            border-color: #CC471F;
+            /* Keep orange border on hover */
+
             button {
               color: $title-color;
               background-color: #f1f0f0;
@@ -1190,53 +1205,55 @@
           }
 
           &.active {
-            border-color: #CC471F; /* Custom orange border for selected */
-            
+            border-color: #CC471F;
+            /* Custom orange border for selected */
+
             button {
               color: #ffffff !important;
-              background-color: #CC471F !important; /* Custom orange background */
+              background-color: #CC471F !important;
+              /* Custom orange background */
               border-color: #CC471F !important;
-              border-radius: 4px !important; /* Square shape for inner button */
+              border-radius: 4px !important;
+              /* Square shape for inner button */
             }
           }
 
           button {
             @include flex_common;
-            width: calc(
-              40px + (45 - 40) * ((100vw - 320px) / (1920 - 320))
-            ) !important;
-            height: calc(
-              40px + (45 - 40) * ((100vw - 320px) / (1920 - 320))
-            ) !important;
-            background-color: #f5f5f5; /* Light gray background */
-            border-radius: 4px !important; /* Square shape for inner button */
+            width: calc(40px + (45 - 40) * ((100vw - 320px) / (1920 - 320))) !important;
+            height: calc(40px + (45 - 40) * ((100vw - 320px) / (1920 - 320))) !important;
+            background-color: #f5f5f5;
+            /* Light gray background */
+            border-radius: 4px !important;
+            /* Square shape for inner button */
             color: #000000 !important;
             padding: 0;
-            border: 1px solid #CC471F; /* Custom orange border */
+            border: 1px solid #CC471F;
+            /* Custom orange border */
             font-weight: 500;
             font-size: calc(13px + (14 - 13) * ((100vw - 320px) / (1920 - 320)));
           }
         }
       }
-      
+
       // Modern size buttons (non-circle style)
       &:not(.circle) {
         li {
           &.active {
             border-color: #000000;
-            
+
             button {
               background-color: #000000;
               color: #ffffff;
               border-color: #000000;
             }
           }
-          
+
           button {
             border-radius: 4px;
             font-weight: 500;
             transition: all 0.3s ease;
-            
+
             &:hover {
               background-color: #f5f5f5;
             }
@@ -1262,7 +1279,7 @@
           }
         }
 
-        + .form-check {
+        +.form-check {
           margin-left: 15px;
 
           body.rtl & {
@@ -1308,7 +1325,7 @@
               transform: scale(1);
             }
 
-            ~ .form-check-label {
+            ~.form-check-label {
               color: $title-color;
             }
           }
@@ -1382,11 +1399,9 @@
     }
 
     .note-box {
-      @include flex_wrap(
-        $dis: flex,
+      @include flex_wrap($dis: flex,
         $wrap: wrap,
-        $gap: calc(7px + (15 - 7) * ((100vw - 320px) / (1920 - 320)))
-      );
+        $gap: calc(7px + (15 - 7) * ((100vw - 320px) / (1920 - 320))));
       align-items: center;
       margin-top: 20px;
 
@@ -1424,11 +1439,9 @@
         }
 
         .input-group {
-          background: linear-gradient(
-            187.77deg,
-            #fafafa 5.52%,
-            $light-gray 94%
-          );
+          background: linear-gradient(187.77deg,
+              #fafafa 5.52%,
+              $light-gray 94%);
         }
       }
 
@@ -1446,9 +1459,7 @@
           transition: none;
 
           i {
-            font-size: calc(
-              18px + (20 - 18) * ((100vw - 320px) / (1920 - 320))
-            );
+            font-size: calc(18px + (20 - 18) * ((100vw - 320px) / (1920 - 320)));
             line-height: 1;
           }
         }
@@ -1500,11 +1511,9 @@
       }
 
       a {
-        @include flex_wrap(
-          $dis: flex,
+        @include flex_wrap($dis: flex,
           $wrap: wrap,
-          $gap: calc(5px + (8 - 5) * ((100vw - 320px) / (1920 - 320)))
-        );
+          $gap: calc(5px + (8 - 5) * ((100vw - 320px) / (1920 - 320))));
         font-size: 16px;
         align-items: center;
         color: #777;
@@ -1522,8 +1531,9 @@
     // Product Information and Delivery Details Row Layout
     .product-info-delivery-row {
       margin-top: 20px;
-      gap: 12px; /* Reduced gap between columns */
-      
+      gap: 12px;
+      /* Reduced gap between columns */
+
       .pickup-box,
       .delivery-info {
         margin-top: 0;
@@ -1531,7 +1541,7 @@
         display: flex;
         flex-direction: column;
       }
-      
+
       @include mq-max(md) {
         .col-md-6 {
           margin-bottom: 15px;
@@ -1546,11 +1556,9 @@
         margin-top: 20px;
 
         .product-info-list {
-          @include flex_wrap(
-            $dis: flex,
+          @include flex_wrap($dis: flex,
             $wrap: wrap,
-            $gap: calc(8px + (12 - 8) * ((100vw - 320px) / (1920 - 320)))
-          );
+            $gap: calc(8px + (12 - 8) * ((100vw - 320px) / (1920 - 320))));
           align-items: flex-start;
           text-align: left;
           display: inline-block;
@@ -1594,13 +1602,15 @@
               li {
                 margin-bottom: 10px;
                 font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
-                color: #000000; /* Black text */
+                color: #000000;
+                /* Black text */
                 line-height: 1.6;
               }
             }
-            
+
             li {
-              color: #000000; /* Black text for product info */
+              color: #000000;
+              /* Black text for product info */
             }
 
             @include mq-max(md) {
@@ -1644,9 +1654,7 @@
           li {
             padding-left: 13px;
             width: 100%;
-            font-size: calc(
-              14px + (15 - 14) * ((100vw - 320px) / (1920 - 320))
-            );
+            font-size: calc(14px + (15 - 14) * ((100vw - 320px) / (1920 - 320)));
             position: relative;
             color: #777;
 
@@ -1690,7 +1698,7 @@
               color: $title-color;
               font-weight: 500;
 
-              + a {
+              +a {
                 margin-left: 0;
               }
             }
@@ -1772,11 +1780,9 @@
 
       ul {
         align-items: center;
-        @include flex_wrap(
-          $dis: flex,
+        @include flex_wrap($dis: flex,
           $wrap: wrap,
-          $gap: calc(3px + (8 - 3) * ((100vw - 320px) / (1920 - 320)))
-        );
+          $gap: calc(3px + (8 - 3) * ((100vw - 320px) / (1920 - 320))));
 
         @include mq-max(md) {
           justify-content: center;
@@ -1905,7 +1911,7 @@
 
     .product-right-sidebar {
       li {
-        + li {
+        +li {
           margin-top: 0;
 
           &::after {
@@ -1933,7 +1939,7 @@
   margin-top: 10px;
   max-width: 600px;
 
-  > * {
+  >* {
     width: 100%;
   }
 
@@ -1968,62 +1974,71 @@
       font-size: 19px;
     }
   }
-  
+
   // Modern checkout buttons
   &.modern-checkout-buttons {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin-top: 20px;
-    
+
     .btn-add-cart {
       background-color: #ffffff;
-      color: #CC471F; /* Custom orange color */
-      border: 2px solid #CC471F; /* Custom orange border */
+      color: #CC471F;
+      /* Custom orange color */
+      border: 2px solid #CC471F;
+      /* Custom orange border */
       font-weight: 600;
       text-transform: uppercase;
       padding: 12px 24px;
       transition: all 0.3s ease;
-      
+
       i {
-        color: #CC471F; /* Custom orange icon */
+        color: #CC471F;
+        /* Custom orange icon */
       }
-      
+
       &:hover {
-        background-color: #CC471F; /* Custom orange background on hover */
+        background-color: #CC471F;
+        /* Custom orange background on hover */
         border-color: #CC471F;
-        color: #ffffff; /* White text on hover */
-        
+        color: #ffffff;
+        /* White text on hover */
+
         i {
-          color: #ffffff; /* White icon on hover */
+          color: #ffffff;
+          /* White icon on hover */
         }
       }
-      
+
       &.disabled {
         opacity: 0.6;
         cursor: not-allowed;
       }
     }
-    
+
     .btn-buy-now {
-      background-color: #CC471F; /* Custom orange background */
+      background-color: #CC471F;
+      /* Custom orange background */
       color: #ffffff;
       border: 2px solid #CC471F;
       font-weight: 600;
       text-transform: uppercase;
       padding: 12px 24px;
       transition: all 0.3s ease;
-      
+
       i {
-        color: #ffffff; /* White arrow icon */
+        color: #ffffff;
+        /* White arrow icon */
       }
-      
+
       &:hover:not(:disabled) {
-        background-color: #b03d1a; /* Darker shade on hover */
+        background-color: #b03d1a;
+        /* Darker shade on hover */
         border-color: #b03d1a;
         color: #ffffff;
       }
-      
+
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -2038,74 +2053,82 @@
   align-items: center;
   gap: 15px;
   margin: 20px 0;
-  
+
   .modern-qty-selector {
     display: flex;
     align-items: center;
-    border: 1px solid #e0e0e0; /* Light gray border */
+    border: 1px solid #e0e0e0;
+    /* Light gray border */
     border-radius: 4px;
     overflow: hidden;
     background-color: #ffffff;
-    
+
     .qty-btn {
       background-color: #ffffff;
       border: none;
       padding: 8px 12px;
       cursor: pointer;
-      color: #000000; /* Black icons */
+      color: #000000;
+      /* Black icons */
       transition: all 0.3s ease;
       min-width: 40px;
-      
+
       &:hover {
         background-color: #f5f5f5;
       }
-      
+
       i {
         font-size: 16px;
       }
     }
-    
+
     .qty-input {
       border: none;
-      border-left: 1px solid #e0e0e0; /* Light gray border */
-      border-right: 1px solid #e0e0e0; /* Light gray border */
+      border-left: 1px solid #e0e0e0;
+      /* Light gray border */
+      border-right: 1px solid #e0e0e0;
+      /* Light gray border */
       text-align: center;
       width: 60px;
       padding: 8px;
       font-weight: 600;
       background-color: #ffffff;
-      color: #000000; /* Black text */
-      
+      color: #000000;
+      /* Black text */
+
       &:focus {
         outline: none;
         box-shadow: none;
       }
     }
   }
-  
+
   .wishlist-btn-group {
     display: flex;
     gap: 8px;
-    
+
     .wishlist-button {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      border: 1px solid #e0e0e0; /* Light gray border */
+      border: 1px solid #e0e0e0;
+      /* Light gray border */
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #f5f5f5; /* Light gray background */
+      background-color: #f5f5f5;
+      /* Light gray background */
       transition: all 0.3s ease;
-      
+
       &:hover {
         background-color: #e8e8e8;
         border-color: #000000;
       }
-      
+
       i {
         font-size: 18px;
-        color: #000000; /* Black icons */
+        color: #000000;
+        /* Black icons */
       }
     }
   }
@@ -2117,8 +2140,8 @@
       .related-image {
         width: auto;
 
-        > ul {
-          > li {
+        >ul {
+          >li {
             width: 205px;
             min-width: 205px;
           }
@@ -2126,11 +2149,11 @@
       }
 
       .budle-list {
-        > ul {
+        >ul {
           flex-direction: column;
           align-items: flex-start;
 
-          > li {
+          >li {
             width: unset;
           }
         }
@@ -2147,9 +2170,7 @@
       h4 {
         font-size: calc(21px + (25 - 21) * ((100vw - 320px) / (1920 - 320)));
         font-weight: 600;
-        margin-bottom: calc(
-          16px + (21 - 16) * ((100vw - 320px) / (1920 - 320))
-        );
+        margin-bottom: calc(16px + (21 - 16) * ((100vw - 320px) / (1920 - 320)));
       }
     }
   }
@@ -2169,35 +2190,29 @@
       overflow: auto;
       padding-bottom: 13px;
 
-      > ul {
+      >ul {
         display: flex;
         align-items: flex-start;
         flex-wrap: nowrap;
         gap: calc(25px + (35 - 25) * ((100vw - 320px) / (1920 - 320)));
 
-        > li {
+        >li {
           width: 225px;
           min-width: 225px;
           position: relative;
 
-          + li {
+          +li {
             &::before {
               @include pos($pos: absolute, $content: "\2b");
               @include center(vertical);
-              left: calc(
-                -18px + (-26 - -18) * ((100vw - 320px) / (1920 - 320))
-              );
-              font-size: calc(
-                14px + (20 - 14) * ((100vw - 320px) / (1920 - 320))
-              );
+              left: calc(-18px + (-26 - -18) * ((100vw - 320px) / (1920 - 320)));
+              font-size: calc(14px + (20 - 14) * ((100vw - 320px) / (1920 - 320)));
               @include font;
               color: $content-color;
 
               body.rtl & {
                 left: unset;
-                right: calc(
-                  -18px + (-26 - -18) * ((100vw - 320px) / (1920 - 320))
-                );
+                right: calc(-18px + (-26 - -18) * ((100vw - 320px) / (1920 - 320)));
               }
             }
           }
@@ -2208,18 +2223,12 @@
 
             .image-box {
               background-color: $light-gray;
-              width: calc(
-                136px + (170 - 136) * ((100vw - 320px) / (1920 - 320))
-              );
-              height: calc(
-                136px + (170 - 136) * ((100vw - 320px) / (1920 - 320))
-              );
+              width: calc(136px + (170 - 136) * ((100vw - 320px) / (1920 - 320)));
+              height: calc(136px + (170 - 136) * ((100vw - 320px) / (1920 - 320)));
               padding: 10px;
               @include flex_common;
               position: relative;
-              border-radius: calc(
-                6px + (9 - 6) * ((100vw - 320px) / (1920 - 320))
-              );
+              border-radius: calc(6px + (9 - 6) * ((100vw - 320px) / (1920 - 320)));
 
               .form-check {
                 position: absolute;
@@ -2272,13 +2281,13 @@
       align-items: center;
       flex-wrap: wrap;
 
-      > ul {
+      >ul {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         gap: 15px;
 
-        > li {
+        >li {
           width: 100%;
           display: block;
 
@@ -2294,9 +2303,7 @@
 
             .form-check-label {
               span {
-                font-size: calc(
-                  15px + (17 - 15) * ((100vw - 320px) / (1920 - 320))
-                );
+                font-size: calc(15px + (17 - 15) * ((100vw - 320px) / (1920 - 320)));
                 color: $content-color;
 
                 span {
@@ -2321,9 +2328,7 @@
               font-weight: 700;
 
               del {
-                font-size: calc(
-                  14px + (16 - 14) * ((100vw - 320px) / (1920 - 320))
-                );
+                font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
                 margin-left: 5px;
                 font-weight: 400;
               }
@@ -2364,7 +2369,7 @@
 
     .selection-section {
       .form-group {
-        > * {
+        >* {
           display: flex;
           align-items: center;
           gap: calc(6px + (10 - 6) * ((100vw - 575px) / (1920 - 575)));
@@ -2526,7 +2531,7 @@
         }
       }
 
-      + a {
+      +a {
         @include mq-max(sm) {
           margin-left: 8px;
 
@@ -2584,10 +2589,10 @@
       min-width: 20px;
     }
 
-    + li {
+    +li {
       margin-top: 0;
     }
-    
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -2696,7 +2701,7 @@
   h4 {
     font-weight: 600;
     margin-bottom: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320)));
-    letter-spacing: 0.4px;
+    letter-spaGSTg: 0.4px;
     font-size: calc(15px + (16 - 15) * ((100vw - 320px) / (1920 - 320)));
   }
 
@@ -2711,27 +2716,27 @@
   margin: 25px 0;
   padding: 20px 0;
   border-top: 1px solid $border-color;
-  
+
   .secure-checkout-title {
     font-weight: 600;
     font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
     margin-bottom: 15px;
     color: $title-color;
   }
-  
+
   .secure-checkout-icons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 15px;
-    
+
     @include mq-max(md) {
       grid-template-columns: repeat(2, 1fr);
     }
-    
+
     @include mq-max(xs) {
       grid-template-columns: 1fr;
     }
-    
+
     .secure-icon-item {
       display: flex;
       align-items: center;
@@ -2739,17 +2744,18 @@
       padding: 8px;
       border-radius: 4px;
       transition: all 0.3s ease;
-      
+
       &:hover {
         background-color: #f9f9f9;
       }
-      
+
       i {
         font-size: 20px;
-        color: var(--theme-color-secondary); /* MURTI Blue for icons */
+        color: var(--theme-color-secondary);
+        /* MURTI Blue for icons */
         min-width: 24px;
       }
-      
+
       span {
         font-size: calc(12px + (13 - 12) * ((100vw - 320px) / (1920 - 320)));
         color: $content-color;
@@ -2788,7 +2794,7 @@
 
 .product-count {
   margin-bottom: 15px;
-  
+
   ul {
     display: inline-flex;
     align-items: center;
@@ -2837,10 +2843,10 @@
         margin-top: 8px;
         margin-bottom: 18px;
 
-        > li {
+        >li {
           position: relative;
 
-          + li {
+          +li {
             padding-left: 15px;
             margin-left: 8px;
 
@@ -2869,9 +2875,7 @@
           .content {
             color: #777;
             display: inline-block;
-            font-size: calc(
-              15px + (17 - 15) * ((100vw - 320px) / (1920 - 320))
-            );
+            font-size: calc(15px + (17 - 15) * ((100vw - 320px) / (1920 - 320)));
             font-weight: 400;
 
             html.dark & {
@@ -2967,10 +2971,8 @@
         text-align: center;
         color: $content-color;
 
-        > i {
-          font-size: calc(
-            140px + (480 - 140) * ((100vw - 320px) / (1920 - 320))
-          );
+        >i {
+          font-size: calc(140px + (480 - 140) * ((100vw - 320px) / (1920 - 320)));
           line-height: 1;
         }
 
@@ -3008,15 +3010,11 @@
             background-color: var(--theme-color);
             border: unset;
             color: #ffffff;
-            letter-spacing: 0.9px;
-            font-size: calc(
-              15px + (16 - 15) * ((100vw - 320px) / (1920 - 320))
-            );
+            letter-spaGSTg: 0.9px;
+            font-size: calc(15px + (16 - 15) * ((100vw - 320px) / (1920 - 320)));
 
             i {
-              font-size: calc(
-                16px + (20 - 16) * ((100vw - 320px) / (1920 - 320))
-              );
+              font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320)));
             }
 
             span {
@@ -3029,10 +3027,11 @@
               background-color: var(--theme-color);
               border: unset;
               color: #ffffff;
-              letter-spacing: 0.9px;
+              letter-spaGSTg: 0.9px;
               font-size: 23px;
               padding: 7px 16px;
               border-radius: 9px;
+
               i {
                 font-size: inherit;
               }
@@ -3079,12 +3078,8 @@
             a {
               &.product-theme-icon {
                 @include flex_common;
-                @include pseudowh(
-                  $width:
-                    calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576))),
-                  $height:
-                    calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576)))
-                );
+                @include pseudowh($width: calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576))),
+                  $height: calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576))));
                 color: var(--theme-color);
                 border-radius: 5px;
                 position: relative;
@@ -3097,20 +3092,14 @@
                 }
 
                 i {
-                  font-size: calc(
-                    18px + (22 - 18) * ((100vw - 576px) / (1920 - 576))
-                  );
+                  font-size: calc(18px + (22 - 18) * ((100vw - 576px) / (1920 - 576)));
                 }
               }
 
               &.layout-grid {
                 @include flex_common;
-                @include pseudowh(
-                  $width:
-                    calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576))),
-                  $height:
-                    calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576)))
-                );
+                @include pseudowh($width: calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576))),
+                  $height: calc(34px + (42 - 34) * ((100vw - 576px) / (1920 - 576))));
                 z-index: 0;
                 color: #ffffff;
                 overflow: hidden;
@@ -3134,7 +3123,7 @@
                 margin: 0;
                 cursor: pointer;
 
-                &:checked ~ .feather {
+                &:checked~.feather {
                   fill: var(--theme-color);
                 }
               }
@@ -3212,11 +3201,9 @@
       }
 
       .select-package {
-        @include flex_wrap(
-          $dis: flex,
+        @include flex_wrap($dis: flex,
           $wrap: wrap,
-          $gap: calc(5px + (13 - 5) * ((100vw - 320px) / (1920 - 320)))
-        );
+          $gap: calc(5px + (13 - 5) * ((100vw - 320px) / (1920 - 320))));
 
         @include mq-max(md) {
           justify-content: center;
@@ -3363,7 +3350,7 @@
             }
           }
 
-          + .form-check {
+          +.form-check {
             margin-left: 15px;
           }
 
@@ -3404,7 +3391,7 @@
                 transform: scale(1);
               }
 
-              ~ .form-check-label {
+              ~.form-check-label {
                 color: $title-color;
               }
             }
@@ -3421,11 +3408,9 @@
         }
 
         &.form-select {
-          background: linear-gradient(
-            187.77deg,
-            #fafafa 5.52%,
-            $light-gray 94%
-          );
+          background: linear-gradient(187.77deg,
+              #fafafa 5.52%,
+              $light-gray 94%);
           border-radius: 7px;
           border: 1px solid #eee;
           display: inline-block;
@@ -3558,7 +3543,7 @@
     }
 
     .product-package {
-      + .product-package {
+      +.product-package {
         margin-top: 10px;
       }
 
@@ -3573,8 +3558,7 @@
         border: 1px solid #eee;
         display: inline-block;
         box-shadow: unset;
-        padding: calc(8px + 0.00375 * (100vw - 320px))
-          calc(12px + 3 * (100vw - 320px) / 1600);
+        padding: calc(8px + 0.00375 * (100vw - 320px)) calc(12px + 3 * (100vw - 320px) / 1600);
       }
     }
 
@@ -3641,7 +3625,7 @@
       span {
         font-size: 13px;
         font-weight: 400;
-        letter-spacing: 0.5px;
+        letter-spaGSTg: 0.5px;
         line-height: 1;
       }
     }
@@ -3687,8 +3671,7 @@
 
     .discount-box {
       background-color: $light-gray;
-      padding: calc(12px + (23 - 12) * ((100vw - 320px) / (1920 - 320)))
-        calc(18px + (23 - 18) * ((100vw - 320px) / (1920 - 320)));
+      padding: calc(12px + (23 - 12) * ((100vw - 320px) / (1920 - 320))) calc(18px + (23 - 18) * ((100vw - 320px) / (1920 - 320)));
       border-radius: calc(6px + (9 - 6) * ((100vw - 320px) / (1920 - 320)));
       border: 1px solid $border-color;
 
@@ -3730,9 +3713,7 @@
       p {
         line-height: 1.5;
         font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
-        margin-bottom: calc(
-          16px + (24 - 16) * ((100vw - 320px) / (1920 - 320))
-        );
+        margin-bottom: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320)));
         color: $content-color;
       }
 
@@ -3742,9 +3723,8 @@
         border-radius: 5px;
         border: none;
         font-size: 16px;
-        letter-spacing: 1.1px;
-        padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320)))
-          calc(16px + (29 - 16) * ((100vw - 320px) / (1920 - 320)));
+        letter-spaGSTg: 1.1px;
+        padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) calc(16px + (29 - 16) * ((100vw - 320px) / (1920 - 320)));
       }
     }
 
@@ -3821,7 +3801,7 @@
           cursor: pointer;
 
           &:checked {
-            ~ .form-check-label {
+            ~.form-check-label {
               &::before {
                 opacity: 0.1;
               }
@@ -3855,12 +3835,8 @@
             gap: 7px;
 
             .circle {
-              @include pseudowh(
-                $width:
-                  calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320))),
-                $height:
-                  calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320)))
-              );
+              @include pseudowh($width: calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320))),
+                $height: calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320))));
               background-color: $white;
               border-radius: 100%;
               position: relative;
@@ -3873,12 +3849,8 @@
 
               &::before {
                 @include pos;
-                @include pseudowh(
-                  $width:
-                    calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))),
-                  $height:
-                    calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320)))
-                );
+                @include pseudowh($width: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))),
+                  $height: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))));
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%) scale(0);
@@ -3890,19 +3862,12 @@
           }
 
           .name {
-            @include flex_common(
-              $dis: flex,
+            @include flex_common($dis: flex,
               $align: center,
-              $justify: space-between
-            );
+              $justify: space-between);
             margin: 0;
-            font-size: calc(
-              15px + (18 - 15) * ((100vw - 320px) / (1920 - 320))
-            );
-            width: calc(
-              100% - 7px -
-                calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320)))
-            );
+            font-size: calc(15px + (18 - 15) * ((100vw - 320px) / (1920 - 320)));
+            width: calc(100% - 7px - calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320))));
             font-weight: 500;
             color: $content-color;
 
@@ -3983,11 +3948,9 @@
 
             &.product-package {
               .select-package {
-                @include flex_wrap(
-                  $dis: flex,
+                @include flex_wrap($dis: flex,
                   $wrap: wrap,
-                  $gap: calc(5px + (13 - 5) * ((100vw - 320px) / (1920 - 320)))
-                );
+                  $gap: calc(5px + (13 - 5) * ((100vw - 320px) / (1920 - 320))));
 
                 @include mq-max(md) {
                   justify-content: center;
@@ -4133,7 +4096,7 @@
                   }
                 }
 
-                + .form-check {
+                +.form-check {
                   margin-left: 15px;
                 }
 
@@ -4174,7 +4137,7 @@
                       transform: scale(1);
                     }
 
-                    ~ .form-check-label {
+                    ~.form-check-label {
                       color: $title-color;
                     }
                   }
@@ -4191,11 +4154,9 @@
               }
 
               .form-select {
-                background: linear-gradient(
-                  187.77deg,
-                  #fafafa 5.52%,
-                  $light-gray 94%
-                );
+                background: linear-gradient(187.77deg,
+                    #fafafa 5.52%,
+                    $light-gray 94%);
                 border-radius: 7px;
                 border: 1px solid #eee;
                 display: inline-block;
@@ -4343,7 +4304,7 @@
         margin-top: 0;
       }
 
-      + .form-check {
+      +.form-check {
         margin: 0 !important;
       }
     }

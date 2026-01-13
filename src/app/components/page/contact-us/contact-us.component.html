@@ -12,7 +12,8 @@
                     <h1 class="hero-title">Contact Us</h1>
                     <p class="hero-subtitle">We'd love to hear from you!</p>
                     <p class="hero-description">
-                        Get in touch with our customer support team for any questions, assistance, or feedback. We're here to help you 24/7.
+                        Get in touch with our customer support team for any questions, assistance, or feedback. We're
+                        here to help you 24/7.
                     </p>
                 </div>
             </div>
@@ -47,7 +48,7 @@
                                 <i class="ri-file-text-line"></i>
                             </div>
                             <div class="info-content">
-                                <label class="info-label">Corporate Identification Number (CIN)</label>
+                                <label class="info-label">Corporate Identification Number (GST)</label>
                                 <p class="info-value">09AAKCM2049Q1ZS</p>
                             </div>
                         </div>
@@ -69,7 +70,8 @@
                             <div class="info-content">
                                 <label class="info-label">Registered Address</label>
                                 <p class="info-value">
-                                    UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4,<br> GREATER NOIDA WEST, Gautam Buddha Nagar, Uttar Pradesh, India - 201318
+                                    UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4,<br> GREATER NOIDA WEST, Gautam
+                                    Buddha Nagar, Uttar Pradesh, India - 201318
                                 </p>
                             </div>
                         </div>
@@ -80,7 +82,8 @@
                             <div class="info-content">
                                 <label class="info-label">Website</label>
                                 <p class="info-value">
-                                    <a href="https://mangalfashion.com" target="_blank">MANGAL MURTI LANDCRAFTS PRIVATE LIMITED</a>
+                                    <a href="https://mangalfashion.com" target="_blank">MANGAL MURTI LANDCRAFTS PRIVATE
+                                        LIMITED</a>
                                 </p>
                             </div>
                         </div>
@@ -95,21 +98,25 @@
                         <h3 class="section-title">
                             <i class="ri-message-3-line"></i> Get In Touch
                         </h3>
-                        <p class="section-subtitle">Fill out the form below and we'll get back to you as soon as possible.</p>
+                        <p class="section-subtitle">Fill out the form below and we'll get back to you as soon as
+                            possible.</p>
                     </div>
                     <div class="card-body-modern">
                         <form [formGroup]="form" (ngSubmit)="submit()">
                             <div class="contact-form-fields">
                                 <div class="form-field-wrapper">
                                     <label class="form-label-modern" for="fullname">
-                    <i class="ri-user-line"></i>
-                    {{ 'full_name' | translate }}
-                  </label>
+                                        <i class="ri-user-line"></i>
+                                        {{ 'full_name' | translate }}
+                                    </label>
                                     <div class="input-wrapper">
-                                        <input type="text" class="form-input-modern" id="fullname" placeholder="{{ 'enter_full_name' | translate }}" formControlName="name" (input)="filterSpecialCharacters($event, 'name')" pattern="[a-zA-Z\s]+">
+                                        <input type="text" class="form-input-modern" id="fullname"
+                                            placeholder="{{ 'enter_full_name' | translate }}" formControlName="name"
+                                            (input)="filterSpecialCharacters($event, 'name')" pattern="[a-zA-Z\s]+">
                                         <i class="ri-user-3-fill input-icon"></i>
                                     </div>
-                                    <div class="error-message" *ngIf="form.controls['name'].touched && form.controls['name'].errors?.['required']">
+                                    <div class="error-message"
+                                        *ngIf="form.controls['name'].touched && form.controls['name'].errors?.['required']">
                                         <i class="ri-error-warning-line"></i>
                                         <span>{{ 'name_is_required' | translate }}</span>
                                     </div>
@@ -118,18 +125,23 @@
                                 <div class="form-row">
                                     <div class="form-field-wrapper">
                                         <label class="form-label-modern" for="email">
-                      <i class="ri-mail-line"></i>
-                      {{ 'email_address' | translate }}
-                    </label>
+                                            <i class="ri-mail-line"></i>
+                                            {{ 'email_address' | translate }}
+                                        </label>
                                         <div class="input-wrapper">
-                                            <input type="email" class="form-input-modern" id="email" placeholder="{{ 'enter_email_address' | translate }}" formControlName="email" (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
+                                            <input type="email" class="form-input-modern" id="email"
+                                                placeholder="{{ 'enter_email_address' | translate }}"
+                                                formControlName="email" (input)="filterEmailCharacters($event)"
+                                                pattern="[a-zA-Z0-9._\-+@]+">
                                             <i class="ri-mail-fill input-icon"></i>
                                         </div>
-                                        <div class="error-message" *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']">
+                                        <div class="error-message"
+                                            *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['required']">
                                             <i class="ri-error-warning-line"></i>
                                             <span>{{ 'email_is_required' | translate }}</span>
                                         </div>
-                                        <div class="error-message" *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['email']">
+                                        <div class="error-message"
+                                            *ngIf="form.controls['email'].touched && form.controls['email'].errors?.['email']">
                                             <i class="ri-error-warning-line"></i>
                                             <span>{{ 'invalid_email' | translate }}</span>
                                         </div>
@@ -137,14 +149,18 @@
 
                                     <div class="form-field-wrapper">
                                         <label class="form-label-modern" for="phonenumber">
-                      <i class="ri-phone-line"></i>
-                      {{ 'phone_number' | translate }}
-                    </label>
+                                            <i class="ri-phone-line"></i>
+                                            {{ 'phone_number' | translate }}
+                                        </label>
                                         <div class="input-wrapper">
-                                            <input type="tel" class="form-input-modern" id="phonenumber" placeholder="{{ 'enter_your_phone_number' | translate }}" formControlName="phone" (input)="filterPhoneNumber($event)" maxlength="10" pattern="[0-9]{10}">
+                                            <input type="tel" class="form-input-modern" id="phonenumber"
+                                                placeholder="{{ 'enter_your_phone_number' | translate }}"
+                                                formControlName="phone" (input)="filterPhoneNumber($event)"
+                                                maxlength="10" pattern="[0-9]{10}">
                                             <i class="ri-smartphone-line input-icon"></i>
                                         </div>
-                                        <div class="error-message" *ngIf="form.controls['phone'].touched && form.controls['phone'].errors?.['required']">
+                                        <div class="error-message"
+                                            *ngIf="form.controls['phone'].touched && form.controls['phone'].errors?.['required']">
                                             <i class="ri-error-warning-line"></i>
                                             <span>{{ 'phone_number_is_required' | translate }}</span>
                                         </div>
@@ -153,14 +169,16 @@
 
                                 <div class="form-field-wrapper">
                                     <label class="form-label-modern" for="subject">
-                    <i class="ri-file-list-line"></i>
-                    {{ 'subject' | translate }}
-                  </label>
+                                        <i class="ri-file-list-line"></i>
+                                        {{ 'subject' | translate }}
+                                    </label>
                                     <div class="input-wrapper">
-                                        <input type="text" class="form-input-modern" id="subject" placeholder="{{ 'enter_subject' | translate }}" formControlName="subject">
+                                        <input type="text" class="form-input-modern" id="subject"
+                                            placeholder="{{ 'enter_subject' | translate }}" formControlName="subject">
                                         <i class="ri-file-text-line input-icon"></i>
                                     </div>
-                                    <div class="error-message" *ngIf="form.controls['subject'].touched && form.controls['subject'].errors?.['required']">
+                                    <div class="error-message"
+                                        *ngIf="form.controls['subject'].touched && form.controls['subject'].errors?.['required']">
                                         <i class="ri-error-warning-line"></i>
                                         <span>{{ 'subject_is_required' | translate }}</span>
                                     </div>
@@ -168,14 +186,17 @@
 
                                 <div class="form-field-wrapper">
                                     <label class="form-label-modern" for="message">
-                    <i class="ri-message-2-line"></i>
-                    {{ 'message' | translate }}
-                  </label>
+                                        <i class="ri-message-2-line"></i>
+                                        {{ 'message' | translate }}
+                                    </label>
                                     <div class="input-wrapper">
-                                        <textarea class="form-textarea-modern" id="message" placeholder="{{ 'enter_your_message' | translate }}" rows="6" formControlName="message"></textarea>
+                                        <textarea class="form-textarea-modern" id="message"
+                                            placeholder="{{ 'enter_your_message' | translate }}" rows="6"
+                                            formControlName="message"></textarea>
                                         <i class="ri-chat-2-fill input-icon textarea-icon"></i>
                                     </div>
-                                    <div class="error-message" *ngIf="form.controls['message'].touched && form.controls['message'].errors?.['required']">
+                                    <div class="error-message"
+                                        *ngIf="form.controls['message'].touched && form.controls['message'].errors?.['required']">
                                         <i class="ri-error-warning-line"></i>
                                         <span>{{ 'message_is_required' | translate }}</span>
                                     </div>
@@ -184,9 +205,9 @@
 
                             <div class="form-submit-wrapper">
                                 <button type="submit" class="btn-submit" [disabled]="form.invalid">
-                  <i class="ri-send-plane-fill"></i>
-                  <span>{{ 'send_message' | translate }}</span>
-                </button>
+                                    <i class="ri-send-plane-fill"></i>
+                                    <span>{{ 'send_message' | translate }}</span>
+                                </button>
                             </div>
                         </form>
                     </div>

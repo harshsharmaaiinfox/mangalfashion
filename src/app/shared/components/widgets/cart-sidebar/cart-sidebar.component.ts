@@ -29,6 +29,21 @@ export class CartSidebarComponent implements OnInit {
     constructor(private store: Store, public cartService: CartService) { }
 
     ngOnInit(): void {
+        // Debug: Check cart item data
+        this.cartItem$.subscribe(items => {
+            console.log('🛒 CART DEBUG - Total Items:', items.length);
+            items.forEach((item, index) => {
+                console.log(`\n--- Item ${index + 1} ---`);
+                console.log('Product Name:', item?.product?.name);
+                console.log('Has Variation?', !!item?.variation);
+                if (item?.variation) {
+                    console.log('Variation Name:', item?.variation?.name);
+                    console.log('Selected Variation:', item?.variation?.selected_variation);
+                    console.log('Attribute Values:', item?.variation?.attribute_values);
+                }
+            });
+        });
+
         // Calculate Free Shipping Progress
         this.cartTotal$.subscribe(total => {
             this.cartTotal = total;

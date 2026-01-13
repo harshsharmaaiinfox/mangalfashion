@@ -878,7 +878,7 @@ export class CheckoutComponent {
 
   ngOnDestroy() {
     // this.store.dispatch(new Clear());
-    this.store.dispatch(new ClearCart());
+    // this.store.dispatch(new ClearCart());
     this.form.reset();
     this.pollingSubscription && this.pollingSubscription.unsubscribe();
   }

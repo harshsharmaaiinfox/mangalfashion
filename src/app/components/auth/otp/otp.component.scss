@@ -60,7 +60,7 @@ $login-primary-light: lighten($login-primary, 45%);
       font-weight: 700;
       color: #1a1a1a;
       margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      letter-spaGSTg: -0.5px;
       position: relative;
       display: inline-block;
 
@@ -150,7 +150,7 @@ $login-primary-light: lighten($login-primary, 45%);
           font-weight: 600;
           color: #333;
           text-transform: uppercase;
-          letter-spacing: 0.8px;
+          letter-spaGSTg: 0.8px;
 
           i {
             font-size: 16px;
@@ -174,13 +174,13 @@ $login-primary-light: lighten($login-primary, 45%);
           outline: none;
           text-align: center;
           font-weight: 600;
-          letter-spacing: 2px;
+          letter-spaGSTg: 2px;
           font-size: 18px;
 
           &::placeholder {
             color: #999;
             font-weight: 400;
-            letter-spacing: 0;
+            letter-spaGSTg: 0;
           }
 
           &:focus {
@@ -204,11 +204,11 @@ $login-primary-light: lighten($login-primary, 45%);
           font-family: 'Courier New', monospace;
           font-size: 20px;
           font-weight: 600;
-          letter-spacing: 8px;
+          letter-spaGSTg: 8px;
           text-align: center;
 
           &::placeholder {
-            letter-spacing: 0;
+            letter-spaGSTg: 0;
             font-weight: 400;
           }
         }
@@ -362,7 +362,7 @@ $login-primary-light: lighten($login-primary, 45%);
       color: #999;
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spaGSTg: 1px;
     }
   }
 
@@ -435,7 +435,7 @@ $login-primary-light: lighten($login-primary, 45%);
 
         .input-container .form-field.otp-input {
           font-size: 18px;
-          letter-spacing: 6px;
+          letter-spaGSTg: 6px;
         }
       }
     }

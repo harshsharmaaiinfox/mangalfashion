@@ -3,7 +3,7 @@
   --#{$prefix}toast-zindex: #{$zindex-toast};
   --#{$prefix}toast-padding-x: #{$toast-padding-x};
   --#{$prefix}toast-padding-y: #{$toast-padding-y};
-  --#{$prefix}toast-spacing: #{$toast-spacing};
+  --#{$prefix}toast-spaGSTg: #{$toast-spaGSTg};
   --#{$prefix}toast-max-width: #{$toast-max-width};
   @include rfs($toast-font-size, --#{$prefix}toast-font-size);
   --#{$prefix}toast-color: #{$toast-color};
@@ -47,7 +47,7 @@
   pointer-events: none;
 
   > :not(:last-child) {
-    margin-bottom: var(--#{$prefix}toast-spacing);
+    margin-bottom: var(--#{$prefix}toast-spaGSTg);
   }
 }
 

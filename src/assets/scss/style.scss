@@ -406,3 +406,19 @@ ul.product-info-list {
     flex-direction: column;
     display: flex;
 }
+
+.product-list-section {
+    margin-top: 10px !important;
+}
+
+a.dropdown-item {
+    color: #4a5568 !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--theme-color) !important;
+        padding-left: 10px;
+    }
+}

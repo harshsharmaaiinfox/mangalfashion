@@ -9,7 +9,7 @@
 
     <div class="modal-body cart-popup-body">
       <div class="cart-items-list" *ngIf="product">
-        <div class="cart-item">
+        <div class="cart-item mt-5">
           <div class="cart-item-image">
             <img
               [src]="product?.product_thumbnail ? product?.product_thumbnail?.original_url : 'assets/images/product.png'"
@@ -66,6 +66,17 @@
               </div>
             </div>
 
+            <!-- Waist Selector (Dynamic) -->
+            <div class="size-selector-section" *ngIf="waistAttribute && waistAttribute?.attribute_values?.length">
+              <h6 class="size-label">{{ waistAttribute.name }} : {{ selectedWaist?.value }}</h6>
+              <div class="size-options">
+                <button *ngFor="let waist of waistAttribute.attribute_values" class="size-btn"
+                  [class.active]="selectedWaist?.id === waist.id" (click)="selectWaist(waist)">
+                  {{ waist.value }}
+                </button>
+              </div>
+            </div>
+
             <div class="cart-item-actions">
               <div class="qty-box">
                 <div class="input-group">
@@ -79,8 +90,12 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-add-to-cart" (click)="addToCart()">
-                <i class="ri-shopping-cart-2-fill"></i> Add To Cart
+              <button type="button" class="btn btn-add-to-cart" (click)="addToCart()" [disabled]="addToCartLoader">
+                <i class="ri-shopping-cart-2-fill" *ngIf="!addToCartLoader"></i>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                  *ngIf="addToCartLoader"></span>
+                <span *ngIf="addToCartLoader"> Adding...</span>
+                <span *ngIf="!addToCartLoader"> Add To Cart</span>
               </button>
             </div>
           </div>

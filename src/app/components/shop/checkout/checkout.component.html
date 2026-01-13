@@ -430,6 +430,11 @@
                                         <h5 class="order-item-name">
                                             {{ item?.variation ? item?.variation?.name : item?.product?.name }}
                                         </h5>
+                                        <div class="item-variation" *ngIf="item?.variation">
+                                            <small class="variation-label">Size:</small>
+                                            <span class="variation-value">{{ item?.variation?.selected_variation
+                                                }}</span>
+                                        </div>
                                         <div class="order-item-price-info">
                                             <span class="order-item-price">
                                                 {{ (item?.variation ? item.variation.sale_price : item?.product &&

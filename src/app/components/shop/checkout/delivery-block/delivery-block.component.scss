@@ -56,12 +56,9 @@ $brand-color: #EA5927;
                         text-decoration: none;
                         transition: all 0.2s ease;
                         white-space: nowrap;
+                        cursor: default;
 
-                        &:hover {
-                            border-color: $brand-color;
-                            color: $brand-color;
-                            background-color: rgba($brand-color, 0.05);
-                        }
+
                     }
 
                     &.active {

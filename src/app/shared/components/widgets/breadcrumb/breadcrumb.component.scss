@@ -19,9 +19,12 @@
   }
 
   @keyframes shimmer {
-    0%, 100% {
+
+    0%,
+    100% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 50%;
     }
@@ -64,7 +67,7 @@
     color: #1a1a1a;
     margin: 0;
     line-height: 1.3;
-    letter-spacing: -0.3px;
+    letter-spaGSTg: -0.3px;
     position: relative;
     display: inline-block;
 
@@ -307,6 +310,7 @@ html.dark {
     opacity: 0;
     transform: translateX(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -315,11 +319,10 @@ html.dark {
 
 .breadcrumb-modern-item {
   animation: slideInRight 0.4s ease forwards;
-  
+
   @for $i from 1 through 10 {
     &:nth-child(#{$i}) {
       animation-delay: #{$i * 0.05}s;
     }
   }
 }
-

@@ -245,6 +245,31 @@ $brand-color: #EA5927;
                             color: #666;
                         }
                     }
+
+                    .gram {
+                        font-size: 13px;
+                        color: #777;
+                        font-weight: 400;
+                        margin: 5px 0 10px 0;
+                        line-height: 1.4;
+                    }
+
+                    .item-variation {
+                        margin-top: 8px;
+
+                        .variation-label {
+                            font-size: 12px;
+                            color: #888;
+                            font-weight: 500;
+                        }
+
+                        .variation-value {
+                            font-size: 12px;
+                            color: #555;
+                            margin-left: 4px;
+                            font-weight: 500;
+                        }
+                    }
                 }
             }
         }

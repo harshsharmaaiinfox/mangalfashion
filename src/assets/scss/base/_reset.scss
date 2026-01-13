@@ -150,12 +150,12 @@ section,
 }
 
 .ls-expanded {
-  letter-spacing: 12px;
+  letter-spaGSTg: 12px;
   margin-right: -12px;
 }
 
 .ls-resize-expanded {
-  letter-spacing: calc(4px + (10 - 4) * ((100vw - 320px) / (1920 - 320)));
+  letter-spaGSTg: calc(4px + (10 - 4) * ((100vw - 320px) / (1920 - 320)));
 }
 
 .g-8 {
@@ -700,6 +700,6 @@ a {
 
 .owl-carousel {
   .owl-stage-outer {
-      margin-right: -10px;
+    margin-right: -10px;
   }
 }

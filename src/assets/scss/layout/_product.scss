@@ -384,7 +384,7 @@
   .deal-title {
     font-weight: 600;
     margin-bottom: 7px;
-    letter-spacing: 0.4px;
+    letter-spaGSTg: 0.4px;
   }
 
   ul {
@@ -484,7 +484,7 @@
         &:hover {
           h5 {
             a {
-              letter-spacing: 0.5px;
+              letter-spaGSTg: 0.5px;
 
               &:before {
                 width: 70px;
@@ -5694,5 +5694,5 @@
   margin-top: 13px;
   font-size: calc(15px + (16 - 15) * ((100vw - 320px) / (1920 - 320)));
   color: #de1a2e;
-  letter-spacing: 0.3px;
+  letter-spaGSTg: 0.3px;
 }

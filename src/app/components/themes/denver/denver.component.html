@@ -5,10 +5,12 @@
     <div class="hero-slider" #heroSlider>
         <div class="slider-container">
             <div class="slider-track" #sliderTrack>
-                <div class="slide active" *ngFor="let slide of heroSlides; let i = index" [class.active]="currentSlide === i">
+                <div class="slide active" *ngFor="let slide of heroSlides; let i = index"
+                    [class.active]="currentSlide === i">
                     <div class="hero-slide-wrapper">
                         <a [href]="slide.link">
-                            <img [src]="slide.image" [alt]="slide.alt" class="img-fluid w-100 hero-image" loading="lazy">
+                            <img [src]="slide.image" [alt]="slide.alt" class="img-fluid w-100 hero-image"
+                                loading="lazy">
                         </a>
                     </div>
                 </div>
@@ -16,8 +18,9 @@
 
             <!-- Dots Indicator -->
             <div class="slider-dots">
-                <button *ngFor="let slide of heroSlides; let i = index" [class.active]="currentSlide === i" (click)="goToSlide(i)" [attr.aria-label]="'Go to slide ' + (i + 1)">
-        </button>
+                <button *ngFor="let slide of heroSlides; let i = index" [class.active]="currentSlide === i"
+                    (click)="goToSlide(i)" [attr.aria-label]="'Go to slide ' + (i + 1)">
+                </button>
             </div>
         </div>
     </div>
@@ -28,7 +31,8 @@
     <div class="container-fluid-lg">
         <div class="product-section-content">
             <div class="product-list-wrapper">
-                <app-theme-product [productIds]="featuredProductIds" [style]="'horizontal'" [slider]="true" [sliderOption]="productSlider4Item" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
+                <app-theme-product [productIds]="featuredProductIds" [style]="'horizontal'" [slider]="true"
+                    [sliderOption]="productSlider4Item" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
                 </app-theme-product>
             </div>
         </div>
@@ -87,7 +91,8 @@
     <div class="container-fluid-lg">
         <div class="product-section-content">
             <div class="product-list-wrapper">
-                <app-theme-product [productIds]="featuredProductIds2" [style]="'horizontal'" [slider]="true" [sliderOption]="productSlider4Item" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
+                <app-theme-product [productIds]="featuredProductIds2" [style]="'horizontal'" [slider]="true"
+                    [sliderOption]="productSlider4Item" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
                 </app-theme-product>
             </div>
         </div>
@@ -120,7 +125,9 @@
 <!-- Category Section Start -->
 <section *ngIf="data?.content?.categories_icon_list?.status">
     <div class="container-fluid-lg">
-        <app-theme-categories [style]="'horizontal'" [theme]="'paris'" [sliderOption]="categorySlider" [categoryIds]="data?.content?.categories_icon_list?.category_ids || []" [image]="data?.content?.categories_icon_list?.image_url">
+        <app-theme-categories [style]="'horizontal'" [theme]="'paris'" [sliderOption]="categorySlider"
+            [categoryIds]="data?.content?.categories_icon_list?.category_ids || []"
+            [image]="data?.content?.categories_icon_list?.image_url">
         </app-theme-categories>
     </div>
 </section>
@@ -130,11 +137,14 @@
 <section class="product-section product-section-3" *ngIf="data?.content?.products_list_1?.status">
     <div class="container-fluid-lg">
         <div class="product-section-content">
-            <app-title [title]="data?.content?.products_list_1?.title" [style]="'simple'" [headingLevel]="'h1'" class="h1-text">
+            <app-title [title]="data?.content?.products_list_1?.title" [style]="'simple'" [headingLevel]="'h1'"
+                class="h1-text">
             </app-title>
 
             <div class="product-list-wrapper">
-                <app-theme-product [productIds]="data?.content?.products_list_1?.product_ids || []" [style]="'horizontal'" [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
+                <app-theme-product [productIds]="data?.content?.products_list_1?.product_ids || []"
+                    [style]="'horizontal'" [slider]="true" [sliderOption]="productSlider6ItemMargin"
+                    [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
                 </app-theme-product>
             </div>
         </div>
@@ -151,13 +161,15 @@
             <!-- Left Side: Video Carousel -->
             <div class="video-carousel-column">
                 <div class="video-carousel-wrapper">
-                    <button class="carousel-nav-btn carousel-nav-prev" (click)="previousVideo()" aria-label="Previous video">
-            <i class="ri-arrow-left-s-line"></i>
-          </button>
+                    <button class="carousel-nav-btn carousel-nav-prev" (click)="previousVideo()"
+                        aria-label="Previous video">
+                        <i class="ri-arrow-left-s-line"></i>
+                    </button>
 
                     <div class="video-carousel-container">
                         <div class="video-carousel-track" #videoCarouselTrack>
-                            <div class="video-slide" *ngFor="let video of videoSlides; let i = index" [class.active]="currentVideoIndex === i" [style.transform]="getVideoTransform(i)">
+                            <div class="video-slide" *ngFor="let video of videoSlides; let i = index"
+                                [class.active]="currentVideoIndex === i" [style.transform]="getVideoTransform(i)">
                                 <div class="video-slide-content">
                                     <div class="video-overlay-header">
                                         <span class="video-title-text">{{ video.title }}</span>
@@ -169,25 +181,27 @@
                                     </div>
 
                                     <div class="video-wrapper">
-                                        <video [src]="video.src" [muted]="currentVideoIndex !== i" [loop]="video.loop" playsinline (click)="toggleVideoPlay(i)" (loadedmetadata)="updateVideoCarouselPosition()">
-                      Your browser does not support the video tag.
-                    </video>
+                                        <video [src]="video.src" [muted]="currentVideoIndex !== i" [loop]="video.loop"
+                                            playsinline (click)="toggleVideoPlay(i)"
+                                            (loadedmetadata)="updateVideoCarouselPosition()">
+                                            Your browser does not support the video tag.
+                                        </video>
                                         <div class="video-play-overlay" *ngIf="!video.playing" (click)="playVideo(i)">
                                             <i class="ri-play-fill"></i>
                                         </div>
                                     </div>
 
                                     <button class="view-button" (click)="viewVideo(i)">
-                    View
-                  </button>
+                                        View
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <button class="carousel-nav-btn carousel-nav-next" (click)="nextVideo()" aria-label="Next video">
-            <i class="ri-arrow-right-s-line"></i>
-          </button>
+                        <i class="ri-arrow-right-s-line"></i>
+                    </button>
                 </div>
             </div>
 
@@ -195,12 +209,12 @@
             <div class="featured-content-column">
                 <div class="instant-saree-banner">
                     <div class="banner-content">
-                        <p class="introducing-text">Introducing</p>
+                        <p class="introduGSTg-text">IntroduGSTg</p>
                         <h2 class="main-title">ONE PIECE DRESS<span class="trademark">™</span></h2>
                         <p class="subtitle-text">For Women</p>
                         <button class="pre-drape-button" (click)="viewAllCollections()">
-              VIEW ALL COLLECTIONS
-            </button>
+                            VIEW ALL COLLECTIONS
+                        </button>
                         <p class="description-text">Discover elegant one-piece dresses for every occasion</p>
                     </div>
                 </div>
@@ -219,7 +233,9 @@
         <div>
             <app-title [title]="data?.content?.products_list_2?.title " [style]="'simple'" class="mb-5">
             </app-title>
-            <app-theme-product [productIds]="data?.content?.products_list_2?.product_ids || []" [style]="'horizontal'" [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
+            <app-theme-product [productIds]="data?.content?.products_list_2?.product_ids || []" [style]="'horizontal'"
+                [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'"
+                [boxClass]="'product-box-bg'">
             </app-theme-product>
         </div>
     </div>
@@ -231,7 +247,9 @@
     <div class="container-fluid-lg">
         <div>
 
-            <app-theme-product [productIds]="data?.content?.products_list_3?.product_ids || []" [style]="'horizontal'" [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'" [boxClass]="'product-box-bg'">
+            <app-theme-product [productIds]="data?.content?.products_list_3?.product_ids || []" [style]="'horizontal'"
+                [slider]="true" [sliderOption]="productSlider6ItemMargin" [productStyle]="'product-solid'"
+                [boxClass]="'product-box-bg'">
             </app-theme-product>
         </div>
     </div>

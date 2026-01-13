@@ -60,7 +60,7 @@ $login-primary-light: lighten($login-primary, 45%);
       font-weight: 700;
       color: #1a1a1a;
       margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      letter-spaGSTg: -0.5px;
       position: relative;
       display: inline-block;
 
@@ -124,7 +124,7 @@ $login-primary-light: lighten($login-primary, 45%);
           font-weight: 600;
           color: #333;
           text-transform: uppercase;
-          letter-spacing: 0.8px;
+          letter-spaGSTg: 0.8px;
 
           i {
             font-size: 16px;
@@ -201,7 +201,7 @@ $login-primary-light: lighten($login-primary, 45%);
         .checkbox-input {
           display: none;
 
-          &:checked + .checkbox-custom {
+          &:checked+.checkbox-custom {
             background: $login-primary;
             border-color: $login-primary;
 
@@ -350,7 +350,7 @@ $login-primary-light: lighten($login-primary, 45%);
       color: #999;
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spaGSTg: 1px;
     }
   }
 
@@ -430,4 +430,3 @@ $login-primary-light: lighten($login-primary, 45%);
     }
   }
 }
-

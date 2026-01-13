@@ -38,6 +38,9 @@
                         item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price) || 0) |
                         currencySymbol }}
                     </h6>
+                    <h5 class="gram" *ngIf="item?.variation">
+                        {{ item?.variation?.selected_variation }}
+                    </h5>
 
                     <div class="item-controls">
                         <div class="qty-box-sm">
@@ -52,8 +55,9 @@
                         </button>
                     </div>
 
-                    <div class="item-size" *ngIf="item?.variation">
-                        <span>{{ item?.variation?.selected_variation }}</span>
+                    <div class="item-variation" *ngIf="item?.variation">
+                        <small class="variation-label">Size:</small>
+                        <span class="variation-value">{{ item?.variation?.selected_variation }}</span>
                     </div>
                 </div>
             </li>

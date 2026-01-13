@@ -24,7 +24,7 @@
         color: $title-color;
         padding: 0 calc(17px + (20 - 17) * ((100vw - 320px) / (1920 - 320))) calc(12px + (15 - 12) * ((100vw - 320px) / (1920 - 320)));
         font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1920 - 320)));
-        letter-spacing: 0.6px;
+        letter-spaGSTg: 0.6px;
         border: none;
         font-weight: 600;
         position: relative;
@@ -516,7 +516,7 @@
           width: calc(100% - 15px - 30px);
           line-height: 1.5;
           color: $content-color;
-          letter-spacing: 0.6px;
+          letter-spaGSTg: 0.6px;
         }
       }
 
@@ -524,7 +524,7 @@
         margin: 0;
         font-size: 16px;
         font-weight: 600;
-        letter-spacing: 0.6px;
+        letter-spaGSTg: 0.6px;
       }
 
       &:last-child {
