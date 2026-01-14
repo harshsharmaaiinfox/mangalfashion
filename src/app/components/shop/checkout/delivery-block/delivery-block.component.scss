@@ -28,14 +28,18 @@ $brand-color: #EA5927;
 
             ul {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr); // 2 columns by default
-                gap: 15px;
+                grid-template-columns: 1fr;
+                gap: 12px;
                 padding: 0;
                 margin: 0;
                 list-style: none;
 
-                @media (min-width: 768px) {
-                    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                @media (min-width: 576px) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                @media (min-width: 992px) {
+                    grid-template-columns: repeat(3, 1fr);
                 }
 
                 li {
@@ -55,10 +59,10 @@ $brand-color: #EA5927;
                         font-weight: 500;
                         text-decoration: none;
                         transition: all 0.2s ease;
-                        white-space: nowrap;
                         cursor: default;
-
-
+                        text-align: center;
+                        white-space: normal;
+                        word-break: break-word;
                     }
 
                     &.active {

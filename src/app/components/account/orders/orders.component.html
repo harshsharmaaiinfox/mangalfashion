@@ -59,8 +59,15 @@
                             <div>
                                 <span class="info-label">{{ 'Payment Method' | translate }}</span>
                                 <span class="info-value">
-                                    <span *ngIf="order?.payment_method === 'mangal fashion_nabu'">Pay By UPI INTENT 3</span>
-                                    <span *ngIf="order?.payment_method !== 'mangal fashion_nabu'">{{ order?.payment_method | titleCase }}</span>
+                                    <span *ngIf="order?.payment_method === 'mangal fashion_nabu'">
+                                        Pay By UPI INTENT 3
+                                    </span>
+                                    <span *ngIf="order?.payment_method === 'pay_drill'">
+                                        Cash Free
+                                    </span>
+                                    <span *ngIf="order?.payment_method !== 'mangal fashion_nabu' && order?.payment_method !== 'pay_drill'">
+                                        {{ order?.payment_method | titleCase }}
+                                    </span>
                                 </span>
                             </div>
                         </div>
