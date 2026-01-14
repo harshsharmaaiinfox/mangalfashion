@@ -52,7 +52,7 @@ export class SettingState {
               
               {
                 name: 'cashfree',
-                status: true,
+                status: false,
                 title: 'Cashfree',
                 icon: './assets/images/cash_free.jpg',
               },
@@ -91,6 +91,12 @@ export class SettingState {
                 status: false,
                 title: 'Pay By UPI INTENT2',
                 // icon: './assets/images/payment/pay_by_qr.png',
+              },
+              {
+                name: 'pay_drill',
+                status: true,
+                title: 'Cash Free',
+                icon: './assets/images/cash_free.jpg',
               },
              
             ];

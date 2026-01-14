@@ -1,0 +1,39 @@
+<section class="payment-success-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+
+        <!-- Success Animation/Icon -->
+        <div class="success-icon text-center mb-4">
+          <div class="success-circle">
+            <!-- Check mark will be added via CSS -->
+          </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-content text-center">
+          <h1 class="success-title">Payment Successful!</h1>
+          <p class="success-subtitle">Thank you for your purchase. Your payment has been processed successfully.</p>
+
+          <!-- Auto Redirect Message -->
+          <div class="redirect-message" *ngIf="showRedirectMessage">
+            <p class="redirect-text">
+              <i class="fas fa-clock me-2"></i>
+              Redirecting to order details in <span class="countdown">{{ redirectCountdown }}</span> seconds...
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons mt-4" *ngIf="!showRedirectMessage">
+            <button class="btn btn-primary" (click)="goToOrderDetails()">
+              <i class="fas fa-eye me-2"></i>View Order Details
+            </button>
+            <button class="btn btn-outline-primary" (click)="goToHome()">
+              <i class="fas fa-home me-2"></i>Back to Home
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -86,7 +86,60 @@ export class CheckoutSuccessComponent {
   // }
 
   ngOnInit() {
+    this.checkPaymentStatus();
     this.products();
+  }
+
+  checkPaymentStatus() {
+    // Check if we have payment data from a recent payment attempt
+    const paymentUuid = sessionStorage.getItem('payment_uuid') || localStorage.getItem('payment_uuid');
+    const paymentMethod = sessionStorage.getItem('payment_method') || localStorage.getItem('payment_method');
+    const orderId = localStorage.getItem('order_id');
+
+    if (paymentUuid && paymentMethod && orderId) {
+      let pollCount = 0;
+      const maxPolls = 60; // Stop polling after 5 minutes (60 * 5 seconds)
+
+      // Poll for payment status
+      this.pollingSubscription = interval(this.pollingInterval).pipe(
+        switchMap(() => {
+          pollCount++;
+          if (paymentMethod === 'pay_drill') {
+            return this.cartService.checkNixoPayPaymentStatus(paymentUuid, paymentMethod);
+          } else {
+            return this.cartService.checkTransectionStatusNeoKred(paymentUuid, paymentMethod);
+          }
+        }),
+        takeWhile((response: any) => {
+          // Stop polling if payment is successful or we've exceeded max polls
+          if (response?.status === true || response?.R === true) {
+            // Payment successful - redirect to success page with order ID
+            const parsedOrderId = JSON.parse(orderId);
+            this.clearPaymentData();
+            this.router.navigate(['/success'], { queryParams: { order_id: parsedOrderId } });
+            this.pollingSubscription.unsubscribe();
+            return false;
+          }
+          // Continue polling if under max polls
+          return pollCount < maxPolls;
+        }, true)
+      ).subscribe({
+        error: (err) => {
+          console.error('Error checking payment status:', err);
+          this.pollingSubscription.unsubscribe();
+        }
+      });
+    }
+  }
+
+  private clearPaymentData() {
+    localStorage.removeItem('order_id');
+    localStorage.removeItem('payment_uuid');
+    localStorage.removeItem('payment_method');
+    sessionStorage.removeItem('payment_uuid');
+    sessionStorage.removeItem('payment_method');
+    sessionStorage.removeItem('payment_action');
+    sessionStorage.removeItem('came_from_checkout_payment');
   }
 
   products() {
@@ -172,6 +225,9 @@ export class CheckoutSuccessComponent {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    if (this.pollingSubscription) {
+      this.pollingSubscription.unsubscribe();
+    }
   }
 
 }

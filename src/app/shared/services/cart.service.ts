@@ -95,6 +95,10 @@ export class CartService {
     return this.http.post<any>(`${environment.URL}/check-payment-response`,{ uuid: uuid, payment_method});
   }
 
+  checkNixoPayPaymentStatus(uuid: any, payment_method: string) {
+    return this.http.post<any>(`${environment.URL}/check-payment-response`,{ uuid: uuid, payment_method});
+  }
+
   initiateCashFreeIntent(data: any): Observable<any> {
     return new Observable(observer => {
       fetch(`${environment.URL}/generate-cash-free`,{
@@ -190,5 +194,25 @@ export class CartService {
         .catch(err => observer.error(err));
     });
   }
-  
+
+  initiateNixoPayIntent(data: any): Observable<any> {
+    return new Observable(observer => {
+      fetch(`${environment.URL}/nixopay-initiate-payment`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          observer.next(data);
+          observer.complete();
+        })
+        .catch(error => {
+          observer.error(error);
+        });
+    });
+  }
+
 }

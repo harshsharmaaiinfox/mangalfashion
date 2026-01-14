@@ -6,6 +6,7 @@ import { BrandResolver } from '../../shared/resolvers/brand.resolver';
 
 import { AuthGuard } from "./../../core/guard/auth.guard";
 import { CheckoutGuard } from "./../../core/guard/checkout.guard";
+import { PaymentSuccessGuard } from "./../../core/guard/payment-success.guard";
 
 import { CartComponent } from './cart/cart.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
@@ -30,8 +31,14 @@ import { BrandComponent } from './brand/brand.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoryResolver } from '../../shared/resolvers/category.resolver';
 import { CheckoutSuccessComponent } from './checkout/checkout-success/checkout-success.component';
+import { PaymentSuccessComponent } from './payment-success/payment-success.component';
 
 const routes: Routes = [
+  {
+    path: 'success',
+    component: PaymentSuccessComponent,
+    canActivate: [PaymentSuccessGuard]
+  },
   {
     path: 'cart',
     component: CartComponent

@@ -251,6 +251,25 @@ export class CheckoutComponent {
   // }
 
   ngOnInit() {
+    // Check if user came back from payment page
+    const cameFromPayment = sessionStorage.getItem('came_from_checkout_payment');
+    const storedOrderId = localStorage.getItem('order_id');
+
+    if (cameFromPayment && storedOrderId) {
+      const orderId = JSON.parse(storedOrderId);
+      // Clear stored payment data
+      localStorage.removeItem('order_id');
+      localStorage.removeItem('payment_uuid');
+      localStorage.removeItem('payment_method');
+      sessionStorage.removeItem('payment_uuid');
+      sessionStorage.removeItem('payment_method');
+      sessionStorage.removeItem('payment_action');
+      sessionStorage.removeItem('came_from_checkout_payment');
+      // Redirect to order details
+      this.router.navigate(['/account/order/details', orderId]);
+      return;
+    }
+
     this.checkout$.subscribe(data => this.checkoutTotal = data);
     this.products();
   }
@@ -314,6 +333,9 @@ export class CheckoutComponent {
         this.checkout(value);
         break;
       case 'mangal fashion_nabu':
+        this.checkout(value);
+        break;
+      case 'pay_drill':
         this.checkout(value);
         break;
       default:
@@ -606,7 +628,53 @@ export class CheckoutComponent {
     });
   }
 
+  // NixoPay Payment Integration
+  initiateNixoPayPaymentIntent(payment_method: string, uuid: any, order_result: any) {
+    const userData = localStorage.getItem('account');
+    const parsedUserData = JSON.parse(userData || '{}')?.user || {};
 
+    const payload = {
+      uuid,
+      ...parsedUserData,
+      checkout: this.checkoutTotal
+    };
+
+    this.cartService.initiateNixoPayIntent({
+      uuid: payload.uuid,
+      email: payload.email,
+      total: this.checkoutTotal?.total?.total,
+      phone: parsedUserData.phone,
+      name: parsedUserData.name,
+      address: `${parsedUserData.address?.[0]?.city || ''} ${parsedUserData.address?.[0]?.area || ''}`
+    }).subscribe({
+      next: (response) => {
+        if (response?.R) {
+          try {
+            if (response?.payment_url) {
+              // Store payment info in session storage
+              sessionStorage.setItem('payment_uuid', uuid);
+              sessionStorage.setItem('payment_method', payment_method);
+              sessionStorage.setItem('payment_action', JSON.stringify(this.form.value));
+              localStorage.setItem('order_id', JSON.stringify(order_result.order_number));
+              // Mark that we're redirecting to payment page
+              sessionStorage.setItem('came_from_checkout_payment', 'true');
+              // Open in current tab
+              window.location.href = response.payment_url;
+            } else {
+              console.error("Invalid response: Payment link is missing.");
+            }
+          } catch (error) {
+            console.error("Error parsing NixoPay response:", error);
+          }
+        } else {
+          console.error("Payment initiation failed:", response?.msg);
+        }
+      },
+      error: (err) => {
+        console.log("Error initiating payment:", err);
+      }
+    });
+  }
 
   // Transaction Status Check for mangal fashion Nabu (and other payment gateways)
   checkTransactionStatusSleekSynergy(uuid: any, paymentWindow: Window | null, payment_method: string) {
@@ -827,6 +895,9 @@ export class CheckoutComponent {
           }
           if (this.payment_method === 'neoKred2') {
             this.initiateNeoKred2PaymentIntent(this.payment_method, uuid, result);
+          }
+          if (this.payment_method === 'pay_drill') {
+            this.initiateNixoPayPaymentIntent(this.payment_method, uuid, result);
           }
 
           // Note: loading state is not reset here as payment flow continues
