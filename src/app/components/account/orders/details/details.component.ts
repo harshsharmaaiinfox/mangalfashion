@@ -26,10 +26,29 @@ export class OrderDetailsComponent {
 
   private destroy$ = new Subject<void>();
   private pollingSubscription!: Subscription;
-  private pollingInterval = 5000; // Poll every 5 seconds
+  private orderSubscription!: Subscription;
+  private pollingInterval = 15000; // Poll every 15 seconds (further reduced)
   public isLogin: boolean;
 
   public order: Order;
+  public loading = true;
+
+  // Computed properties for better performance
+  get canDownloadInvoice(): boolean {
+    return !!(this.order?.invoice_url &&
+              this.order?.payment_status === 'COMPLETED' &&
+              this.isLogin);
+  }
+
+  get canPayNow(): boolean {
+    return !!(this.order?.payment_status === 'FAILED' || this.order?.payment_status === 'PENDING') &&
+           (this.order?.order_status && this.order?.order_status?.slug != 'cancelled') &&
+           this.order?.payment_method != 'cod';
+  }
+
+  get showTracking(): boolean {
+    return !!(this.order && !this.order?.sub_orders?.length);
+  }
 
   constructor(private store: Store,
     private route: ActivatedRoute,
@@ -39,54 +58,89 @@ export class OrderDetailsComponent {
 
   ngOnInit() {
     this.isLogin = !!this.store.selectSnapshot(state => state.auth && state.auth.access_token)
-    this.route.params
-      .pipe(
-        switchMap(params => {
-            if(!params['id']) return of();
-            return this.store
-                      .dispatch(new ViewOrder(params['id']))
-                      .pipe(mergeMap(() => this.store.select(OrderState.selectedOrder)))
-          }
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(order => {
-        this.order = order!;
-        // Check payment status for pending mangal fashion_nabu orders
-        if (this.order && 
-            this.order.payment_method === 'mangal fashion_nabu' && 
-            this.order.payment_status === 'PENDING' &&
-            this.order.uuid) {
-          this.checkPaymentStatus();
+
+    // Get order ID from route params
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        // Clean up previous subscription
+        if (this.orderSubscription) {
+          this.orderSubscription.unsubscribe();
         }
-      });
+
+        // Check if we already have this order in the store to avoid unnecessary API calls
+        const currentOrder = this.store.selectSnapshot(OrderState.selectedOrder);
+        if (currentOrder && currentOrder.id === +params['id']) {
+          this.order = currentOrder;
+          this.loading = false;
+          this.checkPaymentStatusIfNeeded();
+        } else {
+          // Only dispatch if we don't have the order or it's different
+          this.store.dispatch(new ViewOrder(params['id'])).subscribe(() => {
+            this.orderSubscription = this.store.select(OrderState.selectedOrder)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(order => {
+                if (order) {
+                  this.order = order;
+                  this.loading = false;
+                  this.checkPaymentStatusIfNeeded();
+                }
+              });
+          });
+        }
+      }
+    });
+  }
+
+  private checkPaymentStatusIfNeeded() {
+    // Only start polling for specific payment methods that need status checking
+    // and only if the order is not already completed
+    if (this.order &&
+        this.order.payment_method === 'mangal fashion_nabu' &&
+        (this.order.payment_status === 'PENDING' || this.order.payment_status === 'PROCESSING') &&
+        this.order.uuid &&
+        this.order.order_status?.slug !== 'delivered' &&
+        this.order.order_status?.slug !== 'cancelled') {
+      // Add a longer delay before starting polling to improve initial page load
+      setTimeout(() => {
+        this.checkPaymentStatus();
+      }, 3000);
+    }
   }
 
   checkPaymentStatus() {
     if (!this.order || !this.order.uuid) return;
-    
+
     // Stop any existing polling
     if (this.pollingSubscription) {
       this.pollingSubscription.unsubscribe();
     }
 
-    let maxAttempts = 60; // Poll for maximum 5 minutes (60 attempts * 5 seconds)
+    let maxAttempts = 20; // Poll for maximum 5 minutes (20 attempts * 15 seconds)
     let attemptCount = 0;
 
     this.pollingSubscription = interval(this.pollingInterval).pipe(
       switchMap(() => {
         attemptCount++;
+        // Check if order is already completed before making API call
+        if (this.order?.payment_status === 'COMPLETED' || this.order?.payment_status === 'paid') {
+          return of({ status: true }); // Skip API call if already completed
+        }
         return this.cartService.checkTransectionStatusNeoKred(this.order.uuid!, this.order.payment_method);
       }),
       takeWhile((response: any) => {
-        // Stop if payment is completed
-        if (response?.status === true) {
-          // Payment completed, refresh the order
-          if (this.order?.id) {
+        // Stop if payment is completed, order is cancelled/delivered, or max attempts reached
+        if (response?.status === true ||
+            attemptCount >= maxAttempts ||
+            this.order?.order_status?.slug === 'delivered' ||
+            this.order?.order_status?.slug === 'cancelled') {
+          if (response?.status === true && this.order?.id) {
+            // Payment completed, refresh the order once
             this.store.dispatch(new ViewOrder(this.order.id)).subscribe(() => {
-              this.store.select(OrderState.selectedOrder).pipe(takeUntil(this.destroy$)).subscribe(updatedOrder => {
-                if (updatedOrder) {
-                  this.order = updatedOrder;
+              this.store.select(OrderState.selectedOrder)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe(updatedOrder => {
+                  if (updatedOrder) {
+                    this.order = updatedOrder;
                 }
               });
             });
@@ -113,9 +167,12 @@ export class OrderDetailsComponent {
     this.store.dispatch(new DownloadInvoice({order_number: id}))
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     if (this.pollingSubscription) {
       this.pollingSubscription.unsubscribe();
+    }
+    if (this.orderSubscription) {
+      this.orderSubscription.unsubscribe();
     }
     this.destroy$.next();
     this.destroy$.complete();

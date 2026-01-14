@@ -1,39 +1,20 @@
-<section class="payment-success-section">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8">
-
-        <!-- Success Animation/Icon -->
-        <div class="success-icon text-center mb-4">
-          <div class="success-circle">
-            <!-- Check mark will be added via CSS -->
-          </div>
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+<section class="checkout-section-2 section-b-space" id="mySubPaisa">
+    <div class="container-fluid-lg">
+        <h3>Thank you for placing the Order</h3>
+        <p></p>
+        <h4>Our team will verify the payment status and proceed with your order accordingly.</h4>
+        <div _ngcontent-ng-c642440284="" class="empty-cart">
+            <img style="max-height: 200px;" _ngcontent-ng-c642440284="" alt="no-data" class="img-fluid" src="assets/svg/tracking/out-for-delivery.svg">
         </div>
 
-        <!-- Success Message -->
-        <div class="success-content text-center">
-          <h1 class="success-title">Payment Successful!</h1>
-          <p class="success-subtitle">Thank you for your purchase. Your payment has been processed successfully.</p>
-
-          <!-- Auto Redirect Message -->
-          <div class="redirect-message" *ngIf="showRedirectMessage">
-            <p class="redirect-text">
-              <i class="fas fa-clock me-2"></i>
-              Redirecting to order details in <span class="countdown">{{ redirectCountdown }}</span> seconds...
-            </p>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="action-buttons mt-4" *ngIf="!showRedirectMessage">
-            <button class="btn btn-primary" (click)="goToOrderDetails()">
-              <i class="fas fa-eye me-2"></i>View Order Details
-            </button>
-            <button class="btn btn-outline-primary" (click)="goToHome()">
-              <i class="fas fa-home me-2"></i>Back to Home
-            </button>
-          </div>
-        </div>
-      </div>
+        <app-button
+            [class]="'btn left-dashboard-show btn-animation btn-md fw-bold d-block mb-4'"
+            [type]="'button'"
+            [id]="'show_menu'"
+            (click)="goToHome()"
+            [spinner]="false">
+            {{ 'Continue Shopping' }}
+        </app-button>
     </div>
-  </div>
 </section>

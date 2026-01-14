@@ -1,4 +1,17 @@
-<div class="order-details-page-container" *ngIf="order">
+<div class="order-details-page-container">
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="loading">
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h5>Loading Order Details...</h5>
+      <p class="text-muted">Please wait while we fetch your order information.</p>
+    </div>
+  </div>
+
+  <!-- Order Content -->
+  <div *ngIf="!loading && order">
     <!-- Page Header -->
     <div class="order-details-header">
         <div class="header-content">
@@ -15,10 +28,9 @@
                 <i class="ri-arrow-left-line"></i>
                 <span>{{ 'Back to Orders' | translate }}</span>
             </a>
-            <a href="javascript:void(0)" 
+            <a href="javascript:void(0)"
                class="btn-pay-now"
-               *ngIf="(order?.payment_status === 'FAILED' || order?.payment_status === 'PENDING') 
-                 && (order?.order_status && order?.order_status?.slug != 'cancelled') && order?.payment_method != 'cod'"
+               *ngIf="canPayNow"
                (click)="payModal.openModal(order)">
                 <i class="ri-refresh-line"></i>
                 <span>{{ 'Pay Now' | translate }}</span>
@@ -26,14 +38,14 @@
             <a (click)="download(order.order_number)"
                class="btn-download-invoice"
                download="download"
-               *ngIf="order?.invoice_url && order?.payment_status && order?.payment_status === 'COMPLETED' && isLogin">
+               *ngIf="canDownloadInvoice">
                 <i class="ri-download-2-fill"></i>
                 <span>{{ 'Invoice' | translate }}</span>
             </a>
         </div>
     </div>
     <!-- Order Tracking Section -->
-    <div class="order-tracking-section mb-4" *ngIf="order && !order?.sub_orders?.length">
+    <div class="order-tracking-section mb-4" *ngIf="showTracking">
         <div class="tracking-card">
             <div class="tracking-header">
                 <h5 class="tracking-title">
@@ -301,6 +313,7 @@
             </div>
         </div>
     </div>
+  </div> <!-- End Order Content -->
 </div>
 <app-refund-modal #refundModal></app-refund-modal>
 <app-pay-modal #payModal></app-pay-modal>

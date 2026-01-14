@@ -420,3 +420,9 @@ a.dropdown-item {
     transition: all 0.3s ease;
     cursor: pointer;
 }
+.status-pending span, .status-draft span {
+    border: none !important;
+}
+.status-success span, .status-in_stock span, .status-completed span, .status-approved span, .status-delivered span, .status-credit span {
+    border: none !important;
+}
