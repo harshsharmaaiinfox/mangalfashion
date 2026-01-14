@@ -90,6 +90,14 @@
                 </div>
               </div>
 
+              <div class="wishlist-btn-wrapper">
+                <button type="button" class="btn btn-wishlist" (click)="toggleWishlist(product)"
+                  [class.active]="product.is_wishlist">
+                  <i class="ri-heart-3-line" *ngIf="!product.is_wishlist"></i>
+                  <i class="ri-heart-3-fill" *ngIf="product.is_wishlist"></i>
+                </button>
+              </div>
+
               <button type="button" class="btn btn-add-to-cart" (click)="addToCart()" [disabled]="addToCartLoader">
                 <i class="ri-shopping-cart-2-fill" *ngIf="!addToCartLoader"></i>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"

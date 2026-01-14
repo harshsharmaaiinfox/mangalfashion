@@ -1,17 +1,17 @@
 <ng-container *ngIf="product">
     <!-- Engagement Metrics -->
-    
-    
+
+
     <!-- Brand/Category -->
     <div class="brand-box-suggection" *ngIf="product?.brand">
         <h5>
             <span>{{ product.brand.name }}</span>
         </h5>
     </div>
-    
+
     <!-- Product Title -->
     <h1 class="name product-title-large">{{ selectedVariation ? selectedVariation.name : product.name }}</h1>
-    
+
     <!-- Price with Discount Badge -->
     <div class="price-section-modern">
         <div class="discount-badge" *ngIf="selectedVariation ? selectedVariation.discount : product.discount">
@@ -26,8 +26,8 @@
             </del>
         </div>
     </div>
-    
-   
+
+
     <div class="product-contain" *ngIf="product?.short_description">
         <p [innerHTML]="product.short_description"></p>
     </div>
@@ -38,7 +38,7 @@
             </app-variant-attributes>
         </div>
         <app-sale-timer [startDate]="product.sale_starts_at" [endDate]="product.sale_expired_at"
-            *ngIf="product.sale_starts_at && product.sale_expired_at"  [title]="'hurry_up_sales_ends_in'">
+            *ngIf="product.sale_starts_at && product.sale_expired_at" [title]="'hurry_up_sales_ends_in'">
         </app-sale-timer>
         <ng-container *ngIf="product?.wholesales?.length">
             <app-product-wholesale [product]="product"></app-product-wholesale>
@@ -58,35 +58,40 @@
                     <i class="ri-add-line"></i>
                 </app-button>
             </div>
+            <div class="wishlist-btn-group">
+                <app-button [class]="'btn wishlist-btn'" [id]="'add-to-wishlist'+product.id" [spinner]="false"
+                    (click)="addToWishlist(product)">
+                    <i class="ri-heart-{{ product.is_wishlist ? 'fill' : 'line' }}"></i>
+                </app-button>
+            </div>
         </div>
-        
+
         <!-- Action Buttons -->
         <div class="dynamic-checkout modern-checkout-buttons">
             <ng-container *ngIf="!product?.is_external else isExternalProduct">
                 <app-button [id]="'addcartbtnVariation'+product.id" [class]="'btn btn-md btn-add-cart scroll-button'"
-                    (click)="addToCart(product)" *ngIf="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty)) else outStock">
+                    (click)="addToCart(product)"
+                    *ngIf="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty)) else outStock">
                     <i class="ri-shopping-cart-line me-1"></i> {{ 'Add To Cart' | translate }}
                 </app-button>
                 <ng-template #outStock>
                     <app-button [class]="'btn btn-md btn-add-cart scroll-button disabled'"
                         [id]="'soldoutbtnproductcontain'" [spinner]="false" [disabled]="true">
-                        <i class="ri-shopping-cart-line me-1" *ngIf="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty))"></i> {{
-                            ((selectedVariation && selectedVariation.status && selectedVariation.quantity < productQty || (!selectedVariation && product.quantity < productQty)) ? 'out_of_stock'
-                        : 'Add To Cart') | translate }}
-                    </app-button>
+                        <i class="ri-shopping-cart-line me-1"
+                            *ngIf="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty))"></i>
+                        {{
+                        ((selectedVariation && selectedVariation.status && selectedVariation.quantity < productQty ||
+                            (!selectedVariation && product.quantity < productQty)) ? 'out_of_stock' : 'Add To Cart' ) |
+                            translate }} </app-button>
                 </ng-template>
-                <app-button 
-                    [class]="'btn btn-md btn-buy-now'" 
-                    [id]="'buynowbtn'+product.id" 
+                <app-button [class]="'btn btn-md btn-buy-now'" [id]="'buynowbtn'+product.id"
                     [disabled]="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty)) ? false : true"
                     (click)="((selectedVariation && selectedVariation.status && selectedVariation.quantity >= productQty) || (!selectedVariation && product.quantity >= productQty)) && addToCart(product, true)">
                     {{ 'Buy Now' | translate }} <i class="ri-arrow-right-line ms-1"></i>
                 </app-button>
             </ng-container>
             <ng-template #isExternalProduct>
-                <app-button 
-                    [id]="'externalBtn'+product.id" 
-                    [class]="'btn btn-md btn-buy-now'"
+                <app-button [id]="'externalBtn'+product.id" [class]="'btn btn-md btn-buy-now'"
                     (click)="externalProductLink(product.external_url)">
                     {{ product.external_button_text ? product.external_button_text : 'Buy Now' | translate }}
                 </app-button>

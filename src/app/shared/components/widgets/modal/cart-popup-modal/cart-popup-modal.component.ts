@@ -5,11 +5,11 @@ import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { Cart, CartAddOrUpdate } from '../../../../interface/cart.interface';
 import { CartState } from '../../../../state/cart.state';
 import { ClearCart, UpdateCart, DeleteCart, AddToCart } from '../../../../action/cart.action';
+import { AddToWishlist, DeleteWishlist } from '../../../../action/wishlist.action';
 import { Router } from '@angular/router';
 import { CartService } from '../../../../services/cart.service';
 import { ProductService } from '../../../../services/product.service';
 import { Product } from '../../../../interface/product.interface';
-
 import { Attribute, AttributeValue } from '../../../../interface/attribute.interface';
 
 @Component({
@@ -167,6 +167,14 @@ export class CartPopupModalComponent implements OnDestroy {
           this.addToCartLoader = false; // Stop loader on error
         }
       });
+    }
+  }
+
+  toggleWishlist(product: Product) {
+    product['is_wishlist'] = !product['is_wishlist'];
+    let action = product['is_wishlist'] ? new AddToWishlist({ product_id: product.id }) : new DeleteWishlist(product.id);
+    if (action) {
+      this.store.dispatch(action);
     }
   }
 

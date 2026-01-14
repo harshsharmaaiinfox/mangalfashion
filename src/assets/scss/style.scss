@@ -310,8 +310,11 @@ ul.footer-list-minimal {
 
 @media (max-width: 768px) {
     a.dropdown-item {
-        color: #515b6e !important;
+        color: #4a5568 !important;
         font-weight: 600 !important;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
     }
 
     ul.navbar-nav {
@@ -412,13 +415,8 @@ ul.product-info-list {
 }
 
 a.dropdown-item {
-    color: #4a5568 !important;
-    font-weight: 600 !important;
+    color: #222522;
+    font-weight: 400;
     transition: all 0.3s ease;
     cursor: pointer;
-
-    &:hover {
-        color: var(--theme-color) !important;
-        padding-left: 10px;
-    }
 }

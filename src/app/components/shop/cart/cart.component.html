@@ -115,12 +115,18 @@
 
                         <div class="summary-row-item" *ngIf="!(cartDigital$ | async)">
                             <span class="summary-label-text">{{ 'Shipping' | translate }}</span>
-                            <span class="summary-value-text text-muted">{{ 'Cost At Checkout' | translate }}</span>
+                            <span class="summary-value-text" [class.text-muted]="!(checkout$ | async)">
+                                {{ (checkout$ | async) ? ((checkout$ | async)?.total?.shipping_total | currencySymbol) :
+                                ('Cost At Checkout' | translate) }}
+                            </span>
                         </div>
 
                         <div class="summary-row-item">
                             <span class="summary-label-text">{{ 'Tax' | translate }}</span>
-                            <span class="summary-value-text text-muted">{{ 'Cost at Checkout' | translate }}</span>
+                            <span class="summary-value-text" [class.text-muted]="!(checkout$ | async)">
+                                {{ (checkout$ | async) ? ((checkout$ | async)?.total?.tax_total | currencySymbol) :
+                                ('Cost at Checkout' | translate) }}
+                            </span>
                         </div>
                     </div>
 
@@ -128,8 +134,10 @@
 
                     <div class="summary-total-box">
                         <span class="total-label-main">{{ 'Total' | translate }}</span>
-                        <span class="total-value-main theme-color">{{ (cartTotal$ | async) || 0 | currencySymbol
-                            }}</span>
+                        <span class="total-value-main theme-color">
+                            {{ (checkout$ | async) ? ((checkout$ | async)?.total?.total | currencySymbol) : ((cartTotal$
+                            | async) || 0 | currencySymbol) }}
+                        </span>
                     </div>
 
                     <div class="summary-actions-box">

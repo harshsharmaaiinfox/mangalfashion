@@ -173,9 +173,9 @@
                                     <span class="checkbox-custom" [class.checkbox-error]="tnc.touched && tnc.invalid"></span>
                                     <span class="checkbox-text" [class.text-red]="tnc.touched && tnc.invalid">
                                         {{ 'I Agree With' | translate }}
-                                        <span class="terms-link">{{ 'Terms' | translate }}</span> 
-                                        {{ 'And' | translate }} 
-                                        <span class="terms-link">{{ 'Privacy' | translate }}</span>
+                                        <a [routerLink]="['/term-condition']" class="terms-link">{{ 'Terms' | translate }}</a>
+                                        {{ 'And' | translate }}
+                                        <a [routerLink]="['/privacy-policy']" class="terms-link">{{ 'Privacy' | translate }}</a>
                                     </span>
                                 </label>
                             </div>

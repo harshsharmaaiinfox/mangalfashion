@@ -31,7 +31,7 @@ export class WishlistState {
 
   constructor(private store: Store, public router: Router,
     private wishlistService: WishlistService,
-    private notificationService: NotificationService){}
+    private notificationService: NotificationService) { }
 
   @Selector()
   static wishlistItems(state: WishlistStateModel) {
@@ -45,7 +45,7 @@ export class WishlistState {
 
   @Action(GetWishlist)
   getWishlistItems(ctx: StateContext<GetWishlist>) {
-    if(!this.store.selectSnapshot(state => state.auth && state.auth.access_token)) {
+    if (!this.store.selectSnapshot(state => state.auth && state.auth.access_token)) {
       return;
     }
     this.wishlistService.skeletonLoader = true;
@@ -72,8 +72,8 @@ export class WishlistState {
   }
 
   @Action(AddToWishlist)
-  add(ctx: StateContext<WishlistStateModel>, action: AddToWishlist){
-    if(!this.store.selectSnapshot(state => state.auth && state.auth.access_token)) {
+  add(ctx: StateContext<WishlistStateModel>, action: AddToWishlist) {
+    if (!this.store.selectSnapshot(state => state.auth && state.auth.access_token)) {
       localStorage.setItem('wishlist', action.payload['product_id'])
       this.router.navigate(['/auth/login']);
       return;
@@ -81,19 +81,12 @@ export class WishlistState {
     return this.wishlistService.addToWishlist(action.payload).pipe(
       tap({
         next: result => {
-          const state = ctx.getState();
-          let ids = [...state.wishlistIds, action.payload['product_id'] ]
-          ctx.patchState({
-            ...state,
-            wishlist: {
-              data: result.data,
-              total: result?.total ? result?.total : result.data?.length
-            },
-            wishlistIds: ids
-          });
+          if (result) {
+            ctx.dispatch(new GetWishlist());
+          }
         },
-        complete:() => {
-          if(!localStorage.getItem('wishlist')){
+        complete: () => {
+          if (!localStorage.getItem('wishlist')) {
             this.notificationService.showSuccess('Added To Wishlist Successfully.');
           } else {
             localStorage.setItem('wishlist', '')
@@ -114,7 +107,7 @@ export class WishlistState {
           const state = ctx.getState();
           let item = state.wishlist?.data?.filter(value => value.id !== id);
           let ids = state.wishlistIds?.filter(ids => ids !== id);
-          
+
           ctx.patchState({
             ...state,
             wishlist: {

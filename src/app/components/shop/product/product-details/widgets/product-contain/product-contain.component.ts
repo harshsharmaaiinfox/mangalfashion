@@ -33,20 +33,21 @@ export class ProductContainComponent {
   public ordersCount: number = 10;
   public viewsCount: number = 30;
   public countsInterval: any;
-  
+
   constructor(private store: Store, private router: Router) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['product'] && changes['product'].currentValue) {
+    if (changes['product'] && changes['product'].currentValue) {
       this.selectedVariation = null;
       clearInterval(this.countsInterval);
       this.product = changes['product']?.currentValue;
+      this.checkWishlist();
     }
 
     this.countsInterval = setInterval(() => {
       let encourage_max_view_count = this.option?.product?.encourage_max_view_count ? this.option?.product?.encourage_max_view_count : 100;
-        this.viewsCount = Math.floor(Math.random() * encourage_max_view_count) + 1;
+      this.viewsCount = Math.floor(Math.random() * encourage_max_view_count) + 1;
     }, 5000);
 
     this.countsInterval = setInterval(() => {
@@ -54,22 +55,30 @@ export class ProductContainComponent {
       this.ordersCount = Math.floor(Math.random() * encourage_max_order_count) + 1;
     }, 60000);
 
-   this.cartItem$.subscribe(items => {
+    this.cartItem$.subscribe(items => {
       this.cartItem = items.find((item) => {
-        if(item.variation_id){
+        if (item.variation_id) {
           this.product.variations.find((i) => {
-            return i.id ==  item.variation_id;
+            return i.id == item.variation_id;
           })
-        }else{
+        } else {
           return item.product.id == this.product.id;
         }
       })!
     });
-  
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.wholesalePriceCal();
+    this.checkWishlist();
+  }
+
+  checkWishlist() {
+    this.wishlistIds$.subscribe(ids => {
+      if (this.product) {
+        this.product.is_wishlist = ids?.includes(this.product.id);
+      }
+    });
   }
 
   selectVariation(variation: Variation) {
@@ -77,15 +86,15 @@ export class ProductContainComponent {
   }
 
   updateQuantity(qty: number) {
-    if(1 > this.productQty + (qty)) return;
+    if (1 > this.productQty + (qty)) return;
     this.productQty = this.productQty + (qty);
     this.wholesalePriceCal();
   }
 
   addToCart(product: Product, buyNow?: boolean) {
-    if(product) {
+    if (product) {
       const params: CartAddOrUpdate = {
-        id: this.cartItem && (this.selectedVariation && this.cartItem?.variation && 
+        id: this.cartItem && (this.selectedVariation && this.cartItem?.variation &&
           this.selectedVariation?.id == this.cartItem?.variation?.id) ? this.cartItem.id : null,
         product_id: product?.id,
         product: product ? product : null,
@@ -95,7 +104,7 @@ export class ProductContainComponent {
       }
       this.store.dispatch(new AddToCart(params)).subscribe({
         complete: () => {
-          if(buyNow) {
+          if (buyNow) {
             this.router.navigate(['/checkout']);
           }
         }
@@ -103,10 +112,10 @@ export class ProductContainComponent {
     }
   }
 
-  addToWishlist(product: Product){
+  addToWishlist(product: Product) {
     product['is_wishlist'] = !product['is_wishlist'];
-    let action = product['is_wishlist']? new AddToWishlist({ product_id: product.id }) : new DeleteWishlist(product.id);
-    if(action){
+    let action = product['is_wishlist'] ? new AddToWishlist({ product_id: product.id }) : new DeleteWishlist(product.id);
+    if (action) {
       this.store.dispatch(action);
     }
   }
@@ -116,16 +125,16 @@ export class ProductContainComponent {
   }
 
   externalProductLink(link: string) {
-    if(link) {
+    if (link) {
       window.open(link, "_blank");
     }
   }
 
   wholesalePriceCal() {
     let wholesale = this.product?.wholesales.find(value => value.min_qty <= this.productQty && value.max_qty >= this.productQty) || null;
-    if(wholesale && this.product?.wholesale_price_type == 'fixed') {
+    if (wholesale && this.product?.wholesale_price_type == 'fixed') {
       this.totalPrice = this.productQty * wholesale.value;
-    } else if(wholesale && this.product?.wholesale_price_type == 'percentage') {
+    } else if (wholesale && this.product?.wholesale_price_type == 'percentage') {
       this.totalPrice = this.productQty * (this.selectedVariation ? this.selectedVariation.sale_price : this.product?.sale_price);
       this.totalPrice = this.totalPrice - (this.totalPrice * (wholesale.value / 100));
     } else {

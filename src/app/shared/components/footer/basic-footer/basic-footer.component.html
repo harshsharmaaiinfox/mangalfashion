@@ -11,15 +11,14 @@
                     <div class="footer-content-minimal" [class.expanded]="active['collections']">
                         <app-footer-categories [data]="data"></app-footer-categories>
                         <ul class="footer-list-minimal" *ngIf="!data?.footer?.footer_categories?.length">
-                            <li><a routerLink="/collections" href="/collections">Kurtas & Kurtis</a></li>
-                            <li><a routerLink="/collections" href="/collections">Ethnic Sets</a></li>
-                            <li><a routerLink="/collections" href="/collections">Ethnic Sets with Dupatta</a></li>
-                            <li><a routerLink="/collections" href="/collections">Dresses</a></li>
-                            <li><a routerLink="/collections" href="/collections">Co-ord Sets</a></li>
-                            <li><a routerLink="/collections" href="/collections">Bottom Wear</a></li>
-                            <li><a routerLink="/collections" href="/collections">Tunics</a></li>
-                            <li><a routerLink="/collections" href="/collections">Autumn Winter 25</a></li>
-                            <li><a routerLink="/collections" href="/collections">All Collections</a></li>
+                            <li><a [routerLink]="['/collections']"
+                                    [queryParams]="{page: 1, category: 'kurtas'}">Kurta</a></li>
+                            <li><a [routerLink]="['/collections']"
+                                    [queryParams]="{page: 1, category: 'ethnic-jackets'}">Ethnic Jackets</a></li>
+                            <li><a [routerLink]="['/collections']"
+                                    [queryParams]="{page: 1, category: 'ethnic-suit-sets'}">Ethnic Suit Sets</a></li>
+                            <li><a [routerLink]="['/collections']"
+                                    [queryParams]="{page: 1, category: 'sherwani-sets'}">Sherwani Sets</a></li>
                         </ul>
                     </div>
                 </div>
@@ -34,11 +33,16 @@
                     </div>
                     <div class="footer-content-minimal" [class.expanded]="active['useful_link']">
                         <ul class="footer-list-minimal">
-                            <li><a routerLink="/term-condition" title="Terms &amp; Conditions" href="/term-condition">Terms &amp; Conditions</a></li>
-                            <li><a routerLink="/privacy-policy" title="Privacy Policy" href="/privacy-policy">Privacy Policy</a></li>
-                            <li><a routerLink="/refund-and-cancellation" title="Refund and Cancellation Policy" href="/refund-and-cancellation">Refund and Cancellation Policy</a></li>
-                            <li><a routerLink="/return-policy" title="Return Policy" href="/return-policy">Return Policy</a></li>
-                            <li><a routerLink="/shipping-policy" title="Shipping Policy" href="/shipping-policy">Shipping Policy</a></li>
+                            <li><a routerLink="/term-condition" title="Terms &amp; Conditions"
+                                    href="/term-condition">Terms &amp; Conditions</a></li>
+                            <li><a routerLink="/privacy-policy" title="Privacy Policy" href="/privacy-policy">Privacy
+                                    Policy</a></li>
+                            <li><a routerLink="/refund-and-cancellation" title="Refund and Cancellation Policy"
+                                    href="/refund-and-cancellation">Refund and Cancellation Policy</a></li>
+                            <li><a routerLink="/return-policy" title="Return Policy" href="/return-policy">Return
+                                    Policy</a></li>
+                            <li><a routerLink="/shipping-policy" title="Shipping Policy"
+                                    href="/shipping-policy">Shipping Policy</a></li>
                             <li><a routerLink="/page/about-us" title="About Us" href="/page/about-us">About Us</a></li>
                             <li><a routerLink="/Contact-Us" title="Contact Us" href="/Contact-Us">Contact Us</a></li>
                         </ul>
@@ -53,10 +57,13 @@
                         <h4>NEWSLETTER</h4>
                     </div>
                     <div class="footer-content-minimal newsletter-section always-visible">
-                        <p class="newsletter-description">Sign up to Get exclusive offers, latest collections, and style tips!</p>
+                        <p class="newsletter-description">Sign up to Get exclusive offers, latest collections, and style
+                            tips!</p>
                         <div class="newsletter-form">
-                            <input type="email" class="newsletter-input" placeholder="E-mail" [formControl]="email" (keyup.enter)="submitNewsletter()">
-                            <button type="button" class="newsletter-button" (click)="submitNewsletter()" [disabled]="isSubmitting">
+                            <input type="email" class="newsletter-input" placeholder="E-mail" [formControl]="email"
+                                (keyup.enter)="submitNewsletter()">
+                            <button type="button" class="newsletter-button" (click)="submitNewsletter()"
+                                [disabled]="isSubmitting">
                                 <span *ngIf="!isSubmitting">SUBSCRIBE</span>
                                 <span *ngIf="isSubmitting">...</span>
                             </button>
@@ -79,7 +86,8 @@
                             <li>
                                 <small>MANGAL MURTI LANDCRAFTS PRIVATE LIMITED</small>
                                 <a href="https://www.google.com/maps" target="_blank" title="View on Google Maps">
-                                    UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST, Gautam Buddha Nagar, Uttar Pradesh, India - 201318
+                                    UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST, Gautam
+                                    Buddha Nagar, Uttar Pradesh, India - 201318
                                 </a>
                             </li>
                             <li class="contact-info-group">
@@ -106,7 +114,8 @@
     </div>
 
     <!-- Back to Top Button -->
-    <button class="back-to-top-button" [class.show]="showBackToTop" (click)="scrollToTop()" type="button" title="Back to Top">
+    <button class="back-to-top-button" [class.show]="showBackToTop" (click)="scrollToTop()" type="button"
+        title="Back to Top">
         <i class="ri-arrow-up-line"></i>
     </button>
 
@@ -117,25 +126,36 @@
                 <h2 class="about-title">Discover Everyday & Ethnic Fashion at Mangal Fashion</h2>
 
                 <p class="about-description">
-                    Welcome to Mangal Fashion, your trusted online destination for stylish, comfortable, and affordable clothing. We bring together modern trends and traditional designs to create fashion that fits effortlessly into your everyday life as well as special occasions. Each product is selected with a focus on quality, fit, and long-lasting comfort.
+                    Welcome to Mangal Fashion, your trusted online destination for stylish, comfortable, and affordable
+                    clothing. We bring together modern trends and traditional designs to create fashion that fits
+                    effortlessly into your everyday life as well as special occasions. Each product is selected with a
+                    focus on quality, fit, and long-lasting comfort.
                 </p>
 
                 <h3 class="section-heading">Shop Latest Clothing Collections Online</h3>
 
                 <p class="section-description">
-                    At Mangal Fashion, you'll find thoughtfully curated collections for men and women. From daily wear essentials to festive and ethnic styles, our range is designed to match your lifestyle. With attention to fabric quality and trend-led designs, we ensure every outfit helps you look confident and feel comfortable.
+                    At Mangal Fashion, you'll find thoughtfully curated collections for men and women. From daily wear
+                    essentials to festive and ethnic styles, our range is designed to match your lifestyle. With
+                    attention to fabric quality and trend-led designs, we ensure every outfit helps you look confident
+                    and feel comfortable.
                 </p>
 
                 <h3 class="section-heading">Women's Fashion That Reflects Elegance</h3>
 
                 <p class="section-description">
-                    Explore a wide range of women's wear including kurtis, dresses, co-ord sets, tops, ethnic outfits, and more. Our women's collection combines graceful designs with breathable fabrics, making it perfect for office wear, casual outings, and celebrations. New styles are added regularly to keep your wardrobe fresh.
+                    Explore a wide range of women's wear including kurtis, dresses, co-ord sets, tops, ethnic outfits,
+                    and more. Our women's collection combines graceful designs with breathable fabrics, making it
+                    perfect for office wear, casual outings, and celebrations. New styles are added regularly to keep
+                    your wardrobe fresh.
                 </p>
 
                 <h3 class="section-heading">Men's Wear for Comfort & Style</h3>
 
                 <p class="section-description">
-                    Discover men's clothing designed for both everyday wear and special moments. Our collection includes T-shirts, shirts, jeans, trousers, jackets, kurtas, and ethnic wear. Each piece is crafted to offer a great fit, comfort, and durability—so you can dress with confidence wherever you go.
+                    Discover men's clothing designed for both everyday wear and special moments. Our collection includes
+                    T-shirts, shirts, jeans, trousers, jackets, kurtas, and ethnic wear. Each piece is crafted to offer
+                    a great fit, comfort, and durability—so you can dress with confidence wherever you go.
                 </p>
             </div>
         </div>

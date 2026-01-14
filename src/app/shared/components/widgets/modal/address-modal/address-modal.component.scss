@@ -373,7 +373,7 @@
       }
     }
 
-    .btn-submit {
+    ::ng-deep .btn-submit {
       padding: 12px 28px;
       border: none;
       background: #EA5A26;
@@ -488,4 +488,3 @@
     }
   }
 }
-
