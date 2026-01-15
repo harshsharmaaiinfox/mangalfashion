@@ -12,6 +12,10 @@ import { OrderStatusModel } from '../../../../shared/interface/order-status.inte
 import { RefundModalComponent } from '../../../../shared/components/widgets/modal/refund-modal/refund-modal.component';
 import { PayModalComponent } from '../../../../shared/components/widgets/modal/pay-modal/pay-modal.component';
 import { CartService } from '../../../../shared/services/cart.service';
+import { CountryState } from '../../../../shared/state/country.state';
+import { StateState } from '../../../../shared/state/state.state';
+import { Country, CountryModel } from '../../../../shared/interface/country.interface';
+import { States, StatesModel } from '../../../../shared/interface/state.interface';
 
 @Component({
   selector: 'app-order-details',
@@ -21,6 +25,8 @@ import { CartService } from '../../../../shared/services/cart.service';
 export class OrderDetailsComponent {
 
   @Select(OrderStatusState.orderStatus) orderStatus$: Observable<OrderStatusModel>;
+  @Select(CountryState.country) country$: Observable<CountryModel>;
+  @Select(StateState.state) state$: Observable<StatesModel>;
   @ViewChild("refundModal") RefundModal: RefundModalComponent;
   @ViewChild("payModal") PayModal: PayModalComponent;
 
@@ -32,6 +38,9 @@ export class OrderDetailsComponent {
 
   public order: Order;
   public loading = true;
+
+  public countries: Country[] = [];
+  public states: States[] = [];
 
   // Computed properties for better performance
   get canDownloadInvoice(): boolean {
@@ -54,6 +63,8 @@ export class OrderDetailsComponent {
     private route: ActivatedRoute,
     private cartService: CartService) {
     this.store.dispatch(new GetOrderStatus());
+    this.country$.subscribe(country => this.countries = country.data);
+    this.state$.subscribe(state => this.states = state.data);
   }
 
   ngOnInit() {
@@ -89,6 +100,14 @@ export class OrderDetailsComponent {
         }
       }
     });
+  }
+
+  getCountryName(id: number) {
+    return this.countries.find(country => country.id == id)?.name;
+  }
+
+  getStateName(id: number) {
+    return this.states.find(state => state.id == id)?.name;
   }
 
   private checkPaymentStatusIfNeeded() {

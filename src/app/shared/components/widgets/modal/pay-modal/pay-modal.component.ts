@@ -28,6 +28,9 @@ export class PayModalComponent {
 
   async openModal(order: Order) {
     this.order = order;
+    // Reset payment method when modal opens
+    this.paymentType.reset();
+    this.paymentType.markAsUntouched();
     this.modalOpen = true;
     this.modalService.open(this.PayModal, {
       ariaLabelledBy: 'profile-Modal',
@@ -37,6 +40,9 @@ export class PayModalComponent {
       `Result ${result}`
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      // Reset form when modal is dismissed
+      this.paymentType.reset();
+      this.paymentType.markAsUntouched();
     });
   }
 
@@ -52,12 +58,28 @@ export class PayModalComponent {
 
   submit() {
     this.paymentType.markAllAsTouched();
-    if(this.paymentType.valid){
+    if(this.paymentType.valid && this.paymentType.value){
+      const paymentMethod = this.paymentType.value.trim();
+      if (!paymentMethod) {
+        console.error('Payment method is empty');
+        return;
+      }
+      
       const data = {
         order_number: this.order.order_number,
-        payment_method: this.paymentType.value!
+        payment_method: paymentMethod
       }
+      
+      console.log('Submitting repayment with data:', data);
+      
       this.store.dispatch(new RePayment(data)).subscribe({
+        next: (result) => {
+          console.log('Repayment response:', result);
+        },
+        error: (err) => {
+          console.error('Repayment error:', err);
+          // Error is handled by the state handler
+        },
         complete: () => {
           this.modalService.dismissAll();
         }

@@ -31,6 +31,15 @@ export class OrderService {
   }
 
   rePayment(payload: RePaymentPayload): Observable<PlaceOrder> {
+    // Validate payload before sending
+    if (!payload.payment_method || !payload.order_number) {
+      console.error('rePayment: Invalid payload - missing required fields', payload);
+      throw new Error('Payment method and order number are required');
+    }
+    console.log('rePayment: Sending payload to backend', {
+      url: `${environment.URL}/rePayment`,
+      payload: payload
+    });
     return this.http.post<PlaceOrder>(`${environment.URL}/rePayment`, payload);
   }
 

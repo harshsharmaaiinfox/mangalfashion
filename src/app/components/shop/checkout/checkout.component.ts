@@ -25,7 +25,7 @@ import * as data from '../../../shared/data/country-code';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { interval } from 'rxjs';
-import { delay, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { delay, switchMap, takeWhile, tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { OrderService } from '../../../shared/services/order.service';
 import { v4 as uuidv4 } from 'uuid';
 // import { PaymentInitModal } from 'pg-test-project';
@@ -63,6 +63,7 @@ export class CheckoutComponent {
   public couponError: string | null;
   public checkoutTotal: OrderCheckout;
   public loading: boolean = false;
+  private checkoutInProgress: boolean = false;
 
   public shippingStates$: Observable<Select2Data>;
   public billingStates$: Observable<Select2Data>;
@@ -182,9 +183,36 @@ export class CheckoutComponent {
           this.form.controls['password'].updateValueAndValidity();
         });
 
-        this.form.valueChanges.subscribe(value => {
-          // Trigger checkout on any change, but subtotal will at least show up
-          this.checkout();
+        this.form.valueChanges.pipe(
+          debounceTime(300), // Wait 300ms after user stops typing/changing
+          distinctUntilChanged((prev, curr) => {
+            // Only trigger if payment_method or other critical fields changed
+            // Compare relevant fields to avoid unnecessary calls
+            return JSON.stringify({
+              products: prev.products,
+              shipping_address_id: prev.shipping_address_id,
+              billing_address_id: prev.billing_address_id,
+              coupon: prev.coupon,
+              points_amount: prev.points_amount,
+              wallet_balance: prev.wallet_balance,
+              delivery_description: prev.delivery_description,
+              payment_method: prev.payment_method
+            }) === JSON.stringify({
+              products: curr.products,
+              shipping_address_id: curr.shipping_address_id,
+              billing_address_id: curr.billing_address_id,
+              coupon: curr.coupon,
+              points_amount: curr.points_amount,
+              wallet_balance: curr.wallet_balance,
+              delivery_description: curr.delivery_description,
+              payment_method: curr.payment_method
+            });
+          })
+        ).subscribe(value => {
+          // Only trigger checkout if payment method is selected
+          if (value.payment_method && value.payment_method.trim() !== '') {
+            this.checkout();
+          }
         });
 
       }
@@ -215,7 +243,10 @@ export class CheckoutComponent {
 
     this.cartService.getUpdateQtyClickEvent().subscribe(() => {
       this.products();
-      this.checkout();
+      // Only call checkout if payment method is already selected
+      if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+        this.checkout();
+      }
     });
 
     this.form.controls['phone']?.valueChanges.subscribe((value) => {
@@ -285,58 +316,61 @@ export class CheckoutComponent {
             quantity: new FormControl(item?.quantity),
           })
         ));
-      // Trigger calculation once products are loaded
-      this.checkout();
+      // Don't trigger checkout on page load - wait for payment method selection
     });
   }
 
   selectShippingAddress(id: number) {
     if (id) {
       this.form.controls['shipping_address_id'].setValue(Number(id));
-      this.checkout();
+      // Only call checkout if payment method is already selected
+      if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+        this.checkout();
+      }
     }
   }
 
   selectBillingAddress(id: number) {
     if (id) {
       this.form.controls['billing_address_id'].setValue(Number(id));
-      this.checkout();
+      // Only call checkout if payment method is already selected
+      if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+        this.checkout();
+      }
     }
   }
 
   selectDelivery(value: DeliveryBlock) {
     this.form.controls['delivery_description'].setValue(value?.delivery_description);
     this.form.controls['delivery_interval'].setValue(value?.delivery_interval);
-    this.checkout();
+    // Only call checkout if payment method is already selected
+    if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+      this.checkout();
+    }
   }
 
   selectPaymentMethod(value: string) {
     this.form.controls['payment_method'].setValue(value);
     this.payment_method = value;
+    // Call checkout when payment method is selected
+    this.checkout(value);
+    
     switch (value) {
       case 'neoKred':
-        this.checkout(value);
         break;
       case 'sub_paisa':
-        this.checkout(value);
         break;
       case 'cash_free':
-        this.checkout(value);
         break;
       case 'zyaada_pay':
-        this.checkout(value);
         break;
       case 'ease_buzz':
-        this.checkout(value);
         break;
       case 'neoKred2':
-        this.checkout(value);
         break;
       case 'mangal fashion_nabu':
-        this.checkout(value);
         break;
       case 'pay_drill':
-        this.checkout(value);
         break;
       default:
         break;
@@ -749,12 +783,18 @@ export class CheckoutComponent {
 
   togglePoint(event: Event) {
     this.form.controls['points_amount'].setValue((<HTMLInputElement>event.target)?.checked);
-    this.checkout();
+    // Only call checkout if payment method is already selected
+    if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+      this.checkout();
+    }
   }
 
   toggleWallet(event: Event) {
     this.form.controls['wallet_balance'].setValue((<HTMLInputElement>event.target)?.checked);
-    this.checkout();
+    // Only call checkout if payment method is already selected
+    if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+      this.checkout();
+    }
   }
 
   showCoupon() {
@@ -812,6 +852,12 @@ export class CheckoutComponent {
   }
 
   checkout(payment_method?: string) {
+    // Prevent concurrent checkout calls
+    if (this.checkoutInProgress) {
+      console.log('Checkout already in progress, skipping...');
+      return;
+    }
+
     // If has coupon error while checkout
     if (this.couponError) {
       this.couponError = null;
@@ -823,17 +869,36 @@ export class CheckoutComponent {
     // This lets guests see their subtotal even before they finish their address
     if (this.productControl.valid && this.productControl.length > 0) {
       this.loading = true;
-      this.store.dispatch(new Checkout(this.form.value)).subscribe({
+      this.checkoutInProgress = true;
+      
+      // Prepare payload - exclude payment_method if it's empty
+      const formValue = { ...this.form.value };
+      if (!formValue.payment_method || formValue.payment_method.trim() === '') {
+        // Remove payment_method from payload if it's empty (it's optional)
+        delete formValue.payment_method;
+      }
+      
+      // Also clean up empty string values for optional fields
+      if (formValue.shipping_address_id === '') {
+        delete formValue.shipping_address_id;
+      }
+      if (formValue.billing_address_id === '') {
+        delete formValue.billing_address_id;
+      }
+      
+      this.store.dispatch(new Checkout(formValue)).subscribe({
         next: (value) => {
           this.storeData = value;
         },
         error: (err) => {
           this.loading = false;
+          this.checkoutInProgress = false;
           // Don't throw error here to avoid breaking UI, just log it
           console.error('Checkout calculation error:', err);
         },
         complete: () => {
           this.loading = false;
+          this.checkoutInProgress = false;
         }
       });
     } else {

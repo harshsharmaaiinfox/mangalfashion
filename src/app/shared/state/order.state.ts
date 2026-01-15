@@ -133,9 +133,19 @@ export class OrderState {
 
   @Action(RePayment)
   rePayment(ctx: StateContext<OrderStateModel>, action: RePayment) {
+    // Validate payload before sending
+    if (!action.payload.payment_method || !action.payload.order_number) {
+      console.error('RePayment payload validation failed:', action.payload);
+      this.notificationService.showError('Payment method and order number are required');
+      return;
+    }
+    
+    console.log('RePayment action payload:', action.payload);
+    
     return this.orderService.rePayment(action.payload).pipe(
       tap({
         next: result => {
+          console.log('RePayment success result:', result);
           if((action.payload.payment_method == 'cod' || action.payload.payment_method == 'bank_transfer') && !result.is_guest) {
             this.router.navigateByUrl(`/account/order/details/${result.order_number}`);
           } else if((action.payload.payment_method == 'cod' || action.payload.payment_method == 'bank_transfer') && result.is_guest) {
@@ -145,7 +155,15 @@ export class OrderState {
           }
         },
         error: err => {
-          throw new Error(err?.error?.message);
+          console.error('RePayment error details:', {
+            error: err,
+            errorMessage: err?.error?.message,
+            errorResponse: err?.error,
+            payload: action.payload
+          });
+          const errorMessage = err?.error?.message || 'Payment processing failed. Please try again.';
+          this.notificationService.showError(errorMessage);
+          throw new Error(errorMessage);
         }
       })
     );

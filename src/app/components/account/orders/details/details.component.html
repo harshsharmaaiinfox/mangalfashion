@@ -168,10 +168,10 @@
                                 </div>
                                 <div class="detail-content">
                                     <label class="detail-label">{{ 'Billing Address' | translate }}</label>
-                                    <p class="detail-value" *ngIf="order?.billing_address?.state">
+                                    <p class="detail-value">
                                         {{ order.billing_address.street }}, 
-                                        {{ order.billing_address.city }}, {{ order.billing_address.state.name }}, 
-                                        {{ order.billing_address.country.name }} {{ order.billing_address.pincode }}<br>
+                                        {{ order.billing_address.city }}, {{ getStateName(order.billing_address.state_id) }}, 
+                                        {{ getCountryName(order.billing_address.country_id) }} {{ order.billing_address.pincode }}<br>
                                         <span class="phone-text">{{ 'Phone' | translate }}: +{{ order.billing_address.country_code }} {{ order.billing_address.phone }}</span>
                                     </p>
                                 </div>
@@ -182,10 +182,10 @@
                                 </div>
                                 <div class="detail-content">
                                     <label class="detail-label">{{ 'Shipping Address' | translate }}</label>
-                                    <p class="detail-value" *ngIf="order?.shipping_address?.state">
+                                    <p class="detail-value">
                                         {{ order.shipping_address.street }}, 
-                                        {{ order.shipping_address.city }}, {{ order.shipping_address.state.name }}, 
-                                        {{ order.shipping_address.country.name }} {{ order.shipping_address.pincode }}<br>
+                                        {{ order.shipping_address.city }}, {{ getStateName(order.shipping_address.state_id) }}, 
+                                        {{ getCountryName(order.shipping_address.country_id) }} {{ order.shipping_address.pincode }}<br>
                                         <span class="phone-text">{{ 'Phone' | translate }}: +{{ order.shipping_address.country_code }} {{ order.shipping_address.phone }}</span>
                                     </p>
                                 </div>

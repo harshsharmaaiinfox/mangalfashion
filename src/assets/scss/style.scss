@@ -426,3 +426,6 @@ a.dropdown-item {
 .status-success span, .status-in_stock span, .status-completed span, .status-approved span, .status-delivered span, .status-credit span {
     border: none !important;
 }
+span.product-description {
+    white-space: nowrap !important;
+}
