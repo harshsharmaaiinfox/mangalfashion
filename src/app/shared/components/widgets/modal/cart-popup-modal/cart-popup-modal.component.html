@@ -56,10 +56,10 @@
             </div>
 
             <!-- Size Selector (Dynamic) -->
-            <div class="size-selector-section" *ngIf="sizeAttribute && sizeAttribute?.attribute_values?.length">
+            <div class="size-selector-section" *ngIf="sizeAttribute && availableSizeValues?.length">
               <h6 class="size-label">{{ sizeAttribute.name }} : {{ selectedSize?.value }}</h6>
               <div class="size-options">
-                <button *ngFor="let size of sizeAttribute.attribute_values" class="size-btn"
+                <button *ngFor="let size of availableSizeValues" class="size-btn"
                   [class.active]="selectedSize?.id === size.id" (click)="selectSize(size)">
                   {{ size.value }}
                 </button>
@@ -67,10 +67,10 @@
             </div>
 
             <!-- Waist Selector (Dynamic) -->
-            <div class="size-selector-section" *ngIf="waistAttribute && waistAttribute?.attribute_values?.length">
+            <div class="size-selector-section" *ngIf="waistAttribute && availableWaistValues?.length">
               <h6 class="size-label">{{ waistAttribute.name }} : {{ selectedWaist?.value }}</h6>
               <div class="size-options">
-                <button *ngFor="let waist of waistAttribute.attribute_values" class="size-btn"
+                <button *ngFor="let waist of availableWaistValues" class="size-btn"
                   [class.active]="selectedWaist?.id === waist.id" (click)="selectWaist(waist)">
                   {{ waist.value }}
                 </button>

@@ -73,10 +73,22 @@ export class CartState {
     return this.cartService.getCartItems().pipe(
       tap({
         next: result => {
-          // Set Selected Varaint
+          // Set Selected Variant - Ensure selected_variation is populated for display
           result.items.filter((item: Cart) => {
             if (item?.variation) {
-              item.variation.selected_variation = item?.variation?.attribute_values?.map(values => values.value)?.join('/');
+              // Use existing selected_variation if available, otherwise construct from attribute_values
+              if (!item.variation.selected_variation || item.variation.selected_variation.trim() === '') {
+                const rawValues = item?.variation?.attribute_values?.map(values => values?.value);
+                const filteredValues = rawValues?.filter(value => value);
+                let constructedVariation = filteredValues?.join('/') || '';
+
+                // If no values found, use variation name as fallback
+                if (!constructedVariation && item.variation.name) {
+                  constructedVariation = item.variation.name;
+                }
+
+                item.variation.selected_variation = constructedVariation;
+              }
             }
           });
           ctx.patchState(result);
@@ -133,7 +145,10 @@ export class CartState {
             // Set Selected Variant
             output.items.filter(item => {
               if (item?.variation) {
-                item.variation.selected_variation = item?.variation?.attribute_values?.map(values => values.value)?.join('/');
+                // Use existing selected_variation if available, otherwise construct from attribute_values
+                if (!item.variation.selected_variation || item.variation.selected_variation.trim() === '') {
+                  item.variation.selected_variation = item?.variation?.attribute_values?.map(values => values?.value)?.filter(value => value)?.join('/') || '';
+                }
               }
             });
 
@@ -202,11 +217,16 @@ export class CartState {
 
     const finalItems = items.map(item => {
       if (item.variation) {
+        // Use existing selected_variation if available, otherwise construct from attribute_values
+        const selectedVariation = item.variation.selected_variation && item.variation.selected_variation.trim() !== ''
+          ? item.variation.selected_variation
+          : item.variation.attribute_values?.map(values => values?.value)?.filter(value => value)?.join('/') || '';
+
         return {
           ...item,
           variation: {
             ...item.variation,
-            selected_variation: item.variation.attribute_values?.map(values => values.value)?.join('/')
+            selected_variation: selectedVariation
           }
         };
       }
@@ -331,9 +351,14 @@ export class CartState {
       Number(currentItem.id) === Number(action.payload.id) &&
       Number(currentItem?.variation_id) != Number(action.payload.variation_id)) {
 
+      // Use existing selected_variation if available, otherwise construct from attribute_values
+      const selectedVariation = action.payload.variation!.selected_variation && action.payload.variation!.selected_variation.trim() !== ''
+        ? action.payload.variation!.selected_variation
+        : action.payload.variation!.attribute_values?.map(values => values?.value)?.filter(value => value)?.join('/') || '';
+
       const newVariation = {
         ...action.payload.variation!,
-        selected_variation: action.payload.variation!.attribute_values?.map(values => values.value)?.join('/')
+        selected_variation: selectedVariation
       };
 
       currentItem = {

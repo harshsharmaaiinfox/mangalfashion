@@ -32,6 +32,9 @@ export class CartPopupModalComponent implements OnDestroy {
   public waistAttribute: Attribute | null = null;
   public selectedWaist: AttributeValue | null = null;
 
+  public availableSizeValues: AttributeValue[] = [];
+  public availableWaistValues: AttributeValue[] = [];
+
   public addToCartLoader: boolean = false;
 
   constructor(
@@ -51,6 +54,8 @@ export class CartPopupModalComponent implements OnDestroy {
     this.selectedSize = null;
     this.waistAttribute = null;
     this.selectedWaist = null;
+    this.availableSizeValues = [];
+    this.availableWaistValues = [];
 
     if (this.product && this.product.attributes) {
       // Find attribute by name 'Size' (case-insensitive)
@@ -58,20 +63,13 @@ export class CartPopupModalComponent implements OnDestroy {
         attr.name.toLowerCase() === 'size'
       ) || null;
 
-      if (this.sizeAttribute && this.sizeAttribute.attribute_values.length > 0) {
-        // Select first value by default
-        this.selectedSize = this.sizeAttribute.attribute_values[0];
-      }
-
       // Find attribute by name 'Waist' (case-insensitive)
       this.waistAttribute = this.product.attributes.find(attr =>
         attr.name.toLowerCase() === 'waist'
       ) || null;
 
-      if (this.waistAttribute && this.waistAttribute.attribute_values.length > 0) {
-        // Select first value by default
-        this.selectedWaist = this.waistAttribute.attribute_values[0];
-      }
+      // Filter available attribute values based on existing variations
+      this.filterAvailableAttributeValues();
     }
 
     this.modalService.open(this.cartPopupModal, {
@@ -101,6 +99,51 @@ export class CartPopupModalComponent implements OnDestroy {
     this.modalService.dismissAll();
   }
 
+  filterAvailableAttributeValues() {
+    if (!this.product?.variations) return;
+
+    // Reset available values
+    this.availableSizeValues = [];
+    this.availableWaistValues = [];
+
+    // Filter size values
+    if (this.sizeAttribute) {
+      this.availableSizeValues = this.sizeAttribute.attribute_values.filter(sizeValue =>
+        this.product!.variations.some(variation =>
+          variation.attribute_values.some(attrVal => attrVal.id === sizeValue.id)
+        )
+      );
+
+      // Set default selection for size
+      if (!this.selectedSize || !this.availableSizeValues.find(v => v.id === this.selectedSize!.id)) {
+        this.selectedSize = this.availableSizeValues.length > 0 ? this.availableSizeValues[0] : null;
+      }
+    }
+
+    // Filter waist values
+    if (this.waistAttribute) {
+      this.availableWaistValues = this.waistAttribute.attribute_values.filter(waistValue =>
+        this.product!.variations.some(variation =>
+          variation.attribute_values.some(attrVal => attrVal.id === waistValue.id)
+        )
+      );
+
+      // Set default selection for waist
+      if (!this.selectedWaist || !this.availableWaistValues.find(v => v.id === this.selectedWaist!.id)) {
+        this.selectedWaist = this.availableWaistValues.length > 0 ? this.availableWaistValues[0] : null;
+      }
+    }
+
+    console.log('🎯 FILTERED AVAILABLE VALUES:', {
+      sizeAttribute: this.sizeAttribute?.name,
+      availableSizes: this.availableSizeValues.map(v => v.value),
+      selectedSize: this.selectedSize?.value,
+      waistAttribute: this.waistAttribute?.name,
+      availableWaists: this.availableWaistValues.map(v => v.value),
+      selectedWaist: this.selectedWaist?.value
+    });
+  }
+
   updateQuantity(qty: number) {
     if (this.quantity + qty >= 1) {
       this.quantity += qty;
@@ -125,27 +168,68 @@ export class CartPopupModalComponent implements OnDestroy {
       if (this.product.type === 'classified' && this.product.variations && this.product.variations.length > 0) {
 
         // Find variation that matches the selected attributes (Size and/or Waist)
+        console.log('🔍 VARIATION SEARCH - Looking for:', {
+          selectedSize: this.selectedSize,
+          selectedWaist: this.selectedWaist,
+          productVariations: this.product.variations?.length
+        });
+
+        // Debug: Log all variations and their attribute values
+        this.product.variations?.forEach((variation, index) => {
+          console.log(`Variation ${index + 1}:`, {
+            id: variation.id,
+            name: variation.name,
+            attribute_values: variation.attribute_values,
+            selected_variation: variation.selected_variation
+          });
+        });
+
         const foundVariation = this.product.variations.find(variation => {
           let match = true;
 
           // Check Size match if size is selected
           if (this.selectedSize) {
             const sizeMatch = variation.attribute_values?.some(attrVal => attrVal.id === this.selectedSize?.id);
+            console.log(`Size check for variation ${variation.id}:`, {
+              selectedSizeId: this.selectedSize?.id,
+              variationAttrIds: variation.attribute_values?.map(v => v.id),
+              sizeMatch
+            });
             if (!sizeMatch) match = false;
           }
 
           // Check Waist match if waist is selected
           if (this.selectedWaist) {
             const waistMatch = variation.attribute_values?.some(attrVal => attrVal.id === this.selectedWaist?.id);
+            console.log(`Waist check for variation ${variation.id}:`, {
+              selectedWaistId: this.selectedWaist?.id,
+              variationAttrIds: variation.attribute_values?.map(v => v.id),
+              waistMatch
+            });
             if (!waistMatch) match = false;
           }
 
+          console.log(`Variation ${variation.id} match result:`, match);
           return match;
         });
 
         if (foundVariation) {
-          selectedVariation = foundVariation;
+          selectedVariation = {
+            ...foundVariation,
+            // Ensure selected_variation is set if missing
+            selected_variation: foundVariation.selected_variation ||
+              foundVariation.attribute_values?.map(attr => attr.value)?.filter(value => value)?.join('/') || ''
+          };
           selectedVariationId = foundVariation.id;
+          console.log('✅ CART POPUP - FOUND Variation:', {
+            id: foundVariation.id,
+            name: foundVariation.name,
+            attribute_values: foundVariation.attribute_values,
+            original_selected_variation: foundVariation.selected_variation,
+            constructed_selected_variation: selectedVariation.selected_variation
+          });
+        } else {
+          console.log('❌ CART POPUP - NO Variation found for selected attributes');
         }
       }
 
@@ -157,6 +241,13 @@ export class CartPopupModalComponent implements OnDestroy {
         variation: selectedVariation,
         quantity: this.quantity
       }
+
+      console.log('🛒 CART POPUP - Adding to Cart:', {
+        product_name: this.product?.name,
+        variation_id: selectedVariationId,
+        variation: selectedVariation,
+        params: params
+      });
 
       this.store.dispatch(new AddToCart(params)).subscribe({
         complete: () => {

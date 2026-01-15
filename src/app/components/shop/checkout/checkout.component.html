@@ -432,7 +432,7 @@
                                         </h5>
                                         <div class="item-variation" *ngIf="item?.variation">
                                             <small class="variation-label">Size:</small>
-                                            <span class="variation-value">{{ item?.variation?.selected_variation
+                                            <span class="variation-value">{{ item?.variation?.selected_variation || item?.variation?.name || 'N/A'
                                                 }}</span>
                                         </div>
                                         <div class="order-item-price-info">

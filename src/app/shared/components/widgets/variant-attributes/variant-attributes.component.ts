@@ -136,6 +136,14 @@ export class VariantAttributesComponent {
       let doValuesMatch = attrValues.length === this.selectedOptions.length &&
                           attrValues.every(value => this.variantIds.includes(value));
       if(doValuesMatch) {
+        console.log('🎯 VARIANT SELECTED:', {
+          variationId: variation.id,
+          variationName: variation.name,
+          attributeValues: variation.attribute_values,
+          selectedVariation: variation.selected_variation,
+          selectedOptions: this.selectedOptions
+        });
+
         this.selectedVariation = variation;
         this.product['quantity'] = this.selectedVariation ? this.selectedVariation?.quantity : this.product?.quantity;
         this.product['sku'] = this.selectedVariation ? this.selectedVariation?.sku : this.product?.sku;

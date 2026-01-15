@@ -38,7 +38,7 @@
                                 <h6>{{ (item?.variation ? item.variation.sale_price : item?.product && item?.wholesale_price ? item?.wholesale_price : item?.product?.sale_price)! | currencySymbol }}</h6>
                             </div>
                             <h5 class="gram" *ngIf="item?.variation">
-                                {{ item?.variation?.selected_variation }}
+                                {{ item?.variation?.selected_variation || item?.variation?.name || 'N/A' }}
                             </h5>
                             <div class="cart_qty qty-box product-qty">
                                 <div class="input-group h-100">
