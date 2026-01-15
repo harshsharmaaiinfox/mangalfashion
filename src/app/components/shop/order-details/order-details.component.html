@@ -1,5 +1,17 @@
 <app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
-<section class="user-dashboard-section section-b-space">
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="loading">
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h5>Loading Order Details...</h5>
+        <p class="text-muted">Please wait while we fetch your order information.</p>
+    </div>
+</div>
+
+<section class="user-dashboard-section section-b-space" *ngIf="!loading">
     <div class="container-fluid-lg">
         <div class="row">
             <div class="col-xxl-12 col-lg-12">
@@ -13,7 +25,7 @@
                         <div class="mb-4">
                             <div class="tracking-panel">
                                 <ul *ngIf="order && !order?.sub_orders?.length">
-                                    <ng-container *ngFor="let orderStatus of (orderStatus$ | async)?.data">
+                                    <ng-container *ngFor="let orderStatus of orderStatuses">
                                         <li [class.active]="orderStatus?.sequence! <= order.order_status.sequence!"
                                             [ngClass]="{
                                                 'd-none': (orderStatus?.sequence! >= order.order_status.sequence! 

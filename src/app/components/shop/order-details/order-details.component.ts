@@ -22,7 +22,6 @@ import { States, StatesModel } from '../../../shared/interface/state.interface';
 })
 export class OrderDetailsComponent {
 
-  @Select(OrderStatusState.orderStatus) orderStatus$: Observable<OrderStatusModel>;
   @Select(CountryState.country) country$: Observable<CountryModel>;
   @Select(StateState.state) state$: Observable<StatesModel>;
 
@@ -32,6 +31,12 @@ export class OrderDetailsComponent {
   public email_or_phone: string;
   public countries: Country[] = [];
   public states: States[] = [];
+  public loading = true;
+  public orderStatuses: any[] = [];
+
+  // Maps for better performance
+  private countryMap = new Map<number, string>();
+  private stateMap = new Map<number, string>();
 
   public breadcrumb: Breadcrumb = {
     title: "Order Details",
@@ -41,11 +46,21 @@ export class OrderDetailsComponent {
   constructor(private store: Store,
     private route: ActivatedRoute,
     private ngZone: NgZone,
-    private cdRef: ChangeDetectorRef 
+    private cdRef: ChangeDetectorRef
   ) {
     this.store.dispatch(new GetOrderStatus());
-    this.country$.subscribe(country => this.countries = country.data);
-    this.state$.subscribe(state => this.states = state.data);
+    this.country$.subscribe(country => {
+      this.countries = country.data;
+      this.buildCountryMap();
+    });
+    this.state$.subscribe(state => {
+      this.states = state.data;
+      this.buildStateMap();
+    });
+    // Subscribe to order status changes
+    this.store.select(OrderStatusState.orderStatus).subscribe(orderStatus => {
+      this.orderStatuses = orderStatus?.data || [];
+    });
   }
 
   ngOnInit() {
@@ -53,6 +68,7 @@ export class OrderDetailsComponent {
       .pipe(
         switchMap(params => {
             this.email_or_phone = params['email_or_phone'];
+            this.loading = true; // Set loading to true when starting new request
             return this.store
                       .dispatch(new OrderTracking({ order_number: params['order_number'].toString(), email_or_phone: params['email_or_phone']}))
                       .pipe(mergeMap(() => this.store.select(OrderState.selectedOrder)))
@@ -63,15 +79,30 @@ export class OrderDetailsComponent {
       .subscribe(order => {
         this.order = order;
         this.order && (this.order.consumer = order?.guest_order ? order?.guest_order : order?.consumer);
+        this.loading = false; // Set loading to false when data is received
       });
   }
 
+  private buildCountryMap() {
+    this.countryMap.clear();
+    this.countries.forEach(country => {
+      this.countryMap.set(country.id, country.name);
+    });
+  }
+
+  private buildStateMap() {
+    this.stateMap.clear();
+    this.states.forEach(state => {
+      this.stateMap.set(state.id, state.name);
+    });
+  }
+
   getCountryName(id: number) {
-    return this.countries.find(country => country.id == id)?.name;
+    return this.countryMap.get(id);
   }
 
   getStateName(id: number) {
-    return this.states.find(state => state.id == id)?.name;
+    return this.stateMap.get(id);
   }
 
   ngOnDestroy() {
