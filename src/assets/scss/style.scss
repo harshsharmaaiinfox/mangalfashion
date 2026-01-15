@@ -309,6 +309,18 @@ ul.footer-list-minimal {
 }
 
 @media (max-width: 768px) {
+    .order-details-page-container .order-info-section .consumer-details-card .card-body-modern, .order-details-page-container .order-info-section .order-summary-card .card-body-modern {
+        padding: 10px !important;
+    }
+    .product-item-card {
+        flex-direction: column !important;
+    }
+    .order-details-page-container .order-tracking-section .tracking-card .tracking-steps::before {
+       display: none !important;
+    }
+    .custom-account-dropdown .account-dropdown-menu{
+        right: -15px !important;
+    }
     a.dropdown-item {
         color: #4a5568 !important;
         font-weight: 600 !important;
