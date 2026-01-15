@@ -288,14 +288,8 @@ export class CheckoutComponent {
 
     if (cameFromPayment && storedOrderId) {
       const orderId = JSON.parse(storedOrderId);
-      // Clear stored payment data
-      localStorage.removeItem('order_id');
-      localStorage.removeItem('payment_uuid');
-      localStorage.removeItem('payment_method');
-      sessionStorage.removeItem('payment_uuid');
-      sessionStorage.removeItem('payment_method');
-      sessionStorage.removeItem('payment_action');
-      sessionStorage.removeItem('came_from_checkout_payment');
+      // Don't clear payment data here - let payment success component handle it
+      // This prevents issues when user clicks back before payment success loads
       // Redirect to order details
       this.router.navigate(['/account/order/details', orderId]);
       return;

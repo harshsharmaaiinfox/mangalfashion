@@ -84,6 +84,7 @@ export class OrderDetailsComponent {
           this.order = currentOrder;
           this.loading = false;
           this.checkPaymentStatusIfNeeded();
+          this.clearPaymentDataIfNeeded();
         } else {
           // Only dispatch if we don't have the order or it's different
           this.store.dispatch(new ViewOrder(params['id'])).subscribe(() => {
@@ -94,6 +95,7 @@ export class OrderDetailsComponent {
                   this.order = order;
                   this.loading = false;
                   this.checkPaymentStatusIfNeeded();
+                  this.clearPaymentDataIfNeeded();
                 }
               });
           });
@@ -123,6 +125,24 @@ export class OrderDetailsComponent {
       setTimeout(() => {
         this.checkPaymentStatus();
       }, 3000);
+    }
+  }
+
+  private clearPaymentDataIfNeeded() {
+    // Clear payment-related data when user successfully reaches order details
+    // This prevents issues with back navigation from payment pages
+    const cameFromPayment = sessionStorage.getItem('came_from_checkout_payment');
+    const hasPaymentData = sessionStorage.getItem('payment_uuid') || localStorage.getItem('order_id');
+
+    if (cameFromPayment || hasPaymentData) {
+      // Clear all payment-related data
+      localStorage.removeItem('order_id');
+      localStorage.removeItem('payment_uuid');
+      localStorage.removeItem('payment_method');
+      sessionStorage.removeItem('payment_uuid');
+      sessionStorage.removeItem('payment_method');
+      sessionStorage.removeItem('payment_action');
+      sessionStorage.removeItem('came_from_checkout_payment');
     }
   }
 
