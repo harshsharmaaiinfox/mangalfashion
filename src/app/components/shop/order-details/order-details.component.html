@@ -131,19 +131,25 @@
                                                 <li class="col-12 col-sm-6" *ngIf="order?.billing_address">
                                                     <label>{{ 'billing_address' | translate }}:</label>
                                                     <h4>
-                                                        {{ order.billing_address.street }}
-                                                        {{ order.billing_address.city }} {{ getStateName(order.billing_address.state_id) }} {{ getCountryName(order.billing_address.country_id) }}
-                                                        {{ order.billing_address.pincode }} <br>
-                                                        {{ 'phone' }} : +{{ order.billing_address.country_code }} {{ order.billing_address.phone }}
+                                                        <div *ngIf="order.billing_address.floor_no">Floor No.: {{ order.billing_address.floor_no }}</div>
+                                                        <div *ngIf="order.billing_address.flat_no">Flat No.: {{ order.billing_address.flat_no }}</div>
+                                                        <div *ngIf="order.billing_address.building">Building: {{ order.billing_address.building }}</div>
+                                                        <div *ngIf="order.billing_address.road">Road: {{ order.billing_address.road }}</div>
+                                                        <div>{{ order.billing_address.street }}</div>
+                                                        <div>{{ order.billing_address.city }} {{ getStateName(order.billing_address.state_id) }} {{ getCountryName(order.billing_address.country_id) }} {{ order.billing_address.pincode }}</div>
+                                                        <div>{{ 'phone' }} : +{{ order.billing_address.country_code }} {{ order.billing_address.phone }}</div>
                                                     </h4>
                                                 </li>
                                                 <li class="col-12 col-sm-6" *ngIf="order?.shipping_address && !order?.is_digital_only">
                                                     <label>{{ 'shipping_address' | translate }}:</label>
                                                     <h4>
-                                                        {{ order.shipping_address.street }}
-                                                        {{ order.shipping_address.city }} {{ getStateName(order.shipping_address.state_id) }} {{ getCountryName(order.shipping_address.country_id) }}
-                                                        {{ order.shipping_address.pincode }} <br>
-                                                        {{ 'phone' }} : +{{ order.shipping_address.country_code }} {{ order.shipping_address.phone }}
+                                                        <div *ngIf="order.shipping_address.floor_no">Floor No.: {{ order.shipping_address.floor_no }}</div>
+                                                        <div *ngIf="order.shipping_address.flat_no">Flat No.: {{ order.shipping_address.flat_no }}</div>
+                                                        <div *ngIf="order.shipping_address.building">Building: {{ order.shipping_address.building }}</div>
+                                                        <div *ngIf="order.shipping_address.road">Road: {{ order.shipping_address.road }}</div>
+                                                        <div>{{ order.shipping_address.street }}</div>
+                                                        <div>{{ order.shipping_address.city }} {{ getStateName(order.shipping_address.state_id) }} {{ getCountryName(order.shipping_address.country_id) }} {{ order.shipping_address.pincode }}</div>
+                                                        <div>{{ 'phone' }} : +{{ order.shipping_address.country_code }} {{ order.shipping_address.phone }}</div>
                                                     </h4>
                                                 </li>
                                                 <li class="col-12 col-sm-6" *ngIf="order?.delivery_description && !order?.is_digital_only">

@@ -90,10 +90,13 @@
                     </div>
                     <div class="info-content">
                         <span class="info-label">{{ 'Address' | translate }}</span>
-                        <h6 class="info-value">
-                            {{ address.street }}, {{ address.city }}, {{ address.area }}, 
-                            {{ address.country_id }} {{ address.pincode }}
-                        </h6>
+                        <div class="info-value">
+                            <div *ngIf="address.floor_no"><b>Floor No.</b>: {{ address.floor_no }}</div>
+                            <div *ngIf="address.flat_no"><b>Flat No.</b>: {{ address.flat_no }}</div>
+                            <div *ngIf="address.building"><b>Building</b>: {{ address.building }}</div>
+                            <div *ngIf="address.road"><b>Road</b>: {{ address.road }}</div>
+                            <div>{{ address.street }}, {{ address.city }}, {{ address.area }}, {{ address.country_id }} {{ address.pincode }}</div>
+                        </div>
                     </div>
                 </div>
             </div>

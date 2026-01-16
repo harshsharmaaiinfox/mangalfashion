@@ -46,4 +46,8 @@ export interface UserAddress {
     country_id: number;
     area: string;
     is_default: boolean;
+    floor_no?: string;
+    flat_no?: string;
+    building?: string;
+    road?: string;
 }

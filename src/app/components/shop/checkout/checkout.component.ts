@@ -117,6 +117,10 @@ export class CheckoutComponent {
       password: new FormControl(),
       shipping_address: new FormGroup({
         title: new FormControl('', [Validators.required]),
+        floor_no: new FormControl(''),
+        flat_no: new FormControl(''),
+        building: new FormControl(''),
+        road: new FormControl(''),
         street: new FormControl('', [Validators.required]),
         city: new FormControl('', [Validators.required]),
         phone: new FormControl('', [Validators.required]),
@@ -128,6 +132,10 @@ export class CheckoutComponent {
       billing_address: new FormGroup({
         same_shipping: new FormControl(false),
         title: new FormControl('', [Validators.required]),
+        floor_no: new FormControl(''),
+        flat_no: new FormControl(''),
+        building: new FormControl(''),
+        road: new FormControl(''),
         street: new FormControl('', [Validators.required]),
         city: new FormControl('', [Validators.required]),
         phone: new FormControl('', [Validators.required]),
@@ -222,6 +230,10 @@ export class CheckoutComponent {
     this.form.get('billing_address.same_shipping')?.valueChanges.subscribe(value => {
       if (value) {
         this.form.get('billing_address.title')?.setValue(this.form.get('shipping_address.title')?.value);
+        this.form.get('billing_address.floor_no')?.setValue(this.form.get('shipping_address.floor_no')?.value);
+        this.form.get('billing_address.flat_no')?.setValue(this.form.get('shipping_address.flat_no')?.value);
+        this.form.get('billing_address.building')?.setValue(this.form.get('shipping_address.building')?.value);
+        this.form.get('billing_address.road')?.setValue(this.form.get('shipping_address.road')?.value);
         this.form.get('billing_address.street')?.setValue(this.form.get('shipping_address.street')?.value);
         this.form.get('billing_address.country_id')?.setValue(this.form.get('shipping_address.country_id')?.value);
         this.form.get('billing_address.state_id')?.setValue(this.form.get('shipping_address.state_id')?.value);
@@ -231,6 +243,10 @@ export class CheckoutComponent {
         this.form.get('billing_address.phone')?.setValue(this.form.get('shipping_address.phone')?.value);
       } else {
         this.form.get('billing_address.title')?.setValue('');
+        this.form.get('billing_address.floor_no')?.setValue('');
+        this.form.get('billing_address.flat_no')?.setValue('');
+        this.form.get('billing_address.building')?.setValue('');
+        this.form.get('billing_address.road')?.setValue('');
         this.form.get('billing_address.street')?.setValue('');
         this.form.get('billing_address.country_id')?.setValue('');
         this.form.get('billing_address.state_id')?.setValue('');

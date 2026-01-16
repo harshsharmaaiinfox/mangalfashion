@@ -267,7 +267,7 @@ export class SeoService {
       "email": "info@mangalfashion.com",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "UNIT NO. 10104, 10th FLOOR, GAUR CITY MALL, SECTOR-4, GREATER NOIDA WEST",
+        "streetAddress": "Floor No. 10th, Flat No. 10104, Building: GAUR CITY MALL SECTOR 4 GREATER NOIDA, Road: Parthala Bridge Gaur City Mall",
         "addressLocality": "Gautam Buddha Nagar",
         "addressRegion": "Uttar Pradesh",
         "postalCode": "201318",

@@ -37,6 +37,45 @@
             <span>{{ 'Only letters and spaces are allowed' | translate }}</span>
           </div>
         </div>
+
+        <div class="form-row">
+          <div class="form-field-wrapper">
+            <label class="form-label-modern" for="floor_no">
+              <i class="ri-building-4-line"></i>
+              <span>{{ 'Floor No.' | translate }}</span>
+            </label>
+            <input class="form-input-modern" id="floor_no" type="text" placeholder="{{ 'Enter Floor No.' | translate }}"
+              formControlName="floor_no" />
+          </div>
+          <div class="form-field-wrapper">
+            <label class="form-label-modern" for="flat_no">
+              <i class="ri-home-3-line"></i>
+              <span>{{ 'Flat No.' | translate }}</span>
+            </label>
+            <input class="form-input-modern" id="flat_no" type="text" placeholder="{{ 'Enter Flat No.' | translate }}"
+              formControlName="flat_no" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field-wrapper">
+            <label class="form-label-modern" for="building">
+              <i class="ri-building-line"></i>
+              <span>{{ 'Building' | translate }}</span>
+            </label>
+            <input class="form-input-modern" id="building" type="text" placeholder="{{ 'Enter Building' | translate }}"
+              formControlName="building" />
+          </div>
+          <div class="form-field-wrapper">
+            <label class="form-label-modern" for="road">
+              <i class="ri-road-map-line"></i>
+              <span>{{ 'Road' | translate }}</span>
+            </label>
+            <input class="form-input-modern" id="road" type="text" placeholder="{{ 'Enter Road' | translate }}"
+              formControlName="road" />
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-field-wrapper">
             <label class="form-label-modern" for="country_id">

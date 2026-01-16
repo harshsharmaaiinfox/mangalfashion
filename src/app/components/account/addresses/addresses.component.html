@@ -51,9 +51,13 @@
                         <i class="ri-map-pin-line"></i>
                         <div>
                             <span class="info-label">{{ 'Address' | translate }}</span>
-                            <span class="info-value">
-                                {{ address?.street }}, {{ address?.city }}, {{ address?.area }}, {{ address?.country_id }}
-                            </span>
+                            <div class="info-value address-structured">
+                                <div *ngIf="address?.floor_no">Floor No.: {{ address?.floor_no }}</div>
+                                <div *ngIf="address?.flat_no">Flat No.: {{ address?.flat_no }}</div>
+                                <div *ngIf="address?.building">Building: {{ address?.building }}</div>
+                                <div *ngIf="address?.road">Road: {{ address?.road }}</div>
+                                <div>{{ address?.street }}, {{ address?.city }}, {{ address?.area }}, {{ address?.country_id }}</div>
+                            </div>
                         </div>
                     </div>
 

@@ -58,6 +58,10 @@ export class AddressModalComponent {
   ) {
     this.form = this.formBuilder.group({
       title: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z\s]*$/)]),
+      floor_no: new FormControl(''),
+      flat_no: new FormControl(''),
+      building: new FormControl(''),
+      road: new FormControl(''),
       street: new FormControl('', [Validators.required]),
       state_id: new FormControl('', [Validators.required]),
       country_id: new FormControl('', [Validators.required]),
@@ -303,6 +307,10 @@ export class AddressModalComponent {
       this.form.patchValue({
         user_id: value?.user_id,
         title: value?.title,
+        floor_no: value?.floor_no,
+        flat_no: value?.flat_no,
+        building: value?.building,
+        road: value?.road,
         street: value?.street,
         country_id: value?.country_id,
         state_id: value?.state_id,

@@ -22,11 +22,16 @@
                                 <h4 class="fw-semibold">{{ address?.title }}</h4>
                             </li>
                             <li>
-                                <p class="text-content">
+                                <div class="text-content">
                                     <span class="text-title">{{ 'address' | translate }}: </span>
-                                    {{ address?.street }}, {{ address?.city }}, {{ address?.area }},
-                                    {{ address?.country_id }}
-                                </p>
+                                    <div class="address-details">
+                                        <div *ngIf="address?.floor_no">Floor No.: {{ address?.floor_no }}</div>
+                                        <div *ngIf="address?.flat_no">Flat No.: {{ address?.flat_no }}</div>
+                                        <div *ngIf="address?.building">Building: {{ address?.building }}</div>
+                                        <div *ngIf="address?.road">Road: {{ address?.road }}</div>
+                                        <div>{{ address?.street }}, {{ address?.city }}, {{ address?.area }}, {{ address?.country_id }}</div>
+                                    </div>
+                                </div>
                             </li>
                             <li *ngIf="address.pincode">
                                 <h6 class="text-content">
