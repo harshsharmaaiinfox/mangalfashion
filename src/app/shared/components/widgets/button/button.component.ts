@@ -17,6 +17,7 @@ export class ButtonComponent {
   @Input() type: string = 'submit';
   @Input() spinner: boolean = true;
   @Input() disabled: boolean = false;
+  @Input() loading: boolean = false;
 
   public buttonId: string | null;
 
@@ -24,7 +25,7 @@ export class ButtonComponent {
 
   constructor() {
     this.spinnerStatus$.subscribe(res => {
-      if(res == false) {
+      if (res == false) {
         this.buttonId = null;
       }
     });

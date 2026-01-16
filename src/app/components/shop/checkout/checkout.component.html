@@ -432,7 +432,8 @@
                                         </h5>
                                         <div class="item-variation" *ngIf="item?.variation">
                                             <small class="variation-label">Size:</small>
-                                            <span class="variation-value">{{ item?.variation?.selected_variation || item?.variation?.name || 'N/A'
+                                            <span class="variation-value">{{ item?.variation?.selected_variation ||
+                                                item?.variation?.name || 'N/A'
                                                 }}</span>
                                         </div>
                                         <div class="order-item-price-info">
@@ -451,9 +452,6 @@
                         <ng-container *ngIf="(cartItem$ | async)?.length">
                             <form [formGroup]="form" (ngSubmit)="placeorder()">
                                 <div class="custom-box-loader">
-                                    <div class="box-loader" *ngIf="loading">
-                                        <app-loader [loaderClass]="'custom-loader-wrapper blur-bg'"></app-loader>
-                                    </div>
                                     <div class="order-summary-breakdown">
                                         <div class="summary-row">
                                             <span class="summary-label">{{ 'Subtotal' | translate }}</span>
@@ -498,7 +496,7 @@
                                         </div>
                                     </div>
                                     <app-button [class]="'btn btn-place-order'" [id]="'place_order'"
-                                        [disabled]="loading || !(form.valid && checkoutTotal)">
+                                        [disabled]="loading || !(form.valid && checkoutTotal)" [loading]="loading">
                                         <i class="ri-lock-line"></i> {{ 'Place Order' | translate }}
                                     </app-button>
                                 </div>
