@@ -282,19 +282,6 @@ export class CheckoutComponent {
   // }
 
   ngOnInit() {
-    // Check if user came back from payment page
-    const cameFromPayment = sessionStorage.getItem('came_from_checkout_payment');
-    const storedOrderId = localStorage.getItem('order_id');
-
-    if (cameFromPayment && storedOrderId) {
-      const orderId = JSON.parse(storedOrderId);
-      // Don't clear payment data here - let payment success component handle it
-      // This prevents issues when user clicks back before payment success loads
-      // Redirect to order details
-      this.router.navigate(['/account/order/details', orderId]);
-      return;
-    }
-
     this.checkout$.subscribe(data => this.checkoutTotal = data);
     this.products();
   }
