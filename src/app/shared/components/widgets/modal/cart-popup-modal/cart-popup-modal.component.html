@@ -20,7 +20,7 @@
               {{ product?.name }}
             </h5>
             <div class="cart-item-price">
-              {{ product?.sale_price | currencySymbol }}
+              {{ currentPrice | currencySymbol }}
             </div>
             <div class="cart-item-rating">
               <ngb-rating [rate]="product?.rating_count || 0" [readonly]="true" [max]="5"></ngb-rating>
@@ -55,25 +55,18 @@
               </div>
             </div>
 
-            <!-- Size Selector (Dynamic) -->
-            <div class="size-selector-section" *ngIf="sizeAttribute && availableSizeValues?.length">
-              <h6 class="size-label">{{ sizeAttribute.name }} : {{ selectedSize?.value }}</h6>
-              <div class="size-options">
-                <button *ngFor="let size of availableSizeValues" class="size-btn"
-                  [class.active]="selectedSize?.id === size.id" (click)="selectSize(size)">
-                  {{ size.value }}
-                </button>
-              </div>
-            </div>
-
-            <!-- Waist Selector (Dynamic) -->
-            <div class="size-selector-section" *ngIf="waistAttribute && availableWaistValues?.length">
-              <h6 class="size-label">{{ waistAttribute.name }} : {{ selectedWaist?.value }}</h6>
-              <div class="size-options">
-                <button *ngFor="let waist of availableWaistValues" class="size-btn"
-                  [class.active]="selectedWaist?.id === waist.id" (click)="selectWaist(waist)">
-                  {{ waist.value }}
-                </button>
+            <!-- Dynamic Attribute Selectors -->
+            <div class="attribute-selector-section" *ngFor="let attribute of productAttributes">
+              <div *ngIf="availableAttributeValues[attribute.id]?.length">
+                <h6 class="attribute-label">{{ attribute.name }} : {{ selectedAttributeValues[attribute.id]?.value }}</h6>
+                <div class="attribute-options">
+                  <button *ngFor="let attrValue of availableAttributeValues[attribute.id]" class="attribute-btn"
+                    [class.active]="selectedAttributeValues[attribute.id]?.id === attrValue.id"
+                    [attr.data-style]="attribute.style"
+                    (click)="selectAttributeValue(attribute.id, attrValue)">
+                    {{ attrValue.value }}
+                  </button>
+                </div>
               </div>
             </div>
 

@@ -26,16 +26,21 @@ export class CartPopupModalComponent implements OnDestroy {
   public product: Product | null = null;
   public quantity: number = 1;
 
-  public sizeAttribute: Attribute | null = null;
-  public selectedSize: AttributeValue | null = null;
-
-  public waistAttribute: Attribute | null = null;
-  public selectedWaist: AttributeValue | null = null;
-
-  public availableSizeValues: AttributeValue[] = [];
-  public availableWaistValues: AttributeValue[] = [];
+  public productAttributes: Attribute[] = [];
+  public selectedAttributeValues: { [attributeId: number]: AttributeValue | null } = {};
+  public availableAttributeValues: { [attributeId: number]: AttributeValue[] } = {};
 
   public addToCartLoader: boolean = false;
+  public selectedVariationId: number | null = null;
+  public selectedVariation: any = null;
+
+  get currentPrice(): number {
+    // If we have a selected variation, return its sale_price, otherwise return product sale_price
+    if (this.selectedVariationId && this.selectedVariation) {
+      return this.selectedVariation.sale_price;
+    }
+    return this.product?.sale_price || 0;
+  }
 
   constructor(
     private modalService: NgbModal,
@@ -49,27 +54,25 @@ export class CartPopupModalComponent implements OnDestroy {
     this.quantity = 1; // Reset quantity
     this.addToCartLoader = false; // Reset loader
 
-    // Reset and find Size attribute
-    this.sizeAttribute = null;
-    this.selectedSize = null;
-    this.waistAttribute = null;
-    this.selectedWaist = null;
-    this.availableSizeValues = [];
-    this.availableWaistValues = [];
+    // Reset all attributes
+    this.productAttributes = [];
+    this.selectedAttributeValues = {};
+    this.availableAttributeValues = {};
 
     if (this.product && this.product.attributes) {
-      // Find attribute by name 'Size' (case-insensitive)
-      this.sizeAttribute = this.product.attributes.find(attr =>
-        attr.name.toLowerCase() === 'size'
-      ) || null;
+      // Get all product attributes (not just size and waist)
+      this.productAttributes = this.product.attributes;
 
-      // Find attribute by name 'Waist' (case-insensitive)
-      this.waistAttribute = this.product.attributes.find(attr =>
-        attr.name.toLowerCase() === 'waist'
-      ) || null;
+      // Initialize selected values and available values for each attribute
+      this.productAttributes.forEach(attribute => {
+        this.selectedAttributeValues[attribute.id] = null;
+        this.availableAttributeValues[attribute.id] = [];
+      });
 
       // Filter available attribute values based on existing variations
       this.filterAvailableAttributeValues();
+      // Update selected variation based on default selections
+      this.updateSelectedVariation();
     }
 
     this.modalService.open(this.cartPopupModal, {
@@ -102,45 +105,33 @@ export class CartPopupModalComponent implements OnDestroy {
   filterAvailableAttributeValues() {
     if (!this.product?.variations) return;
 
-    // Reset available values
-    this.availableSizeValues = [];
-    this.availableWaistValues = [];
+    // Reset available values for all attributes
+    this.productAttributes.forEach(attribute => {
+      this.availableAttributeValues[attribute.id] = [];
+    });
 
-    // Filter size values
-    if (this.sizeAttribute) {
-      this.availableSizeValues = this.sizeAttribute.attribute_values.filter(sizeValue =>
+    // Filter available values for each attribute
+    this.productAttributes.forEach(attribute => {
+      this.availableAttributeValues[attribute.id] = attribute.attribute_values.filter(attrValue =>
         this.product!.variations.some(variation =>
-          variation.attribute_values.some(attrVal => attrVal.id === sizeValue.id)
+          variation.attribute_values.some(variationAttrVal => variationAttrVal.id === attrValue.id)
         )
       );
 
-      // Set default selection for size
-      if (!this.selectedSize || !this.availableSizeValues.find(v => v.id === this.selectedSize!.id)) {
-        this.selectedSize = this.availableSizeValues.length > 0 ? this.availableSizeValues[0] : null;
+      // Set default selection for this attribute
+      const currentSelection = this.selectedAttributeValues[attribute.id];
+      const availableValues = this.availableAttributeValues[attribute.id];
+      if (!currentSelection || !availableValues.find(v => v.id === currentSelection.id)) {
+        this.selectedAttributeValues[attribute.id] = availableValues.length > 0 ? availableValues[0] : null;
       }
-    }
-
-    // Filter waist values
-    if (this.waistAttribute) {
-      this.availableWaistValues = this.waistAttribute.attribute_values.filter(waistValue =>
-        this.product!.variations.some(variation =>
-          variation.attribute_values.some(attrVal => attrVal.id === waistValue.id)
-        )
-      );
-
-      // Set default selection for waist
-      if (!this.selectedWaist || !this.availableWaistValues.find(v => v.id === this.selectedWaist!.id)) {
-        this.selectedWaist = this.availableWaistValues.length > 0 ? this.availableWaistValues[0] : null;
-      }
-    }
+    });
 
     console.log('🎯 FILTERED AVAILABLE VALUES:', {
-      sizeAttribute: this.sizeAttribute?.name,
-      availableSizes: this.availableSizeValues.map(v => v.value),
-      selectedSize: this.selectedSize?.value,
-      waistAttribute: this.waistAttribute?.name,
-      availableWaists: this.availableWaistValues.map(v => v.value),
-      selectedWaist: this.selectedWaist?.value
+      attributes: this.productAttributes.map(attr => ({
+        name: attr.name,
+        availableValues: this.availableAttributeValues[attr.id].map(v => v.value),
+        selectedValue: this.selectedAttributeValues[attr.id]?.value
+      }))
     });
   }
 
@@ -150,12 +141,48 @@ export class CartPopupModalComponent implements OnDestroy {
     }
   }
 
-  selectSize(value: AttributeValue) {
-    this.selectedSize = value;
+  selectAttributeValue(attributeId: number, value: AttributeValue) {
+    this.selectedAttributeValues[attributeId] = value;
+    // Update the selected variation when attributes change
+    this.updateSelectedVariation();
   }
 
-  selectWaist(value: AttributeValue) {
-    this.selectedWaist = value;
+  private updateSelectedVariation() {
+    if (!this.product?.variations) {
+      this.selectedVariationId = null;
+      this.selectedVariation = null;
+      return;
+    }
+
+    // Find variation that matches all selected attributes
+    const foundVariation = this.product.variations.find(variation => {
+      let match = true;
+
+      // Check each selected attribute value
+      for (const [attributeId, selectedValue] of Object.entries(this.selectedAttributeValues)) {
+        if (selectedValue) {
+          const attrMatch = variation.attribute_values?.some(attrVal => attrVal.id === selectedValue.id);
+          if (!attrMatch) {
+            match = false;
+            break;
+          }
+        }
+      }
+
+      return match;
+    });
+
+    if (foundVariation) {
+      this.selectedVariationId = foundVariation.id;
+      this.selectedVariation = {
+        ...foundVariation,
+        selected_variation: foundVariation.selected_variation ||
+          foundVariation.attribute_values?.map(attr => attr.value)?.filter(value => value)?.join('/') || ''
+      };
+    } else {
+      this.selectedVariationId = null;
+      this.selectedVariation = null;
+    }
   }
 
   addToCart() {
@@ -167,10 +194,12 @@ export class CartPopupModalComponent implements OnDestroy {
       // If product has variations
       if (this.product.type === 'classified' && this.product.variations && this.product.variations.length > 0) {
 
-        // Find variation that matches the selected attributes (Size and/or Waist)
+        // Find variation that matches all selected attributes
         console.log('🔍 VARIATION SEARCH - Looking for:', {
-          selectedSize: this.selectedSize,
-          selectedWaist: this.selectedWaist,
+          selectedAttributes: Object.entries(this.selectedAttributeValues).map(([attrId, value]) => ({
+            attributeId: attrId,
+            selectedValue: value?.value
+          })),
           productVariations: this.product.variations?.length
         });
 
@@ -187,26 +216,20 @@ export class CartPopupModalComponent implements OnDestroy {
         const foundVariation = this.product.variations.find(variation => {
           let match = true;
 
-          // Check Size match if size is selected
-          if (this.selectedSize) {
-            const sizeMatch = variation.attribute_values?.some(attrVal => attrVal.id === this.selectedSize?.id);
-            console.log(`Size check for variation ${variation.id}:`, {
-              selectedSizeId: this.selectedSize?.id,
-              variationAttrIds: variation.attribute_values?.map(v => v.id),
-              sizeMatch
-            });
-            if (!sizeMatch) match = false;
-          }
-
-          // Check Waist match if waist is selected
-          if (this.selectedWaist) {
-            const waistMatch = variation.attribute_values?.some(attrVal => attrVal.id === this.selectedWaist?.id);
-            console.log(`Waist check for variation ${variation.id}:`, {
-              selectedWaistId: this.selectedWaist?.id,
-              variationAttrIds: variation.attribute_values?.map(v => v.id),
-              waistMatch
-            });
-            if (!waistMatch) match = false;
+          // Check each selected attribute value
+          for (const [attributeId, selectedValue] of Object.entries(this.selectedAttributeValues)) {
+            if (selectedValue) {
+              const attrMatch = variation.attribute_values?.some(attrVal => attrVal.id === selectedValue.id);
+              console.log(`Attribute ${attributeId} check for variation ${variation.id}:`, {
+                selectedValueId: selectedValue.id,
+                variationAttrIds: variation.attribute_values?.map(v => v.id),
+                match: attrMatch
+              });
+              if (!attrMatch) {
+                match = false;
+                break;
+              }
+            }
           }
 
           console.log(`Variation ${variation.id} match result:`, match);
