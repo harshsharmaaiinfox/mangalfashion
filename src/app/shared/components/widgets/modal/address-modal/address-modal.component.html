@@ -17,66 +17,27 @@
   <form [formGroup]="form" class="" (ngSubmit)="submit()">
     <div class="modern-modal-body">
       <div class="address-form-fields">
-        <div class="form-field-wrapper">
-          <label class="form-label-modern" for="title">
-            <i class="ri-home-line"></i>
-            <span>{{ 'Title' | translate }}</span>
-          </label>
-          <input class="form-input-modern" id="title" type="text" placeholder="{{ 'Enter Title' | translate }}"
-            formControlName="title" (keydown)="allowOnlyLetters($event)" (input)="sanitizeLettersInput($event, 'title')"
-            (paste)="sanitizeLettersPaste($event)"
-            [class.is-invalid]="form?.controls?.['title']?.touched && (form.controls['title']?.errors?.['required'] || form.controls['title']?.errors?.['pattern'])" />
-          <div class="error-message"
-            *ngIf="form?.controls?.['title']?.touched && form.controls['title']?.errors?.['required']">
-            <i class="ri-error-warning-line"></i>
-            <span>{{ 'Title is Required' | translate }}</span>
-          </div>
-          <div class="error-message"
-            *ngIf="form?.controls?.['title']?.touched && form.controls['title']?.errors?.['pattern']">
-            <i class="ri-error-warning-line"></i>
-            <span>{{ 'Only letters and spaces are allowed' | translate }}</span>
-          </div>
-        </div>
-
         <div class="form-row">
           <div class="form-field-wrapper">
-            <label class="form-label-modern" for="floor_no">
-              <i class="ri-building-4-line"></i>
-              <span>{{ 'Floor No.' | translate }}</span>
+            <label class="form-label-modern" for="title">
+              <i class="ri-home-line"></i>
+              <span>{{ 'Title' | translate }}</span>
             </label>
-            <input class="form-input-modern" id="floor_no" type="text" placeholder="{{ 'Enter Floor No.' | translate }}"
-              formControlName="floor_no" />
+            <input class="form-input-modern" id="title" type="text" placeholder="{{ 'Enter Title' | translate }}"
+              formControlName="title" (keydown)="allowOnlyLetters($event)" (input)="sanitizeLettersInput($event, 'title')"
+              (paste)="sanitizeLettersPaste($event)"
+              [class.is-invalid]="form?.controls?.['title']?.touched && (form.controls['title']?.errors?.['required'] || form.controls['title']?.errors?.['pattern'])" />
+            <div class="error-message"
+              *ngIf="form?.controls?.['title']?.touched && form.controls['title']?.errors?.['required']">
+              <i class="ri-error-warning-line"></i>
+              <span>{{ 'Title is Required' | translate }}</span>
+            </div>
+            <div class="error-message"
+              *ngIf="form?.controls?.['title']?.touched && form.controls['title']?.errors?.['pattern']">
+              <i class="ri-error-warning-line"></i>
+              <span>{{ 'Only letters and spaces are allowed' | translate }}</span>
+            </div>
           </div>
-          <div class="form-field-wrapper">
-            <label class="form-label-modern" for="flat_no">
-              <i class="ri-home-3-line"></i>
-              <span>{{ 'Flat No.' | translate }}</span>
-            </label>
-            <input class="form-input-modern" id="flat_no" type="text" placeholder="{{ 'Enter Flat No.' | translate }}"
-              formControlName="flat_no" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-field-wrapper">
-            <label class="form-label-modern" for="building">
-              <i class="ri-building-line"></i>
-              <span>{{ 'Building' | translate }}</span>
-            </label>
-            <input class="form-input-modern" id="building" type="text" placeholder="{{ 'Enter Building' | translate }}"
-              formControlName="building" />
-          </div>
-          <div class="form-field-wrapper">
-            <label class="form-label-modern" for="road">
-              <i class="ri-road-map-line"></i>
-              <span>{{ 'Road' | translate }}</span>
-            </label>
-            <input class="form-input-modern" id="road" type="text" placeholder="{{ 'Enter Road' | translate }}"
-              formControlName="road" />
-          </div>
-        </div>
-
-        <div class="form-row">
           <div class="form-field-wrapper">
             <label class="form-label-modern" for="country_id">
               <i class="ri-global-line"></i>
@@ -92,6 +53,9 @@
               <span>{{ 'Country is Required' | translate }}</span>
             </div>
           </div>
+        </div>
+
+        <div class="form-row state-city-row">
           <div class="form-field-wrapper">
             <label class="form-label-modern" for="state_id">
               <i class="ri-map-line"></i>
@@ -106,9 +70,6 @@
               <span>{{ 'State is Required' | translate }}</span>
             </div>
           </div>
-        </div>
-
-        <div class="form-row">
           <div class="form-field-wrapper">
             <label class="form-label-modern" for="city">
               <i class="ri-building-line"></i>
@@ -123,6 +84,9 @@
               <span>{{ 'City is Required' | translate }}</span>
             </div>
           </div>
+        </div>
+
+        <div class="form-row area-pincode-row">
           <div class="form-field-wrapper">
             <label class="form-label-modern" for="area">
               <i class="ri-community-line"></i>
@@ -159,7 +123,7 @@
             <span>{{ 'Address' | translate }}</span>
           </label>
           <textarea class="form-textarea-modern" id="address" placeholder="{{ 'Enter Address' | translate }}"
-            formControlName="street" rows="4"
+            formControlName="street" rows="2"
             [class.is-invalid]="form?.controls?.['street']?.touched && form.controls['street']?.errors?.['required']"></textarea>
           <div class="error-message"
             *ngIf="form?.controls?.['street']?.touched && form.controls['street']?.errors?.['required']">
@@ -173,10 +137,13 @@
             <i class="ri-phone-line"></i>
             <span>{{ 'Phone Number' | translate }}</span>
           </label>
-          <input type="tel" class="form-input-modern" id="phone" maxlength="10" minlength="9" formControlName="phone"
-            placeholder="{{ 'Enter Phone' | translate }}" name="phone" (keydown)="allowOnlyDigits($event)"
-            (input)="sanitizeDigitsInput($event, 'phone')" (paste)="sanitizeDigitsPaste($event)"
-            [class.is-invalid]="form.controls['phone'].touched && (form.controls['phone'].errors?.['required'] || form.controls['phone'].errors?.['pattern'])" />
+          <div class="phone-input-wrapper">
+            <span class="phone-prefix">+91</span>
+            <input type="tel" class="form-input-modern phone-input" id="phone" maxlength="10" minlength="9" formControlName="phone"
+              placeholder="{{ 'Enter Phone' | translate }}" name="phone" (keydown)="allowOnlyDigits($event)"
+              (input)="sanitizeDigitsInput($event, 'phone')" (paste)="sanitizeDigitsPaste($event)"
+              [class.is-invalid]="form.controls['phone'].touched && (form.controls['phone'].errors?.['required'] || form.controls['phone'].errors?.['pattern'])" />
+          </div>
           <div class="error-message"
             *ngIf="form.controls['phone'].touched && form.controls['phone'].errors?.['required']">
             <i class="ri-error-warning-line"></i>

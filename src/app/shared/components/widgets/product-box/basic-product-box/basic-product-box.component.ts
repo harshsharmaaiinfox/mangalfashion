@@ -11,6 +11,8 @@ import { AddToCart } from '../../../../../shared/action/cart.action';
 import { CartState } from '../../../../../shared/state/cart.state';
 import { VariationModalComponent } from '../../modal/variation-modal/variation-modal.component';
 
+import { CartPopupModalComponent } from '../../modal/cart-popup-modal/cart-popup-modal.component';
+
 @Component({
   selector: 'app-basic-product-box',
   templateUrl: './basic-product-box.component.html',
@@ -26,6 +28,7 @@ export class BasicProductBoxComponent {
 
   @ViewChild("productDetailModal") productDetailModal: ProductDetailModalComponent;
   @ViewChild("variationModal") VariationModal: VariationModalComponent;
+  @ViewChild("cartPopupModal") cartPopupModal: CartPopupModalComponent;
 
   public cartItem: Cart | null;
   public currentDate: number | null;
@@ -36,9 +39,9 @@ export class BasicProductBoxComponent {
     config: NgbRatingConfig,
     private cdRef: ChangeDetectorRef
   ) {
-		config.max = 5;
-		config.readonly = true;
-	}
+    config.max = 5;
+    config.readonly = true;
+  }
 
   ngOnInit() {
     this.cartItem$.subscribe(items => {
@@ -65,24 +68,24 @@ export class BasicProductBoxComponent {
     this.store.dispatch(new AddToCart(params));
   }
 
-  addToWishlist(product: Product){
+  addToWishlist(product: Product) {
     product['is_wishlist'] = !product['is_wishlist'];
-    let action = product['is_wishlist']? new AddToWishlist({ product_id: product.id }) : new DeleteWishlist(product.id);
-    if(action){
+    let action = product['is_wishlist'] ? new AddToWishlist({ product_id: product.id }) : new DeleteWishlist(product.id);
+    if (action) {
       this.store.dispatch(action);
     }
   }
 
-  removeWishlist(id: number){
+  removeWishlist(id: number) {
     this.store.dispatch(new DeleteWishlist(id));
   }
 
-  addToCompar(id: number){
+  addToCompar(id: number) {
     this.store.dispatch(new AddToCompare({ product_id: id }));
   }
 
   externalProductLink(link: string) {
-    if(link) {
+    if (link) {
       window.open(link, "_blank");
     }
   }

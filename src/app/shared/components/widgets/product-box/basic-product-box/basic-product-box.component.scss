@@ -127,6 +127,79 @@
         &:hover .product-img {
             transform: scale(1.08);
         }
+
+        .product-hover-action {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 5;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 5px 15px;
+            width: auto;
+
+            .action-list {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                gap: 15px;
+
+                .action-item {
+                    width: 35px;
+                    height: 35px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    background: transparent;
+                    color: #2b2b2b;
+                    position: relative;
+
+                    i {
+                        font-size: 20px;
+                        line-height: 1;
+                    }
+
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        right: -8px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        height: 15px;
+                        width: 1px;
+                        background-color: #ddd;
+                        display: block;
+                    }
+
+                    &:last-child:after {
+                        display: none;
+                    }
+
+                    &:hover, &.active {
+                        color: var(--theme-color); // Using theme color
+                    }
+                }
+            }
+        }
+
+        &:hover {
+            .product-hover-action {
+                 opacity: 1;
+                 visibility: visible;
+                 transform: translateX(-50%) translateY(0);
+            }
+        }
     }
 
     // Product Info Section

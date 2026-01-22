@@ -25,8 +25,8 @@ export class CollectionSidebarComponent {
 
   constructor(private store: Store,
     public attributeService: AttributeService) {
-    this.store.dispatch(new GetAttributes({ status: 1}));
-    this.store.dispatch(new GetBrands({status: 1}));
+    this.store.dispatch(new GetAttributes({ status: 1 }));
+    this.store.dispatch(new GetBrands({ status: 1 }));
   }
 
   closeCanvasMenu() {

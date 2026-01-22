@@ -11,8 +11,8 @@ export class CollectionPriceFilterComponent implements OnChanges {
 
   @Input() filter: Params;
 
-  public minRange: number = 0;
-  public maxRange: number = 2000;
+  @Input() minRange: number = 0;
+  @Input() maxRange: number = 2000;
   public minPrice: number = 599;
   public maxPrice: number = 1799;
 
@@ -38,7 +38,7 @@ export class CollectionPriceFilterComponent implements OnChanges {
     if (this.maxPrice < this.minPrice) {
       this.maxPrice = this.minPrice;
     }
-    
+
     // Ensure values are within range
     if (this.minPrice < this.minRange) {
       this.minPrice = this.minRange;
@@ -46,7 +46,7 @@ export class CollectionPriceFilterComponent implements OnChanges {
     if (this.maxPrice > this.maxRange) {
       this.maxPrice = this.maxRange;
     }
-    
+
     this.applyFilter();
   }
 
@@ -72,13 +72,13 @@ export class CollectionPriceFilterComponent implements OnChanges {
     if (this.maxPrice < this.minPrice) {
       this.maxPrice = this.minPrice;
     }
-    
+
     this.applyFilter();
   }
 
   applyFilter() {
     const priceValue = `${this.minPrice}-${this.maxPrice}`;
-    
+
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {

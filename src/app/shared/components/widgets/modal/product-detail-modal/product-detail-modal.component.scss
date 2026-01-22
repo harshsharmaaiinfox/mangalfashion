@@ -17,10 +17,10 @@
           top: 16px !important;
           right: 16px !important;
           z-index: 10;
-          width: 36px !important;
-          height: 36px !important;
-          border-radius: 50% !important;
-          background: rgba(0, 0, 0, 0.05) !important;
+          width: 30px !important;
+          height: 30px !important;
+          border-radius: 4px !important;
+          background: #000000 !important;
           border: none !important;
           display: flex !important;
           align-items: center;
@@ -31,13 +31,13 @@
           margin: 0 !important;
 
           &:hover {
-            background: rgba(0, 0, 0, 0.1) !important;
-            transform: scale(1.1);
+            background: #333333 !important;
+            transform: scale(1.05);
           }
 
           i {
-            font-size: 20px !important;
-            color: #333 !important;
+            font-size: 16px !important;
+            color: #ffffff !important;
           }
         }
       }
@@ -101,12 +101,12 @@
             .modal-label {
               font-size: 12px !important;
               font-weight: 600 !important;
-              background: #1E83CA !important;
+              background: #D94D25 !important;
               color: #ffffff !important;
               padding: 4px 10px !important;
               border-radius: 4px !important;
               text-transform: uppercase;
-              letter-spaGSTg: 0.5px;
+              letter-spacing: 0.5px;
             }
           }
 
@@ -291,7 +291,7 @@
 
                   &:hover {
                     background: #e9ecef !important;
-                    color: #1E83CA !important;
+                    color: #D94D25 !important;
                   }
 
                   i {
@@ -326,10 +326,10 @@
               font-weight: 600 !important;
               font-size: 14px !important;
               text-transform: uppercase !important;
-              letter-spaGSTg: 0.5px !important;
+              letter-spacing: 0.5px !important;
               transition: all 0.3s ease !important;
               border: none !important;
-              background: #1E83CA !important;
+              background: #D94D25 !important;
               color: #ffffff !important;
               display: flex !important;
               align-items: center;
@@ -342,14 +342,14 @@
               }
 
               &:hover:not(:disabled) {
-                background: #7a0512 !important;
+                background: #C43E1A !important;
                 transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(144, 6, 21, 0.3) !important;
+                box-shadow: 0 4px 12px rgba(217, 77, 37, 0.3) !important;
               }
 
               &:active:not(:disabled) {
                 transform: translateY(0);
-                background: #6a0410 !important;
+                background: #B03515 !important;
               }
 
               &:disabled {

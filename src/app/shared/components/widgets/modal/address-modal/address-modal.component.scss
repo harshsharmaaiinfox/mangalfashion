@@ -1,7 +1,7 @@
 // Modern Address Modal Styles
 .modern-modal-header {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 30px;
+  padding: 20px;
   border-bottom: 1px solid #e9ecef;
   display: flex;
   align-items: center;
@@ -11,18 +11,18 @@
   .modal-header-content {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 
     .modal-icon-wrapper {
-      width: 60px;
-      height: 60px;
-      border-radius: 14px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #EA5A26 0%, #ff7a4a 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 28px;
+      font-size: 22px;
       box-shadow: 0 4px 15px rgba(234, 90, 38, 0.3);
     }
 
@@ -30,13 +30,13 @@
       .modal-title {
         color: #222;
         font-weight: 700;
-        font-size: 24px;
-        margin: 0 0 5px 0;
+        font-size: 20px;
+        margin: 0 0 3px 0;
       }
 
       .modal-subtitle {
         color: #6c757d;
-        font-size: 14px;
+        font-size: 13px;
         margin: 0;
       }
     }
@@ -66,7 +66,7 @@
 
 .modern-modal-body {
   padding: 30px;
-  max-height: 70vh;
+  max-height: 90vh;
   overflow-y: auto;
 
   .address-form-fields {
@@ -76,8 +76,8 @@
 
     .form-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
     }
 
     .form-field-wrapper {
@@ -133,7 +133,7 @@
 
       .form-textarea-modern {
         resize: vertical;
-        min-height: 100px;
+        min-height: 60px;
       }
 
       .custom-select-modern {
@@ -228,6 +228,44 @@
                 }
               }
             }
+          }
+        }
+      }
+
+      .phone-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .phone-prefix {
+          position: absolute;
+          left: 1px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: #f8f9fa;
+          /* border: 2px solid #e9ecef; */
+          border-right: none;
+          /* border-radius: 10px 0 0 10px; */
+          padding: 14px 12px;
+          color: #EA5A26;
+          font-weight: 600;
+          font-size: 15px;
+          z-index: 2;
+          pointer-events: none;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          min-width: 55px;
+          justify-content: center;
+        }
+
+        .phone-input {
+          padding-left: 85px !important;
+          width: 100%;
+          border-radius: 0 10px 10px 0 !important;
+
+          &.is-invalid {
+            padding-left: 85px !important;
           }
         }
       }
@@ -408,35 +446,35 @@
 // Responsive Design
 @media (max-width: 576px) {
   .modern-modal-header {
-    padding: 20px;
+    padding: 16px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 12px;
 
     .modal-header-content {
       width: 100%;
 
       .modal-icon-wrapper {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
       }
 
       .modal-title-content {
         .modal-title {
-          font-size: 20px;
+          font-size: 18px;
         }
 
         .modal-subtitle {
-          font-size: 13px;
+          font-size: 12px;
         }
       }
     }
 
     .btn-close-modal {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 16px;
+      right: 16px;
     }
   }
 
@@ -448,7 +486,12 @@
 
       .form-row {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 12px;
+
+        &.state-city-row,
+        &.area-pincode-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
 
       .form-field-wrapper {
@@ -460,6 +503,24 @@
         .form-textarea-modern {
           padding: 12px 15px;
           font-size: 14px;
+        }
+
+        .phone-input-wrapper {
+          .phone-prefix {
+            left: 1px;
+            font-size: 14px;
+            padding: 12px 10px;
+            height: 44px;
+            min-width: 50px;
+          }
+
+          .phone-input {
+            padding-left: 75px !important;
+
+            &.is-invalid {
+              padding-left: 75px !important;
+            }
+          }
         }
 
         .phone-field-modern {
