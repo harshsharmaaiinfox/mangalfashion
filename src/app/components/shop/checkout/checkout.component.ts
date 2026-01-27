@@ -351,7 +351,7 @@ export class CheckoutComponent {
     this.payment_method = value;
     // Call checkout when payment method is selected
     this.checkout(value);
-    
+
     switch (value) {
       case 'neoKred':
         break;
@@ -867,14 +867,14 @@ export class CheckoutComponent {
     if (this.productControl.valid && this.productControl.length > 0) {
       this.loading = true;
       this.checkoutInProgress = true;
-      
+
       // Prepare payload - exclude payment_method if it's empty
       const formValue = { ...this.form.value };
       if (!formValue.payment_method || formValue.payment_method.trim() === '') {
         // Remove payment_method from payload if it's empty (it's optional)
         delete formValue.payment_method;
       }
-      
+
       // Also clean up empty string values for optional fields
       if (formValue.shipping_address_id === '') {
         delete formValue.shipping_address_id;
@@ -882,7 +882,7 @@ export class CheckoutComponent {
       if (formValue.billing_address_id === '') {
         delete formValue.billing_address_id;
       }
-      
+
       this.store.dispatch(new Checkout(formValue)).subscribe({
         next: (value) => {
           this.storeData = value;

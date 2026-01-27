@@ -112,8 +112,8 @@
                                         </a>
                                     </div>
                                     <div class="checkout-step-body">
-                                        <app-address-block [addresses]="[]" [type]="'shipping'"
-                                            (selectAddress)="selectShippingAddress($event)">
+                                        <app-address-block [addresses]="(user$ | async)?.address || []"
+                                            [type]="'shipping'" (selectAddress)="selectShippingAddress($event)">
                                         </app-address-block>
                                     </div>
                                 </div>
@@ -133,8 +133,8 @@
                                         </a>
                                     </div>
                                     <div class="checkout-step-body">
-                                        <app-address-block [addresses]="[]" [type]="'billing'"
-                                            (selectAddress)="selectBillingAddress($event)">
+                                        <app-address-block [addresses]="(user$ | async)?.address || []"
+                                            [type]="'billing'" (selectAddress)="selectBillingAddress($event)">
                                         </app-address-block>
                                     </div>
                                 </div>

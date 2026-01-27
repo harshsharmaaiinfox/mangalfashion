@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Store, Action, Selector, State, StateContext } from "@ngxs/store";
 import { tap } from "rxjs";
-import { GetUserDetails, UpdateUserProfile, UpdateUserPassword, 
-         CreateAddress, UpdateAddress, DeleteAddress, AccountClear } from "../action/account.action";
+import {
+  GetUserDetails, UpdateUserProfile, UpdateUserPassword,
+  CreateAddress, UpdateAddress, DeleteAddress, AccountClear
+} from "../action/account.action";
 import { AccountUser, AccountUserUpdatePassword } from "./../interface/account.interface";
 import { AccountService } from "../services/account.service";
 import { NotificationService } from "../services/notification.service";
@@ -13,18 +15,18 @@ export class AccountStateModel {
 }
 
 @State<AccountStateModel>({
-    name: "account",
-    defaults: {
-      user: null,
-      permissions: []
-    },
+  name: "account",
+  defaults: {
+    user: null,
+    permissions: []
+  },
 })
 @Injectable()
 export class AccountState {
 
   constructor(private store: Store,
     private accountService: AccountService,
-    private notificationService: NotificationService) {}
+    private notificationService: NotificationService) { }
 
   @Selector()
   static user(state: AccountStateModel) {
@@ -40,13 +42,13 @@ export class AccountState {
   getUserDetails(ctx: StateContext<AccountStateModel>) {
     return this.accountService.getUserDetails().pipe(
       tap({
-        next: result => { 
+        next: result => {
           ctx.patchState({
             user: result,
             permissions: result.permission,
           });
         },
-        error: err => { 
+        error: err => {
           // throw new Error(err?.error?.message);
           console.log(err);
         }
@@ -65,10 +67,10 @@ export class AccountState {
             user: result
           });
         },
-        complete:() => {
+        complete: () => {
           this.notificationService.showSuccess('Profile Updated Successfully.');
         },
-        error: err => { 
+        error: err => {
           throw new Error(err?.error?.message);
         }
       })
@@ -79,10 +81,10 @@ export class AccountState {
   updatePassword(ctx: StateContext<AccountUserUpdatePassword>, { payload }: UpdateUserPassword) {
     return this.accountService.updatePassword(payload).pipe(
       tap({
-        complete:() => {
+        complete: () => {
           this.notificationService.showSuccess('Password Updated Successfully.');
         },
-        error: err => { 
+        error: err => {
           throw new Error(err?.error?.message);
         }
       })
@@ -99,14 +101,14 @@ export class AccountState {
             ...state,
             user: {
               ...state.user!,
-              address: [...state.user?.address!, result],
+              address: [...(state.user?.address || []), result],
             }
           });
         },
-        complete:() => {
+        complete: () => {
           this.notificationService.showSuccess('Address Added Successfully.');
         },
-        error: err => { 
+        error: err => {
           throw new Error(err?.error?.message);
         }
       })
@@ -120,10 +122,10 @@ export class AccountState {
         next: result => {
           this.store.dispatch(new GetUserDetails());
         },
-        complete:() => {
+        complete: () => {
           this.notificationService.showSuccess('Address Updated Successfully.');
         },
-        error: err => { 
+        error: err => {
           throw new Error(err?.error?.message);
         }
       })
@@ -144,10 +146,10 @@ export class AccountState {
             }
           });
         },
-        complete:() => {
+        complete: () => {
           this.notificationService.showSuccess('Address Deleted Successfully.');
         },
-        error: err => { 
+        error: err => {
           throw new Error(err?.error?.message);
         }
       })
@@ -155,7 +157,7 @@ export class AccountState {
   }
 
   @Action(AccountClear)
-  accountClear(ctx: StateContext<AccountStateModel>){
+  accountClear(ctx: StateContext<AccountStateModel>) {
     ctx.patchState({
       user: null,
       permissions: []
