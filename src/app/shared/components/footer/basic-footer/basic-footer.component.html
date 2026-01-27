@@ -112,35 +112,46 @@
             <div class="reserve-modern" *ngIf="data?.footer?.footer_copyright">
                 <app-footer-copyright [data]="data"></app-footer-copyright>
             </div>
-            <div class="social-media-modern">
-                <a href="https://www.facebook.com/profile.php?id=61587125992259" class="social-link-modern"
-                    target="_blank" title="Facebook">
+        </div>
+    </div>
+
+    <!-- Sticky Social & Back to Top Container -->
+    <div class="sticky-action-container">
+        <!-- Social Media Toggle & Menu -->
+        <div class="social-widget" [class.expanded]="showSocialActions">
+            <div class="social-menu">
+                <a href="https://www.facebook.com/profile.php?id=61587125992259" class="social-item" target="_blank"
+                    title="Facebook">
                     <i class="ri-facebook-fill"></i>
                 </a>
-                <a href="https://x.com/mangalfashion" class="social-link-modern" target="_blank" title="X">
+                <a href="https://x.com/mangalfashion" class="social-item" target="_blank" title="X">
                     <i class="ri-twitter-x-fill"></i>
                 </a>
-                <a href="https://www.instagram.com/mangalfashionofficial/" class="social-link-modern" target="_blank"
+                <a href="https://www.instagram.com/mangalfashionofficial/" class="social-item" target="_blank"
                     title="Instagram">
                     <i class="ri-instagram-fill"></i>
                 </a>
-                <a href="https://www.pinterest.com/mangalfashionofficial/_profile/" class="social-link-modern"
-                    target="_blank" title="Pinterest">
+                <a href="https://www.pinterest.com/mangalfashionofficial/_profile/" class="social-item" target="_blank"
+                    title="Pinterest">
                     <i class="ri-pinterest-fill"></i>
                 </a>
-                <a href="https://www.youtube.com/@mangalfashionofficial" class="social-link-modern" target="_blank"
+                <a href="https://www.youtube.com/@mangalfashionofficial" class="social-item" target="_blank"
                     title="Youtube">
                     <i class="ri-youtube-fill"></i>
                 </a>
             </div>
+            <button class="social-toggle-btn" (click)="toggleSocialActions()" type="button" title="Social Menu">
+                <i class="ri-share-line" *ngIf="!showSocialActions"></i>
+                <i class="ri-close-line" *ngIf="showSocialActions"></i>
+            </button>
         </div>
-    </div>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top-button" [class.show]="showBackToTop" (click)="scrollToTop()" type="button"
-        title="Back to Top">
-        <i class="ri-arrow-up-line"></i>
-    </button>
+        <!-- Standalone Back to Top -->
+        <button class="back-to-top-btn" [class.show]="showBackToTop" (click)="scrollToTop()" type="button"
+            title="Back to Top">
+            <i class="ri-arrow-up-line"></i>
+        </button>
+    </div>
 
     <!-- About Mangal Fashion Section -->
     <div class="mangal-fashion-about section-b-space pt-0">

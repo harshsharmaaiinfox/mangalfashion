@@ -23,8 +23,10 @@
                                         <form [formGroup]="form" class="checkout-form row g-3">
                                             <div class="col-md-4">
                                                 <div class="form-group-modern">
-                                                    <label for="name" class="form-label-modern">{{ 'Name' | translate }}</label>
-                                                    <input type="text" class="form-control-modern" formControlName="name"
+                                                    <label for="name" class="form-label-modern">{{ 'Name' | translate
+                                                        }}</label>
+                                                    <input type="text" class="form-control-modern"
+                                                        formControlName="name"
                                                         placeholder="{{ 'Enter Name' | translate }}" id="name"
                                                         (input)="filterSpecialCharacters($event, 'name')"
                                                         pattern="[a-zA-Z0-9\s\.\-\']+">
@@ -41,7 +43,8 @@
                                                     <input type="email" class="form-control-modern"
                                                         placeholder="{{ 'Enter Email Address' | translate }}"
                                                         formControlName="email" id="email"
-                                                        (input)="filterEmailCharacters($event)" pattern="[a-zA-Z0-9._\-+@]+">
+                                                        (input)="filterEmailCharacters($event)"
+                                                        pattern="[a-zA-Z0-9._\-+@]+">
                                                     <div class="error-message"
                                                         *ngIf="form?.controls?.['email']?.touched && form.controls['email']?.errors?.['required']">
                                                         {{ 'Email is Required' | translate }}
@@ -54,10 +57,13 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group-modern">
-                                                    <label class="form-label-modern" for="phoneno">{{ 'Phone Number' | translate
+                                                    <label class="form-label-modern" for="phoneno">{{ 'Phone Number' |
+                                                        translate
                                                         }}</label>
-                                                    <input type="number" class="form-control-modern" formControlName="phone"
-                                                        placeholder="{{ 'enter_phone' | translate }}" name="phone" id="phoneno">
+                                                    <input type="number" class="form-control-modern"
+                                                        formControlName="phone"
+                                                        placeholder="{{ 'enter_phone' | translate }}" name="phone"
+                                                        id="phoneno">
                                                 </div>
                                                 <div class="error-message"
                                                     *ngIf="form?.controls?.['phone']?.touched && form.controls['phone']?.errors?.['required']">
@@ -75,7 +81,8 @@
                                             </div>
                                             <div class="col-md-6" *ngIf="form.controls['create_account'].value">
                                                 <div class="form-group-modern">
-                                                    <label for="pass" class="form-label-modern">{{ 'Password' | translate
+                                                    <label for="pass" class="form-label-modern">{{ 'Password' |
+                                                        translate
                                                         }}</label>
                                                     <input type="password" class="form-control-modern"
                                                         formControlName="password"
@@ -239,7 +246,10 @@
                             <i class="ri-shopping-bag-line me-2"></i> {{ 'Order Summary' | translate }}
                         </h3>
                     </div>
-                    <div class="order-summary-body">
+                    <div class="order-summary-body custom-box-loader">
+                        <div class="box-loader" *ngIf="loading">
+                            <app-loader [loaderClass]="'custom-loader-wrapper'"></app-loader>
+                        </div>
                         <div class="order-items-section">
                             <app-no-data [class]="'empty-cart'" [image]="'assets/svg/empty-items.svg'"
                                 [text]="'No Items Cart'" *ngIf="!(cartItem$ | async)?.length">
@@ -278,55 +288,53 @@
 
                         <ng-container *ngIf="(cartItem$ | async)?.length">
                             <form [formGroup]="form" (ngSubmit)="placeorder()">
-                                <div class="custom-box-loader">
-                                    <div class="order-summary-breakdown">
-                                        <div class="summary-row">
-                                            <span class="summary-label">{{ 'Subtotal' | translate }}</span>
-                                            <span class="summary-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.sub_total | currencySymbol) :
-                                                (((cartTotal$ | async) ?? 0) | currencySymbol)) }}
-                                            </span>
-                                        </div>
-                                        <div class="summary-row" *ngIf="!(cartDigital$ | async)">
-                                            <span class="summary-label">{{ 'Shipping' | translate }}</span>
-                                            <span class="summary-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.shipping_total |
-                                                currencySymbol) : (0 | currencySymbol)) }}
-                                            </span>
-                                        </div>
-                                        <div class="summary-row">
-                                            <span class="summary-label">{{ 'Tax' | translate }}</span>
-                                            <span class="summary-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.tax_total | currencySymbol) :
-                                                (0 | currencySymbol)) }}
-                                            </span>
-                                        </div>
-                                        <div class="summary-row"
-                                            *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.point?.balance">
-                                            <span class="summary-label"
-                                                [class.active]="form.controls['points_amount'].value">
-                                                {{ 'Points' | translate }}
-                                            </span>
-                                            <span class="summary-value"
-                                                [class.active]="form.controls['points_amount'].value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.convert_point_amount! |
-                                                currencySymbol) : 'Not Calculated Yet' | translate ) }}
-                                            </span>
-                                        </div>
-                                        <div class="summary-divider"></div>
-                                        <div class="summary-row total-row">
-                                            <span class="summary-label">{{ 'Total' | translate }}</span>
-                                            <span class="summary-value total-value">
-                                                {{ (checkoutTotal ? (checkoutTotal.total.total | currencySymbol) :
-                                                (((cartTotal$ | async) ?? 0) | currencySymbol)) }}
-                                            </span>
-                                        </div>
+                                <div class="order-summary-breakdown">
+                                    <div class="summary-row">
+                                        <span class="summary-label">{{ 'Subtotal' | translate }}</span>
+                                        <span class="summary-value">
+                                            {{ (checkoutTotal ? (checkoutTotal.total.sub_total | currencySymbol) :
+                                            (((cartTotal$ | async) ?? 0) | currencySymbol)) }}
+                                        </span>
                                     </div>
-                                    <app-button [class]="'btn btn-place-order'" [id]="'place_order'"
-                                        [disabled]="loading || !(form.valid && checkoutTotal)" [loading]="loading">
-                                        <i class="ri-lock-line"></i> {{ 'Place Order' | translate }}
-                                    </app-button>
+                                    <div class="summary-row" *ngIf="!(cartDigital$ | async)">
+                                        <span class="summary-label">{{ 'Shipping' | translate }}</span>
+                                        <span class="summary-value">
+                                            {{ (checkoutTotal ? (checkoutTotal.total.shipping_total |
+                                            currencySymbol) : (0 | currencySymbol)) }}
+                                        </span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span class="summary-label">{{ 'Tax' | translate }}</span>
+                                        <span class="summary-value">
+                                            {{ (checkoutTotal ? (checkoutTotal.total.tax_total | currencySymbol) :
+                                            (0 | currencySymbol)) }}
+                                        </span>
+                                    </div>
+                                    <div class="summary-row"
+                                        *ngIf="(user$ | async) && checkoutTotal && (user$ | async)?.point?.balance">
+                                        <span class="summary-label"
+                                            [class.active]="form.controls['points_amount'].value">
+                                            {{ 'Points' | translate }}
+                                        </span>
+                                        <span class="summary-value"
+                                            [class.active]="form.controls['points_amount'].value">
+                                            {{ (checkoutTotal ? (checkoutTotal.total.convert_point_amount! |
+                                            currencySymbol) : 'Not Calculated Yet' | translate ) }}
+                                        </span>
+                                    </div>
+                                    <div class="summary-divider"></div>
+                                    <div class="summary-row total-row">
+                                        <span class="summary-label">{{ 'Total' | translate }}</span>
+                                        <span class="summary-value total-value">
+                                            {{ (checkoutTotal ? (checkoutTotal.total.total | currencySymbol) :
+                                            (((cartTotal$ | async) ?? 0) | currencySymbol)) }}
+                                        </span>
+                                    </div>
                                 </div>
+                                <app-button [class]="'btn btn-place-order'" [id]="'place_order'"
+                                    [disabled]="loading || !(form.valid && checkoutTotal)" [loading]="loading">
+                                    <i class="ri-lock-line"></i> {{ 'Place Order' | translate }}
+                                </app-button>
                             </form>
                         </ng-container>
                     </div>

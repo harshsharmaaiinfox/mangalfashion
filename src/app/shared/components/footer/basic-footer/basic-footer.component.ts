@@ -25,11 +25,13 @@ export class BasicFooterComponent {
     help_center: false
   };
 
+  public showSocialActions: boolean = false;
+
   constructor(private store: Store) {
     // Open all tabs by default on mobile
     this.checkMobileAndOpenTabs();
   }
-  
+
   checkMobileAndOpenTabs() {
     // Check if mobile or tablet on initialization
     if (window.innerWidth <= 1024) {
@@ -53,14 +55,14 @@ export class BasicFooterComponent {
     });
   }
 
-  toggle(value: string){
+  toggle(value: string) {
     this.active[value] = !this.active[value];
   }
 
-  submitNewsletter(){
-    if(this.email.valid && this.email.value){
+  submitNewsletter() {
+    if (this.email.valid && this.email.value) {
       this.isSubmitting = true;
-      this.store.dispatch(new Subscription({email: this.email.value}))
+      this.store.dispatch(new Subscription({ email: this.email.value }))
         .subscribe({
           next: () => {
             this.email.reset();
@@ -75,11 +77,15 @@ export class BasicFooterComponent {
     }
   }
 
-  scrollToTop(){
+  scrollToTop() {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
+  }
+
+  toggleSocialActions() {
+    this.showSocialActions = !this.showSocialActions;
   }
 
   @HostListener('window:scroll', [])

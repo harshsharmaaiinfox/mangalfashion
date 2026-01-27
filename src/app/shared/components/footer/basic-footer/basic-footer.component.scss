@@ -894,14 +894,151 @@
     }
 }
 
-// Back to Top Button
-.back-to-top-button {
+// Sticky Action Container (Holds both Social and Back to Top)
+.sticky-action-container {
     position: fixed;
     bottom: 30px;
     right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    @media (max-width: 991px) {
+        bottom: 20px;
+        right: 20px;
+        gap: 12px;
+    }
+
+    @media (max-width: 575px) {
+        bottom: 15px;
+        right: 15px;
+        gap: 10px;
+    }
+}
+
+// Social Widget Styles
+.social-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .social-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+
+    &.expanded {
+        .social-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .social-toggle-btn {
+            background-color: #333;
+            transform: rotate(90deg);
+        }
+    }
+
+    .social-toggle-btn {
+        width: 50px;
+        height: 50px;
+        background-color: #C43E1A;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(196, 62, 26, 0.25);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+
+        @media (max-width: 991px) {
+            width: 45px;
+            height: 45px;
+        }
+
+        @media (max-width: 575px) {
+            width: 40px;
+            height: 40px;
+        }
+
+        i {
+            font-size: 24px;
+
+            @media (max-width: 991px) {
+                font-size: 22px;
+            }
+
+            @media (max-width: 575px) {
+                font-size: 20px;
+            }
+        }
+
+        &:hover {
+            background-color: #A03316;
+            transform: scale(1.05);
+        }
+    }
+
+    .social-item {
+        width: 40px;
+        height: 40px;
+        background-color: #fff;
+        color: #333;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        @media (max-width: 991px) {
+            width: 36px;
+            height: 36px;
+        }
+
+        @media (max-width: 575px) {
+            width: 32px;
+            height: 32px;
+        }
+
+        i {
+            font-size: 18px;
+
+            @media (max-width: 991px) {
+                font-size: 16px;
+            }
+        }
+
+        &:hover {
+            background-color: #C43E1A;
+            color: #fff;
+            transform: translateX(-5px);
+        }
+    }
+}
+
+// Separate Back to Top Button Styles
+.back-to-top-btn {
     width: 50px;
     height: 50px;
-    background-color: #C43E1A;
+    background-color: #000;
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -909,30 +1046,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(196, 62, 26, 0.25);
-    transition: all 0.3s ease;
-    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
+    transform: scale(0.8);
 
     @media (max-width: 991px) {
         width: 45px;
         height: 45px;
-        bottom: 20px;
-        right: 20px;
     }
 
     @media (max-width: 575px) {
         width: 40px;
         height: 40px;
-        bottom: 15px;
-        right: 15px;
+    }
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
     }
 
     i {
         font-size: 24px;
-        transition: transform 0.3s ease;
 
         @media (max-width: 991px) {
             font-size: 22px;
@@ -944,34 +1081,8 @@
     }
 
     &:hover {
-        background-color: #A03316;
+        background-color: #333;
         transform: translateY(-5px);
-        box-shadow: 0 6px 20px rgba(196, 62, 26, 0.35);
-
-        i {
-            transform: translateY(-2px);
-        }
-    }
-
-    &:active {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    // Show button when scrolled
-    &.show {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-}
-
-// Show back to top button on scroll (using host listener in component)
-:host {
-    .back-to-top-button.show {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
     }
 }
 
