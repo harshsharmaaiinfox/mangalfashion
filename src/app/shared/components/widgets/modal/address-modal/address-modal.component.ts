@@ -7,6 +7,7 @@ import { Select2Data, Select2UpdateEvent } from 'ng-select2-component';
 import { CreateAddress, UpdateAddress } from '../../../../action/account.action';
 import { CountryState } from '../../../../state/country.state';
 import { StateState } from '../../../../state/state.state';
+import { AuthState } from '../../../../state/auth.state';
 import { UserAddress } from '../../../../interface/user.interface';
 import * as data from '../../../../data/country-code';
 import { Country, State, City } from 'country-state-city';
@@ -42,6 +43,7 @@ export class AddressModalComponent {
 
   @ViewChild("addressModal", { static: false }) AddressModal: TemplateRef<string>;
   @Select(CountryState.countries) countries$: Observable<Select2Data>;
+  @Select(AuthState.accessToken) accessToken$: Observable<string>;
 
   public selectedPinCode = '';
   public filterPinCodeAreas: any;
@@ -173,16 +175,23 @@ export class AddressModalComponent {
   }
 
   downloadPINAreaExcelJSON() {
-    this.authService.fetchAreaPINCodeJSON().subscribe({
-      next: (res) => {
-        if (res) {
-          this.pinCodeAreaOfficeCircleDataJSON = res['data'];
-          this.stateNameData = [...new Map(this.pinCodeAreaOfficeCircleDataJSON.map((item: any) => [item.StateName, item])).values()];
-        } else {
-          this.notificationService.showError('Failed to fetch Pincode and Area data');
+    // Check if user is logged in
+    this.accessToken$.subscribe(token => {
+      const apiCall = token
+        ? this.authService.fetchAreaPINCodeJSON()
+        : this.authService.fetchAreaPINCodeJSONWithoutLogin();
+
+      apiCall.subscribe({
+        next: (res) => {
+          if (res) {
+            this.pinCodeAreaOfficeCircleDataJSON = res['data'];
+            this.stateNameData = [...new Map(this.pinCodeAreaOfficeCircleDataJSON.map((item: any) => [item.StateName, item])).values()];
+          } else {
+            this.notificationService.showError('Failed to fetch Pincode and Area data');
+          }
         }
-      }
-    });
+      });
+    }).unsubscribe();
   }
 
   validatePinCode(payload: any) {

@@ -55,5 +55,9 @@ export class AuthService {
     // return this.http.get<any>(`assets/pincode_cleaned.json`);
   }
 
+  fetchAreaPINCodeJSONWithoutLogin(): Observable<any> {
+    return this.http.get<any>(`https://nixopay.com/public/api/allcityWithoutlogin`);
+  }
+
 
 }
