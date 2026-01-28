@@ -1,23 +1,69 @@
+# robots.txt for mangalfashion.com
+# Updated: 2025-01-27
+
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://mangal fashion.in/sitemap.xml
+# Sitemap Location
+Sitemap: https://mangalfashion.com/sitemap.xml
 
-# Disallow admin and private areas
+# Disallow Admin and System Areas
 Disallow: /admin/
 Disallow: /private/
 Disallow: /api/
 Disallow: /_next/
 Disallow: /static/
 
-# Allow important pages
+# Disallow User-Specific Pages (Should not be indexed)
+Disallow: /cart
+Disallow: /wishlist
+Disallow: /compare
+Disallow: /checkout
+Disallow: /order/
+Disallow: /success
+Disallow: /order/checkout-success
+
+# Disallow Authentication Pages (Should not be indexed)
+Disallow: /auth/
+
+# Disallow Account/User Dashboard Pages (Private, should not be indexed)
+Disallow: /account/
+
+# Disallow Search Pages (Duplicate content, should not be indexed)
+Disallow: /search
+
+# Allow Important Public Pages (Explicitly allow for clarity)
 Allow: /about-us
 Allow: /contact-us
-Allow: /blog
-Allow: /products
-Allow: /categories
+Allow: /blogs
+Allow: /blog/
+Allow: /collections
+Allow: /product/
+Allow: /category/
+Allow: /brand/
+Allow: /seller/stores
+Allow: /seller/store/
+Allow: /offers
+Allow: /faq
+Allow: /privacy-policy
+Allow: /refund-and-cancellation
+Allow: /return-policy
+Allow: /shipping-policy
+Allow: /term-condition
 
-# Crawl delay (optional)
-Crawl-delay: 1
+# Crawl-delay (Optional - Remove if not needed)
+# Only use if you experience server overload from crawlers
+# Crawl-delay: 1
 
+# Specific Rules for Major Search Engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 0
