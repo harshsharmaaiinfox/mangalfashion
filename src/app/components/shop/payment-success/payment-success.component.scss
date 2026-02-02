@@ -1,10 +1,10 @@
 // Theme Color: #EA5927 (Orange/Red)
 $primary-color: #EA5927;
 
+// Remix Icons are usually used, but we'll stick to CSS for the checkmark
+
 .payment-success-section {
-  padding: 80px 0;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  min-height: 100vh;
   display: flex;
   align-items: center;
 
@@ -56,81 +56,121 @@ $primary-color: #EA5927;
 // Success Content
 .success-content {
   background: white;
-  padding: 50px 40px;
-  border-radius: 20px;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+  padding: 60px 40px;
+  border-radius: 24px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, $primary-color, lighten($primary-color, 20%));
+  }
 
   .success-title {
-    color: #2d3748;
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 20px;
+    color: #1a202c;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
     animation: fadeInUp 0.8s ease-out 0.2s both;
   }
 
   .success-subtitle {
-    color: #6c757d;
-    font-size: 1.2rem;
-    margin-bottom: 0;
+    color: #4a5568;
+    font-size: 1.15rem;
+    max-width: 500px;
+    margin: 0 auto;
     line-height: 1.6;
     animation: fadeInUp 0.8s ease-out 0.4s both;
   }
 }
 
+.order-id-box {
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+  background: #fdf2f0;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 50px;
+
+  .id-value {
+    font-weight: 700;
+    color: $primary-color;
+  }
+}
+
+.verification-status {
+  animation: fadeIn 1s ease-out 1s both;
+}
+
 // Redirect Message
 .redirect-message {
-  animation: fadeInUp 0.8s ease-out 0.8s both;
-  margin: 30px 0;
+  animation: fadeIn 0.8s ease-out 1.2s both;
+  margin: 35px 0 10px;
+  background: #fffafa;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px dashed rgba($primary-color, 0.3);
+  display: inline-block;
 
   .redirect-text {
-    color: #6c757d;
-    font-size: 1.1rem;
+    color: #4a5568;
+    font-size: 1rem;
     margin-bottom: 0;
     font-weight: 500;
 
     i {
       color: $primary-color;
+      font-size: 1.2rem;
+      vertical-align: middle;
     }
 
     .countdown {
       color: $primary-color;
-      font-weight: 700;
-      font-size: 1.2rem;
-      animation: countdownPulse 1s infinite;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: inline-block;
+      min-width: 15px;
     }
   }
 }
 
 // Action Buttons
 .action-buttons {
-  animation: fadeInUp 0.8s ease-out 0.6s both;
+  animation: fadeInUp 0.8s ease-out 0.8s both;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 
   .btn {
-    padding: 14px 32px;
-    font-weight: 600;
+    padding: 14px 35px;
+    font-weight: 700;
     font-size: 1rem;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    flex: 0 0 auto;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba($primary-color, 0.3);
+      transform: translateY(-5px);
     }
 
     &.btn-primary {
       background: $primary-color;
-      border-color: $primary-color;
+      border: none;
       color: white;
+      box-shadow: 0 15px 35px rgba($primary-color, 0.3);
 
       &:hover {
-        background: darken($primary-color, 10%);
-        border-color: darken($primary-color, 10%);
+        background: darken($primary-color, 5%);
+        box-shadow: 0 20px 45px rgba($primary-color, 0.4);
       }
 
       i {
@@ -139,35 +179,60 @@ $primary-color: #EA5927;
     }
 
     &.btn-outline-primary {
-      background: transparent;
-      border-color: $primary-color;
-      color: $primary-color;
+      background: white;
+      border: 2px solid #e2e8f0;
+      color: #4a5568;
 
       &:hover {
-        background: $primary-color;
         border-color: $primary-color;
-        color: white;
+        color: $primary-color;
+        background: #fff5f2;
       }
     }
 
     i {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
   }
 }
 
 // Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes bounceIn {
   0% {
     transform: scale(0.3);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.05);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -177,10 +242,11 @@ $primary-color: #EA5927;
 @keyframes pulse {
   0% {
     transform: scale(1);
-    opacity: 0.7;
+    opacity: 0.6;
   }
+
   100% {
-    transform: scale(1.2);
+    transform: scale(1.4);
     opacity: 0;
   }
 }
@@ -190,43 +256,34 @@ $primary-color: #EA5927;
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 0.8;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 // Responsive Design
 @media (max-width: 768px) {
   .payment-success-section {
-    padding: 60px 20px;
+    padding: 40px 15px;
   }
 
   .success-content {
-    padding: 40px 30px;
-  }
+    padding: 40px 20px;
 
-  .success-title {
-    font-size: 2.5rem;
-  }
+    .success-title {
+      font-size: 1.8rem;
+    }
 
-  .success-subtitle {
-    font-size: 1.1rem;
+    .success-subtitle {
+      font-size: 1rem;
+    }
   }
 
   .redirect-message {
@@ -243,7 +300,7 @@ $primary-color: #EA5927;
 
   .action-buttons {
     flex-direction: column;
-    gap: 15px;
+    width: 100%;
 
     .btn {
       width: 100%;

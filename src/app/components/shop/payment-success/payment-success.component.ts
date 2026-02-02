@@ -35,7 +35,7 @@ export class PaymentSuccessComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private cartService: CartService,
     private orderService: OrderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Check if user actually came from a payment process
