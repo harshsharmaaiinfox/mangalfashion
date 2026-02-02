@@ -40,6 +40,10 @@ const routes: Routes = [
     canActivate: [PaymentSuccessGuard]
   },
   {
+    path: 'paymentresult/awaitingconfirmation_cash',
+    component: PaymentSuccessComponent,
+  },
+  {
     path: 'cart',
     component: CartComponent
   },

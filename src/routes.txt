@@ -10,3 +10,4 @@
 /return-exchange
 /shipping-delevary
 /term-condition 
+/paymentresult/awaitingconfirmation_cash
