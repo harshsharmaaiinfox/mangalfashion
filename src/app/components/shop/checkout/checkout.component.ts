@@ -297,9 +297,38 @@ export class CheckoutComponent {
   //   )
   // }
 
+  public currentCartTotal: number = 0;
+
   ngOnInit() {
-    this.checkout$.subscribe(data => this.checkoutTotal = data);
+    this.checkout$.subscribe(data => {
+      this.checkoutTotal = data;
+      this.validateMinAmount();
+    });
+
+    // Also check when cart total changes (fallback)
+    this.cartTotal$.subscribe((total) => {
+      this.currentCartTotal = total || 0;
+      this.validateMinAmount();
+    });
+
     this.products();
+  }
+
+  validateMinAmount() {
+    let total = 0;
+
+    // Use checkout total if available, otherwise fallback to cart total
+    if (this.checkoutTotal && this.checkoutTotal.total && this.checkoutTotal.total.total) {
+      total = Number(this.checkoutTotal.total.total);
+    } else if (this.currentCartTotal) {
+      total = Number(this.currentCartTotal);
+    }
+
+    if (total > 0 && total < 300) {
+      this.minOrderError = 'Minimum payment limit is ₹300';
+    } else {
+      this.minOrderError = null;
+    }
   }
 
   products() {
@@ -904,9 +933,20 @@ export class CheckoutComponent {
     }
   }
 
+  public minOrderError: string | null = null;
+
   placeorder() {
     // Prevent double submission
     if (this.loading) {
+      return;
+    }
+
+    // Reset error
+    this.minOrderError = null;
+    this.validateMinAmount();
+
+    // Validation: Minimum Order Amount
+    if (this.minOrderError) {
       return;
     }
 
