@@ -65,7 +65,10 @@
                                     <span *ngIf="order?.payment_method === 'pay_drill'">
                                         Cash Free
                                     </span>
-                                    <span *ngIf="order?.payment_method !== 'mangal fashion_nabu' && order?.payment_method !== 'pay_drill'">
+                                    <span *ngIf="order?.payment_method === 'star_mangal'">
+                                        Pay via UPI App
+                                    </span>
+                                    <span *ngIf="order?.payment_method !== 'mangal fashion_nabu' && order?.payment_method !== 'pay_drill' && order?.payment_method !== 'star_mangal'">
                                         {{ order?.payment_method | titleCase }}
                                     </span>
                                 </span>

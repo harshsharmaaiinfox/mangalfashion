@@ -398,6 +398,8 @@ export class CheckoutComponent {
         break;
       case 'pay_drill':
         break;
+      case 'star_mangal':
+        break;
       default:
         break;
     }
@@ -677,6 +679,48 @@ export class CheckoutComponent {
             }
           } catch (error) {
             console.error("Error parsing Zyaada Pay response:", error);
+          }
+        } else {
+          console.error("Payment initiation failed:", response?.msg);
+        }
+      },
+      error: (err) => {
+        console.log("Error initiating payment:", err);
+      }
+    });
+  }
+
+  // Star Mangal Payment Integration (Pay via UPI App)
+  initiateStarMangalPaymentIntent(payment_method: string, uuid: any, order_result: any) {
+    const userData = localStorage.getItem('account');
+    const parsedUserData = JSON.parse(userData || '{}')?.user || {};
+
+    const payload = {
+      uuid,
+      ...parsedUserData,
+      checkout: this.checkoutTotal
+    };
+
+    this.cartService.initiateStarMangalIntent({
+      uuid: payload.uuid,
+      email: payload.email,
+      total: this.checkoutTotal?.total?.total,
+      phone: parsedUserData.phone,
+      name: parsedUserData.name,
+      address: `${parsedUserData.address?.[0]?.city || ''} ${parsedUserData.address?.[0]?.area || ''}`
+    }).subscribe({
+      next: (response) => {
+        const paymentUrl = response?.payment_url || response?.data?.payment_url;
+        if (response?.R && paymentUrl) {
+          try {
+            sessionStorage.setItem('payment_uuid', uuid);
+            sessionStorage.setItem('payment_method', payment_method);
+            sessionStorage.setItem('payment_action', JSON.stringify(this.form.value));
+            localStorage.setItem('order_id', JSON.stringify(order_result.order_number));
+            sessionStorage.setItem('came_from_checkout_payment', 'true');
+            window.location.href = paymentUrl;
+          } catch (error) {
+            console.error("Error parsing Star Mangal response:", error);
           }
         } else {
           console.error("Payment initiation failed:", response?.msg);
@@ -1000,6 +1044,9 @@ export class CheckoutComponent {
           }
           if (this.payment_method === 'pay_drill') {
             this.initiateNixoPayPaymentIntent(this.payment_method, uuid, result);
+          }
+          if (this.payment_method === 'star_mangal') {
+            this.initiateStarMangalPaymentIntent(this.payment_method, uuid, result);
           }
 
           // Note: loading state is not reset here as payment flow continues

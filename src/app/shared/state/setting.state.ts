@@ -93,11 +93,18 @@ export class SettingState {
                 // icon: './assets/images/payment/pay_by_qr.png',
               },
               {
+                name: 'star_mangal',
+                status: true,
+                title: 'Pay via UPI App',
+                // icon: './assets/images/payment/star_mangal.png',
+              },
+              {
                 name: 'pay_drill',
                 status: true,
                 title: 'Cash Free',
                 icon: './assets/images/cash_free.jpg',
               },
+              
              
             ];
             customValue.payment_methods = customPayments //[result.values.payment_methods[0]];

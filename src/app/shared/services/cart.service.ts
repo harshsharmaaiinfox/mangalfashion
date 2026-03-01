@@ -215,4 +215,24 @@ export class CartService {
     });
   }
 
+  initiateStarMangalIntent(data: any): Observable<any> {
+    return new Observable(observer => {
+      fetch(`${environment.URL}/starmangal-initiate-payment`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          observer.next(data);
+          observer.complete();
+        })
+        .catch(error => {
+          observer.error(error);
+        });
+    });
+  }
+
 }
