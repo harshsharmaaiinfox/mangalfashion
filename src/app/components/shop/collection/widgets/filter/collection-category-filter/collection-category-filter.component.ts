@@ -46,15 +46,8 @@ export class CollectionCategoryFilterComponent {
       this.selectedCategories.splice(index, 1);
     }
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        category: this.selectedCategories.length ? this.selectedCategories?.join(",") : null,
-        page: 1
-      },
-      queryParamsHandling: 'merge', // preserve the existing query params in the route
-      skipLocationChange: false  // do trigger navigation
-    });
+    const categoryPath = this.selectedCategories.length ? this.selectedCategories.join(',') : null;
+    this.router.navigate([categoryPath ? `/collections/${categoryPath}` : '/collections']);
   }
 
   applyFilter(event: Event) {
@@ -65,15 +58,8 @@ export class CollectionCategoryFilterComponent {
     else
       this.selectedCategories.splice(index,1);  // removed in array unchecked value
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        category: this.selectedCategories.length ? this.selectedCategories?.join(",") : null,
-        page: 1
-      },
-      queryParamsHandling: 'merge', // preserve the existing query params in the route
-      skipLocationChange: false  // do trigger navigation
-    });
+    const categoryPath = this.selectedCategories.length ? this.selectedCategories.join(',') : null;
+    this.router.navigate([categoryPath ? `/collections/${categoryPath}` : '/collections']);
   }
 
   // check if the item are selected

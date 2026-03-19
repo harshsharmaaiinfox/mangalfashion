@@ -1,8 +1,7 @@
 // Helper function to build collection URL with only the clicked item's slug
-// Format: /collections?page=1&category=itemSlug
+// Format: /collections/itemSlug
 function buildCollectionUrl(item: any): string {
-  // Only use the current item's slug, no parent slugs
-  return `/collections?page=1&category=${item.slug}`;
+  return `/collections/${item.slug}`;
 }
 
 // Helper function to process menu items recursively and update paths

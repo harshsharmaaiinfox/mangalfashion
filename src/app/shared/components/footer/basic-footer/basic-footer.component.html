@@ -11,14 +11,10 @@
                     <div class="footer-content-minimal" [class.expanded]="active['collections']">
                         <app-footer-categories [data]="data"></app-footer-categories>
                         <ul class="footer-list-minimal" *ngIf="!data?.footer?.footer_categories?.length">
-                            <li><a [routerLink]="['/collections']"
-                                    [queryParams]="{page: 1, category: 'kurtas'}">Kurta</a></li>
-                            <li><a [routerLink]="['/collections']"
-                                    [queryParams]="{page: 1, category: 'ethnic-jackets'}">Ethnic Jackets</a></li>
-                            <li><a [routerLink]="['/collections']"
-                                    [queryParams]="{page: 1, category: 'ethnic-suit-sets'}">Ethnic Suit Sets</a></li>
-                            <li><a [routerLink]="['/collections']"
-                                    [queryParams]="{page: 1, category: 'sherwani-sets'}">Sherwani Sets</a></li>
+                            <li><a [routerLink]="['/collections/kurtas']">Kurta</a></li>
+                            <li><a [routerLink]="['/collections/ethnic-jackets']">Ethnic Jackets</a></li>
+                            <li><a [routerLink]="['/collections/ethnic-suit-sets']">Ethnic Suit Sets</a></li>
+                            <li><a [routerLink]="['/collections/sherwani-sets']">Sherwani Sets</a></li>
                         </ul>
                     </div>
                 </div>

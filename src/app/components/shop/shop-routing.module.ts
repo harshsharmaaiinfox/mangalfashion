@@ -69,6 +69,10 @@ const routes: Routes = [
     component: CollectionComponent
   },
   {
+    path: 'collections/:category',
+    component: CollectionComponent
+  },
+  {
     path: 'seller/become-seller',
     component: SellerComponent
   },

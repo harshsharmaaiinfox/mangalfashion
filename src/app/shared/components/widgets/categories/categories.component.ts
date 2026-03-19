@@ -33,10 +33,10 @@ export class CategoriesComponent {
   constructor(private route: ActivatedRoute,
     public attributeService: AttributeService,
     private router: Router) {
-    this.route.queryParams.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.selectedCategorySlug = params['category'] ? params['category'].split(',') : [];
     });
-    
+
     this.category$.subscribe(res => this.categories = res.data.map(category => category ));
 
   }
@@ -58,14 +58,8 @@ export class CategoriesComponent {
     else
       this.selectedCategorySlug.splice(index,1);
 
-    this.router.navigate(['/collections'], {
-      relativeTo: this.route,
-      queryParams: {
-        category: this.selectedCategorySlug.length ? this.selectedCategorySlug?.join(',') : null
-      },
-      queryParamsHandling: 'merge', // preserve the existing query params in the route
-      skipLocationChange: false  // do trigger navigation
-    });
+    const categoryPath = this.selectedCategorySlug.length ? this.selectedCategorySlug.join(',') : null;
+    this.router.navigate([categoryPath ? `/collections/${categoryPath}` : '/collections']);
   }
 
   closeCanvasMenu() {

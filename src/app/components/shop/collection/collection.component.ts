@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { Params } from '../../../shared/interface/core.interface';
 import { Breadcrumb } from '../../../shared/interface/breadcrumb';
 import { ProductModel } from '../../../shared/interface/product.interface';
@@ -50,28 +50,31 @@ export class CollectionComponent {
     private title: Title,
     private meta: Meta) {
 
-    // Get Query params..
-    this.route.queryParams.subscribe(params => {
+    // Combine route params (for category in path) and query params (for other filters)
+    combineLatest([this.route.params, this.route.queryParams]).subscribe(([routeParams, queryParams]) => {
+      // Category comes from path param (/collections/sarees) or fallback to query param
+      const category = routeParams['category'] || queryParams['category'] || '';
+
       this.filter = {
-        'page': params['page'] ? params['page'] : 1,
+        'page': queryParams['page'] ? queryParams['page'] : 1,
         'paginate': 40,
         'status': 1,
-        'price': params['price'] ? params['price'] : '',
-        'brand': params['brand'] ? params['brand'] : '',
-        'category': params['category'] ? params['category'] : '',
-        'tag': params['tag'] ? params['tag'] : '',
-        'field': params['field'] ? params['field'] : this.filter['field'],
-        'sortBy': params['sortBy'] ? params['sortBy'] : this.filter['sortBy'],
-        'rating': params['rating'] ? params['rating'] : '',
-        'attribute': params['attribute'] ? params['attribute'] : '',
+        'price': queryParams['price'] ? queryParams['price'] : '',
+        'brand': queryParams['brand'] ? queryParams['brand'] : '',
+        'category': category,
+        'tag': queryParams['tag'] ? queryParams['tag'] : '',
+        'field': queryParams['field'] ? queryParams['field'] : this.filter['field'],
+        'sortBy': queryParams['sortBy'] ? queryParams['sortBy'] : this.filter['sortBy'],
+        'rating': queryParams['rating'] ? queryParams['rating'] : '',
+        'attribute': queryParams['attribute'] ? queryParams['attribute'] : '',
         store_id: 26,
       }
 
       this.store.dispatch(new GetProducts(this.filter));
 
       // Params For Demo Purpose only
-      if(params['layout']) {
-        this.layout = params['layout'];
+      if(queryParams['layout']) {
+        this.layout = queryParams['layout'];
       } else {
         // Get Collection Layout
         this.themeOptions$.subscribe(option => {
@@ -83,7 +86,6 @@ export class CollectionComponent {
       this.filter['layout'] = this.layout;
 
       // Set SEO meta tags and breadcrumb based on category
-      const category = this.filter['category'];
       if (category) {
         this.setCategorySEO(category);
       } else {

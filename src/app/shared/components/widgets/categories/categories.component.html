@@ -60,8 +60,8 @@
   <owl-carousel-o [options]="sliderOption">
     <ng-template carouselSlide *ngFor="let category of categories">
       <div *ngIf="theme == 'paris'">
-        <a *ngIf="category.is_clickable !== false" href="/collections?category={{category.slug}}&sortBy=asc" [routerLink]="['/collections']" 
-        [queryParams]="{ category: category.slug, sortBy: 'asc' }" class="category-box category-dark"
+        <a *ngIf="category.is_clickable !== false" [routerLink]="['/collections/' + category.slug]"
+        [queryParams]="{ sortBy: 'asc' }" class="category-box category-dark"
           [class.active]="selectedCategorySlug.length && selectedCategorySlug.includes(category.slug!)">
           <img [src]="image ? image : 'assets/images/shape.png'" class="background-image" [alt]="category?.name">
           <img [src]="category?.category_icon ? category?.category_icon?.original_url : 'assets/images/category.png'"
@@ -177,8 +177,8 @@
 <!--- Category Style Dropdown -->
 <ul class="category-list" *ngIf="categories?.length && style == 'dropdown'">
   <li class="onhover-category-list" *ngFor="let category of categories">
-    <a *ngIf="category.is_clickable !== false" href="/collections?category={{category.slug}}&sortBy=asc" [routerLink]="['/collections']" 
-    [queryParams]="{ category: category.slug, sortBy: 'asc' }" 
+    <a *ngIf="category.is_clickable !== false" [routerLink]="['/collections/' + category.slug]"
+    [queryParams]="{ sortBy: 'asc' }"
     class="category-name">
       <img [src]="category?.category_icon ? category?.category_icon?.original_url : 'assets/images/category.png'"
         [alt]="category?.name">
