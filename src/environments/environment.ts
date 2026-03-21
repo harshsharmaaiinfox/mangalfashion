@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  baseURL: 'http://localhost:4200', 
-  URL: 'https://nixopay.com/public/api', // Change only the domain part, keeping "/api" intact
-  storageURL: 'https://nixopay.com/public' // Change only the laravel primary domain
+  baseURL: 'http://localhost:4200',
+  URL: 'https://api.nixopay.com/public/api', // Change only the domain part, keeping "/api" intact
+  storageURL: 'https://api.nixopay.com/public' // Change only the laravel primary domain
 };
 
 /*
