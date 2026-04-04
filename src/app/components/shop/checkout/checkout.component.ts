@@ -10,6 +10,8 @@ import { AccountState } from '../../../shared/state/account.state';
 import { CartState } from '../../../shared/state/cart.state';
 import { OrderState } from '../../../shared/state/order.state';
 import { Checkout, PlaceOrder } from '../../../shared/action/order.action';
+import { Register } from '../../../shared/action/auth.action';
+import { GetUserDetails } from '../../../shared/action/account.action';
 import { ClearCart } from '../../../shared/action/cart.action';
 import { AddressModalComponent } from '../../../shared/components/widgets/modal/address-modal/address-modal.component';
 import { Cart } from '../../../shared/interface/cart.interface';
@@ -147,86 +149,11 @@ export class CheckoutComponent {
     });
 
     this.store.selectSnapshot(state => state.setting).setting.activation.guest_checkout = true;
+    this.updateFormConfiguration();
+    this.getBillingAddressSyncSubscription();
+  }
 
-    if (this.store.selectSnapshot(state => state.auth && state.auth.access_token)) {
-      this.form.removeControl('create_account');
-      this.form.removeControl('name');
-      this.form.removeControl('email');
-      this.form.removeControl('country_code');
-      this.form.removeControl('phone');
-      this.form.removeControl('password');
-      this.form.removeControl('password_confirmation');
-      this.form.removeControl('shipping_address');
-      this.form.removeControl('billing_address');
-
-      this.cartDigital$.subscribe(value => {
-        if (value == 1) {
-          this.form.controls['shipping_address_id'].clearValidators();
-          this.form.controls['delivery_description'].clearValidators();
-        } else {
-          this.form.controls['shipping_address_id'].setValidators([Validators.required]);
-          this.form.controls['delivery_description'].setValidators([Validators.required]);
-        }
-        this.form.controls['shipping_address_id'].updateValueAndValidity();
-        this.form.controls['delivery_description'].updateValueAndValidity();
-      });
-
-    } else {
-
-      if (this.store.selectSnapshot(state => state.setting).setting.activation.guest_checkout) {
-        this.form.removeControl('shipping_address_id');
-        this.form.removeControl('billing_address_id');
-        this.form.removeControl('points_amount');
-        this.form.removeControl('wallet_balance');
-
-        this.form.controls['create_account'].valueChanges.subscribe(value => {
-          if (value) {
-            this.form.controls['name'].setValidators([Validators.required]);
-            this.form.controls['password'].setValidators([Validators.required]);
-          } else {
-            this.form.controls['name'].clearValidators();
-            this.form.controls['password'].clearValidators();
-          }
-          this.form.controls['name'].updateValueAndValidity();
-          this.form.controls['password'].updateValueAndValidity();
-        });
-
-        this.form.valueChanges.pipe(
-          debounceTime(300), // Wait 300ms after user stops typing/changing
-          distinctUntilChanged((prev, curr) => {
-            // Only trigger if payment_method or other critical fields changed
-            // Compare relevant fields to avoid unnecessary calls
-            return JSON.stringify({
-              products: prev.products,
-              shipping_address_id: prev.shipping_address_id,
-              billing_address_id: prev.billing_address_id,
-              coupon: prev.coupon,
-              points_amount: prev.points_amount,
-              wallet_balance: prev.wallet_balance,
-              delivery_description: prev.delivery_description,
-              payment_method: prev.payment_method
-            }) === JSON.stringify({
-              products: curr.products,
-              shipping_address_id: curr.shipping_address_id,
-              billing_address_id: curr.billing_address_id,
-              coupon: curr.coupon,
-              points_amount: curr.points_amount,
-              wallet_balance: curr.wallet_balance,
-              delivery_description: curr.delivery_description,
-              payment_method: curr.payment_method
-            });
-          })
-        ).subscribe(value => {
-          // Only trigger checkout if payment method is selected
-          if (value.payment_method && value.payment_method.trim() !== '') {
-            this.checkout();
-          }
-        });
-
-      }
-
-    }
-
+  private getBillingAddressSyncSubscription() {
     this.form.get('billing_address.same_shipping')?.valueChanges.subscribe(value => {
       if (value) {
         this.form.get('billing_address.title')?.setValue(this.form.get('shipping_address.title')?.value);
@@ -948,12 +875,23 @@ export class CheckoutComponent {
         delete formValue.payment_method;
       }
 
-      // Also clean up empty string values for optional fields
-      if (formValue.shipping_address_id === '') {
-        delete formValue.shipping_address_id;
+      // Only clean up optional fields for guest, or if not required
+      let isAuthenticated = !!this.store.selectSnapshot(state => state.auth && state.auth.access_token);
+      
+      if (!isAuthenticated) {
+        if (formValue.shipping_address_id === '') {
+          delete formValue.shipping_address_id;
+        }
+        if (formValue.billing_address_id === '') {
+          delete formValue.billing_address_id;
+        }
       }
-      if (formValue.billing_address_id === '') {
-        delete formValue.billing_address_id;
+
+      // If logged in, we shouldn't hit the API if addresses are missing but required
+      if (isAuthenticated && (!formValue.shipping_address_id || !formValue.billing_address_id)) {
+        this.loading = false;
+        this.checkoutInProgress = false;
+        return;
       }
 
       this.store.dispatch(new Checkout(formValue)).subscribe({
@@ -1006,56 +944,97 @@ export class CheckoutComponent {
         uuid: uuid
       }
 
-      let action = new PlaceOrder(formData);
-      // this.store.dispatch(new PlaceOrder(formData));
-
       // Set loading state to prevent double submission
       this.loading = true;
 
-      this.orderService.placeOrder(action?.payload).pipe(
-        tap({
-          next: result => {
-            console.log(result);
-          },
-          error: err => {
-            this.loading = false; // Reset loading on error
-            throw new Error(err?.error?.message);
-          }
-        })
-      ).subscribe({
-        next: (result) => {
-          if (this.payment_method === 'cash_free') {
-            this.initiateCashFreePaymentIntent(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'sub_paisa') {
-            this.initiateSubPaisa(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'neoKred') {
-            this.initiateNeoKredPaymentIntent(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'zyaada_pay') {
-            this.initiateZyaadaPayPaymentIntent(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'ease_buzz') {
-            this.initiateEaseBuzzPaymentIntent(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'neoKred2') {
-            this.initiateNeoKred2PaymentIntent(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'pay_drill') {
-            this.initiateNixoPayPaymentIntent(this.payment_method, uuid, result);
-          }
-          if (this.payment_method === 'star_mangal') {
-            this.initiateStarMangalPaymentIntent(this.payment_method, uuid, result);
-          }
+      // Handle "Create Account" before placing order
+      if (this.form.get('create_account')?.value && !(this.store.selectSnapshot(state => state.auth && state.auth.access_token))) {
+        const registerPayload = {
+          name: this.form.value.name,
+          email: this.form.value.email,
+          phone: this.form.value.phone,
+          country_code: this.form.value.country_code,
+          password: this.form.value.password,
+          password_confirmation: this.form.value.password // Use password as confirmation
+        };
 
-          // Note: loading state is not reset here as payment flow continues
-        },
-        error: (err) => {
-          this.loading = false; // Reset loading on error
-          console.log(err);
-        }
-      });
+        this.store.dispatch(new Register(registerPayload)).pipe(
+          switchMap(() => {
+            // Once registered successfully, get the updated user/auth state if needed
+            // For now, form values stay the same except we no longer need create_account in payload ideally
+            let action = new PlaceOrder(formData);
+            return this.orderService.placeOrder(action?.payload);
+          }),
+          tap({
+            next: result => {
+              console.log(result);
+            },
+            error: err => {
+              this.loading = false;
+              throw new Error(err?.error?.message || err?.message || 'Error occurred');
+            }
+          })
+        ).subscribe({
+          next: (result) => {
+            this.handlePaymentRedirection(uuid, result);
+          },
+          error: (err) => {
+            this.loading = false;
+            console.log(err);
+          }
+        });
+      } else {
+        // Proceed normally without registration
+        let action = new PlaceOrder(formData);
+
+        this.orderService.placeOrder(action?.payload).pipe(
+          tap({
+            next: result => {
+              console.log(result);
+            },
+            error: err => {
+              this.loading = false; // Reset loading on error
+              throw new Error(err?.error?.message || err?.message || 'Error occurred');
+            }
+          })
+        ).subscribe({
+          next: (result) => {
+            this.handlePaymentRedirection(uuid, result);
+          },
+          error: (err) => {
+            this.loading = false; // Reset loading on error
+            console.log(err);
+          }
+        });
+      }
+    }
+  }
+
+  // Extracted payment redirection logic 
+  private handlePaymentRedirection(uuid: string, result: any) {
+    if (this.payment_method === 'cash_free') {
+      this.initiateCashFreePaymentIntent(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'sub_paisa') {
+      this.initiateSubPaisa(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'neoKred') {
+      this.initiateNeoKredPaymentIntent(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'zyaada_pay') {
+      this.initiateZyaadaPayPaymentIntent(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'ease_buzz') {
+      this.initiateEaseBuzzPaymentIntent(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'neoKred2') {
+      this.initiateNeoKred2PaymentIntent(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'pay_drill') {
+      this.initiateNixoPayPaymentIntent(this.payment_method, uuid, result);
+    }
+    if (this.payment_method === 'star_mangal') {
+      this.initiateStarMangalPaymentIntent(this.payment_method, uuid, result);
     }
   }
 
@@ -1083,6 +1062,150 @@ export class CheckoutComponent {
         this.form.get(fieldName)?.setValue(filteredValue);
       }
     }
+  }
+
+  registerAccount() {
+    this.form.markAllAsTouched();
+    if (this.form.controls['name'].valid && 
+        this.form.controls['email'].valid && 
+        this.form.controls['phone'].valid && 
+        this.form.controls['password'].valid) {
+      
+      this.loading = true;
+      const registerPayload = {
+        name: this.form.value.name,
+        email: this.form.value.email,
+        phone: Number(this.form.value.phone),
+        country_code: Number(this.form.value.country_code),
+        password: this.form.value.password,
+        password_confirmation: this.form.value.password
+      };
+
+      this.store.dispatch(new Register(registerPayload)).pipe(
+        switchMap(() => this.store.dispatch(new GetUserDetails())),
+        tap({
+          next: () => {
+            this.loading = false;
+            
+            // Refreshes form controls and subscriptions for logged-in state
+            this.updateFormConfiguration();
+            
+            // Re-run the city/area API for the logged-in context
+            if (this.AddressModal) {
+              this.AddressModal.downloadPINAreaExcelJSON();
+            }
+            if (this.form.controls['payment_method'].value) {
+                this.checkout();
+            }
+          },
+          error: err => {
+            this.loading = false;
+            console.error('Registration failed:', err);
+          }
+        })
+      ).subscribe();
+    } else {
+      console.log('Account fields invalid for registration');
+    }
+  }
+
+  private updateFormConfiguration() {
+    const isAuthenticated = !!this.store.selectSnapshot(state => state.auth && state.auth.access_token);
+
+    if (isAuthenticated) {
+      // Add controls required for logged-in users
+      if (!this.form.contains('shipping_address_id')) {
+        this.form.addControl('shipping_address_id', new FormControl('', [Validators.required]));
+      }
+      if (!this.form.contains('billing_address_id')) {
+        this.form.addControl('billing_address_id', new FormControl('', [Validators.required]));
+      }
+      if (!this.form.contains('points_amount')) {
+        this.form.addControl('points_amount', new FormControl(false));
+      }
+      if (!this.form.contains('wallet_balance')) {
+        this.form.addControl('wallet_balance', new FormControl(false));
+      }
+
+      // Remove controls that are for guest checkout only
+      this.form.removeControl('create_account');
+      this.form.removeControl('name');
+      this.form.removeControl('email');
+      this.form.removeControl('country_code');
+      this.form.removeControl('phone');
+      this.form.removeControl('password');
+      this.form.removeControl('password_confirmation');
+      this.form.removeControl('shipping_address');
+      this.form.removeControl('billing_address');
+
+      this.cartDigital$.subscribe(value => {
+        if (value == 1) {
+          this.form.controls['shipping_address_id'].clearValidators();
+          this.form.controls['delivery_description'].clearValidators();
+        } else {
+          this.form.controls['shipping_address_id'].setValidators([Validators.required]);
+          this.form.controls['delivery_description'].setValidators([Validators.required]);
+        }
+        this.form.controls['shipping_address_id'].updateValueAndValidity();
+        this.form.controls['delivery_description'].updateValueAndValidity();
+      });
+
+    } else {
+      // GUEST configuration
+      if (this.store.selectSnapshot(state => state.setting).setting.activation.guest_checkout) {
+        // Remove controls that are for logged-in users only
+        this.form.removeControl('shipping_address_id');
+        this.form.removeControl('billing_address_id');
+        this.form.removeControl('points_amount');
+        this.form.removeControl('wallet_balance');
+
+        // Ensure guest-only controls exist (they should be added in constructor group)
+        if (!this.form.contains('name')) {
+          this.form.addControl('name', new FormControl('', [Validators.required]));
+        }
+        if (!this.form.contains('email')) {
+          this.form.addControl('email', new FormControl('', [Validators.required, Validators.email]));
+        }
+        if (!this.form.contains('phone')) {
+          this.form.addControl('phone', new FormControl('', [Validators.required]));
+        }
+        if (!this.form.contains('password')) {
+          this.form.addControl('password', new FormControl('', [Validators.required]));
+        }
+
+        this.form.controls['password'].updateValueAndValidity();
+      }
+    }
+
+    // Subscribe to form changes for both states to trigger checkout
+    this.form.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged((prev, curr) => {
+        return JSON.stringify({
+          products: prev.products,
+          shipping_address_id: prev.shipping_address_id,
+          billing_address_id: prev.billing_address_id,
+          coupon: prev.coupon,
+          points_amount: prev.points_amount,
+          wallet_balance: prev.wallet_balance,
+          delivery_description: prev.delivery_description,
+          payment_method: prev.payment_method
+        }) === JSON.stringify({
+          products: curr.products,
+          shipping_address_id: curr.shipping_address_id,
+          billing_address_id: curr.billing_address_id,
+          coupon: curr.coupon,
+          points_amount: curr.points_amount,
+          wallet_balance: curr.wallet_balance,
+          delivery_description: curr.delivery_description,
+          payment_method: curr.payment_method
+        });
+      })
+    ).subscribe(value => {
+      if (value.payment_method && value.payment_method.trim() !== '') {
+        this.checkout();
+      }
+    });
   }
 
   filterEmailCharacters(event: any) {

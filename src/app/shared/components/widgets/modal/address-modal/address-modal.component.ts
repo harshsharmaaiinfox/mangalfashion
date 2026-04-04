@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/c
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, Observable, take } from 'rxjs';
 import { Select2Data, Select2UpdateEvent } from 'ng-select2-component';
 import { CreateAddress, UpdateAddress } from '../../../../action/account.action';
 import { CountryState } from '../../../../state/country.state';
@@ -176,7 +176,7 @@ export class AddressModalComponent {
 
   downloadPINAreaExcelJSON() {
     // Check if user is logged in
-    this.accessToken$.subscribe(token => {
+    this.accessToken$.pipe(take(1)).subscribe(token => {
       const apiCall = token
         ? this.authService.fetchAreaPINCodeJSON()
         : this.authService.fetchAreaPINCodeJSONWithoutLogin();
@@ -185,13 +185,18 @@ export class AddressModalComponent {
         next: (res) => {
           if (res) {
             this.pinCodeAreaOfficeCircleDataJSON = res['data'];
-            this.stateNameData = [...new Map(this.pinCodeAreaOfficeCircleDataJSON.map((item: any) => [item.StateName, item])).values()];
+            this.stateNameData = [...new Map(this.pinCodeAreaOfficeCircleDataJSON.map((item: any) => [item.StateName, item])).values()].map((state: any) => ({
+              label: state.StateName,
+              value: state.StateName,
+              ...state
+            }));
+            this.cdRef.detectChanges();
           } else {
             this.notificationService.showError('Failed to fetch Pincode and Area data');
           }
         }
       });
-    }).unsubscribe();
+    });
   }
 
   validatePinCode(payload: any) {

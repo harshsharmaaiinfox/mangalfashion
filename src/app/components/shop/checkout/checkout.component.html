@@ -70,16 +70,7 @@
                                                     {{ 'Phone is Required' | translate }}
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-check-modern">
-                                                    <input type="checkbox" class="form-check-input-modern" id="account"
-                                                        formControlName="create_account">
-                                                    <label class="form-check-label-modern" for="account">
-                                                        {{ 'Create an Account?' | translate }}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="form.controls['create_account'].value">
+                                            <div class="col-md-6">
                                                 <div class="form-group-modern">
                                                     <label for="pass" class="form-label-modern">{{ 'Password' |
                                                         translate
@@ -92,6 +83,13 @@
                                                         {{ 'Password is Required' | translate }}
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-end">
+                                                <app-button [class]="'btn btn-theme w-100 mb-3'" [id]="'register_btn'"
+                                                    (click)="registerAccount()" [loading]="loading"
+                                                    [disabled]="loading || form.controls['name'].invalid || form.controls['email'].invalid || form.controls['phone'].invalid || form.controls['password'].invalid">
+                                                    {{ 'Register' | translate }}
+                                                </app-button>
                                             </div>
                                         </form>
                                     </div>
