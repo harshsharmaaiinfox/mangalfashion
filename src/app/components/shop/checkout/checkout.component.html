@@ -84,12 +84,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 d-flex align-items-end">
-                                                <app-button [class]="'btn btn-theme w-100 mb-3'" [id]="'register_btn'"
+                                            <div class="col-md-6 d-flex flex-column align-items-end reg-btn">
+                                                <app-button [class]="'btn btn-register mb-2'" [id]="'register_btn'"
                                                     (click)="registerAccount()" [loading]="loading"
                                                     [disabled]="loading || form.controls['name'].invalid || form.controls['email'].invalid || form.controls['phone'].invalid || form.controls['password'].invalid">
                                                     {{ 'Register' | translate }}
                                                 </app-button>
+                                                <div class="already-account-link">
+                                                    <span>{{ 'Already have an account?' | translate }} </span>
+                                                    <a [routerLink]="['/auth/login']" class="text-theme fw-bold">{{
+                                                        'Login' | translate }}</a>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
