@@ -463,7 +463,9 @@ ul.select2-results__options {
 
 .reg-btn app-button {
     background: #f7e9e7;
-    width: 109px;
-    height: 45px;
     border-radius: 10px;
+}
+button#register_btn {
+    padding: 7px 20px;
+    margin: 0 !important;
 }
