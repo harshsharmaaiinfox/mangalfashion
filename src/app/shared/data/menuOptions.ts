@@ -110,7 +110,7 @@ const rawMenuOptions: any[] = [
                         "link_type": "link",
                         "mega_menu": 0,
                         "mega_menu_type": null,
-                        "slug": "shirts",
+                        "slug": "shirt",
                         "path": "Shirts",
                         "badge_text": null,
                         "badge_color": null,
