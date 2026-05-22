@@ -19,6 +19,11 @@ export interface VerifyEmailOtpModel {
   token: string;
 }
 
+export interface VerifyRegistrationOtpModel {
+  email: string;
+  otp: string;
+}
+
 export interface AuthNumberLoginState{
   phone: number;
   country_code: number;

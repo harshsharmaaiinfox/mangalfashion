@@ -12,6 +12,7 @@ import { Option } from '../../../shared/interface/theme-option.interface';
 import { Values } from '../../../shared/interface/setting.interface';
 import * as data from '../../../shared/data/country-code';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -39,7 +40,8 @@ export class RegisterComponent {
     private store: Store,
     private router: Router,
     private formBuilder: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {
     this.form = this.formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z\s]*$/)]),
@@ -161,9 +163,10 @@ export class RegisterComponent {
       return
     }
     if(this.form.valid) {
+      this.authService.otpType = 'register';
       this.store.dispatch(new Register(this.form.value)).subscribe({
           complete: () => {
-            this.router.navigateByUrl('/account/dashboard');
+            this.router.navigateByUrl('/auth/otp');
           }
         }
       );

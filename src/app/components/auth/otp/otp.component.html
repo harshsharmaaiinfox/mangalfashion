@@ -11,7 +11,7 @@
             <h1 class="welcome-title">Verify Your Account</h1>
             <p class="welcome-subtitle">{{ 'Enter the verification code sent to' | translate }}</p>
             <p class="otp-destination">
-              <span *ngIf="otpType === 'email'" class="destination-text">
+              <span *ngIf="otpType === 'email' || otpType === 'register'" class="destination-text">
                 <i class="ri-mail-line"></i>
                 {{ email }}
               </span>
@@ -24,41 +24,45 @@
 
           <!-- OTP Card -->
           <div class="login-card-modern">
-            <form [formGroup]="form" (ngSubmit)="submit()" class="login-form-modern">
-              <!-- OTP Input Field -->
-              <div class="input-field-group">
+            <form (ngSubmit)="submit()" class="login-form-modern">
+
+              <!-- OTP Boxes -->
+              <div class="otp-boxes-group">
                 <div class="field-label-row">
-                  <label for="otp" class="field-label">
+                  <label class="field-label">
                     <i class="ri-lock-password-line"></i>
                     {{ 'Verification Code' | translate }}
                   </label>
                 </div>
-                <div class="input-container">
+
+                <div class="otp-boxes-container">
                   <input
+                    *ngFor="let digit of digits; let i = index"
+                    #otpBox
                     type="text"
-                    class="form-field otp-input"
-                    id="otp"
-                    formControlName="otp"
-                    maxlength="5"
-                    placeholder="{{ 'Enter 5-digit code' | translate }}"
-                    oninput="this.value = this.value?.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                    onKeyPress="if(this.value.length==5) return false;"
-                    [class.field-error]="form.controls['otp'].touched && form.controls['otp'].invalid">
+                    inputmode="numeric"
+                    maxlength="1"
+                    class="otp-box"
+                    [class.otp-box-filled]="digits[i]"
+                    [class.otp-box-error]="otpError"
+                    [value]="digits[i]"
+                    (input)="onDigitInput(i, $event)"
+                    (keydown)="onKeyDown(i, $event)"
+                    (paste)="onPaste($event)"
+                    autocomplete="one-time-code"
+                  />
                 </div>
-                <div *ngIf="form.controls['otp'].touched && form.controls['otp'].errors?.['required']" class="field-error-message">
+
+                <div *ngIf="otpError" class="field-error-message">
                   <i class="ri-error-warning-line"></i>
-                  {{ 'Verification code is required' | translate }}
-                </div>
-                <div *ngIf="form.controls['otp'].touched && form.controls['otp'].errors?.['pattern']" class="field-error-message">
-                  <i class="ri-error-warning-line"></i>
-                  {{ 'Please enter a valid 5-digit code' | translate }}
+                  {{ 'Please enter all 6 digits of the verification code' | translate }}
                 </div>
               </div>
 
               <!-- Submit Button -->
               <div class="submit-button-wrapper">
                 <app-button [id]="'otp_validate_btn'" [class]="'btn-login-submit'">
-                  {{ 'Validate' | translate }}
+                  {{ 'Verify & Proceed' | translate }}
                   <i class="ri-arrow-right-line"></i>
                 </app-button>
               </div>
