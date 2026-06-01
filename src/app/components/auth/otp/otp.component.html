@@ -37,7 +37,7 @@
 
                 <div class="otp-boxes-container">
                   <input
-                    *ngFor="let digit of digits; let i = index"
+                    *ngFor="let digit of digits; let i = index; trackBy: trackByIndex"
                     #otpBox
                     type="text"
                     inputmode="numeric"

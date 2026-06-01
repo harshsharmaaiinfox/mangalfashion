@@ -56,30 +56,38 @@ export class OtpComponent {
     }
   }
 
-  // Called only for mobile/virtual keyboards where keydown key is 'Unidentified'
+  trackByIndex(index: number): number {
+    return index;
+  }
+
   onDigitInput(index: number, event: Event): void {
     const input = event.target as HTMLInputElement;
     const val = input.value.replace(/[^0-9]/g, '');
-    this.digits[index] = val ? val[val.length - 1] : '';
-    input.value = this.digits[index];
+    const digit = val ? val[val.length - 1] : '';
+
+    this.digits[index] = digit;
+    input.value = digit; // normalize DOM immediately; [value] binding will confirm on next CD
 
     if (this.otpSubmitted) {
       this.otpError = this.digits.join('').length < 6;
     }
 
-    if (this.digits[index] && index < 5) {
-      const boxes = this.otpBoxes.toArray();
-      // Defer focus so browser finishes current key event before moving on
-      setTimeout(() => boxes[index + 1]?.nativeElement.focus(), 0);
+    if (digit && index < 5) {
+      // Use rAF so Angular's CD settles before moving focus — prevents Chrome from
+      // firing a synthetic input event on the newly focused OTP box.
+      requestAnimationFrame(() => {
+        this.otpBoxes.toArray()[index + 1]?.nativeElement.focus();
+      });
     }
   }
 
   onKeyDown(index: number, event: KeyboardEvent): void {
     if (event.key === 'Backspace') {
       event.preventDefault();
+      const input = event.target as HTMLInputElement;
       if (this.digits[index]) {
         this.digits[index] = '';
-        (event.target as HTMLInputElement).value = '';
+        input.value = '';
       } else if (index > 0) {
         const boxes = this.otpBoxes.toArray();
         this.digits[index - 1] = '';
@@ -87,29 +95,14 @@ export class OtpComponent {
         prev.value = '';
         prev.focus();
       }
-      return;
-    }
-
-    // Desktop digit keys: prevent default so the browser doesn't insert the
-    // character itself, then update state and defer focus so the full key-event
-    // sequence (keydown → keypress → keyup → input) finishes on the current box
-    // before moving to the next — prevents the same character leaking into it.
-    if (/^[0-9]$/.test(event.key)) {
-      event.preventDefault();
-      this.digits[index] = event.key;
-      (event.target as HTMLInputElement).value = event.key;
       if (this.otpSubmitted) {
         this.otpError = this.digits.join('').length < 6;
       }
-      if (index < 5) {
-        const boxes = this.otpBoxes.toArray();
-        setTimeout(() => boxes[index + 1].nativeElement.focus(), 0);
-      }
       return;
     }
 
-    // Block any other printable character
-    if (event.key.length === 1) {
+    // Block non-numeric printable characters
+    if (event.key.length === 1 && !/[0-9]/.test(event.key)) {
       event.preventDefault();
     }
   }
@@ -117,16 +110,17 @@ export class OtpComponent {
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
     const pasted = (event.clipboardData?.getData('text') ?? '').replace(/[^0-9]/g, '').slice(0, 6);
-    pasted.split('').forEach((char, i) => {
-      this.digits[i] = char;
-    });
-    // clear any boxes beyond pasted length
-    for (let i = pasted.length; i < 6; i++) {
-      this.digits[i] = '';
+    for (let i = 0; i < 6; i++) {
+      this.digits[i] = pasted[i] ?? '';
     }
-    const boxes = this.otpBoxes.toArray();
+    if (this.otpSubmitted) {
+      this.otpError = this.digits.join('').length < 6;
+    }
+    // rAF so Angular's [value] binding updates the DOM before we move focus
     const focusIndex = Math.min(pasted.length, 5);
-    boxes[focusIndex]?.nativeElement.focus();
+    requestAnimationFrame(() => {
+      this.otpBoxes.toArray()[focusIndex]?.nativeElement.focus();
+    });
   }
 
   submit() {
