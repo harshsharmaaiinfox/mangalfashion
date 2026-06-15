@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductResolver } from '../../shared/resolvers/product.resolver';
-import { StoreResolver } from '../../shared/resolvers/store.resolver';
 import { BrandResolver } from '../../shared/resolvers/brand.resolver';
 
 import { AuthGuard } from "./../../core/guard/auth.guard";
@@ -15,7 +14,6 @@ import { CompareComponent } from './compare/compare.component';
 // Seller
 import { SellerComponent } from './seller/seller.component';
 import { SellerStoreComponent } from './seller/seller-store/seller-store.component';
-import { SellerDetailsComponent } from './seller/seller-details/seller-details.component';
 
 // Product
 import { ProductComponent } from './product/product.component';
@@ -81,11 +79,12 @@ const routes: Routes = [
     component: SellerStoreComponent
   },
   {
+    // Seller store detail pages are disabled. Any /seller/store/:slug URL
+    // (e.g. /seller/store/rapportmart) redirects to home so third-party
+    // seller storefronts are never shown.
     path: 'seller/store/:slug',
-    component: SellerDetailsComponent,
-    resolve: {
-      data: StoreResolver
-    }
+    redirectTo: '/',
+    pathMatch: 'full',
   },
   {
     path: 'checkout',
