@@ -94,7 +94,7 @@ export class SettingState {
               },
               {
                 name: 'star_mangal',
-                status: true,
+                status: false,
                 title: 'Pay via UPI App',
                 // icon: './assets/images/payment/star_mangal.png',
               },

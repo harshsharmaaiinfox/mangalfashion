@@ -15,7 +15,7 @@ export class OtpComponent {
 
   @ViewChildren('otpBox') otpBoxes: QueryList<ElementRef<HTMLInputElement>>;
 
-  public digits: string[] = ['', '', '', '', '', ''];
+  public digits: string[] = ['', '', '', '', ''];
   public otpError: boolean = false;
   public otpSubmitted: boolean = false;
 
@@ -69,15 +69,16 @@ export class OtpComponent {
     input.value = digit; // normalize DOM immediately; [value] binding will confirm on next CD
 
     if (this.otpSubmitted) {
-      this.otpError = this.digits.join('').length < 6;
+      this.otpError = this.digits.join('').length < 5;
     }
 
-    if (digit && index < 5) {
+    if (digit && index < 4) {
       // Use rAF so Angular's CD settles before moving focus — prevents Chrome from
       // firing a synthetic input event on the newly focused OTP box.
       requestAnimationFrame(() => {
         this.otpBoxes.toArray()[index + 1]?.nativeElement.focus();
       });
+
     }
   }
 
@@ -96,7 +97,7 @@ export class OtpComponent {
         prev.focus();
       }
       if (this.otpSubmitted) {
-        this.otpError = this.digits.join('').length < 6;
+        this.otpError = this.digits.join('').length < 5;
       }
       return;
     }
@@ -109,15 +110,15 @@ export class OtpComponent {
 
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
-    const pasted = (event.clipboardData?.getData('text') ?? '').replace(/[^0-9]/g, '').slice(0, 6);
-    for (let i = 0; i < 6; i++) {
+    const pasted = (event.clipboardData?.getData('text') ?? '').replace(/[^0-9]/g, '').slice(0, 5);
+    for (let i = 0; i < 5; i++) {
       this.digits[i] = pasted[i] ?? '';
     }
     if (this.otpSubmitted) {
-      this.otpError = this.digits.join('').length < 6;
+      this.otpError = this.digits.join('').length < 5;
     }
     // rAF so Angular's [value] binding updates the DOM before we move focus
-    const focusIndex = Math.min(pasted.length, 5);
+    const focusIndex = Math.min(pasted.length, 4);
     requestAnimationFrame(() => {
       this.otpBoxes.toArray()[focusIndex]?.nativeElement.focus();
     });
@@ -126,7 +127,7 @@ export class OtpComponent {
   submit() {
     this.otpSubmitted = true;
     const otp = this.digits.join('');
-    if (otp.length < 6) {
+    if (otp.length < 5) {
       this.otpError = true;
       return;
     }
@@ -164,7 +165,7 @@ export class OtpComponent {
   }
 
   resendOtp() {
-    this.digits = ['', '', '', '', '', ''];
+    this.digits = ['', '', '', '', ''];
     this.otpError = false;
     this.otpSubmitted = false;
     if(this.otpType === 'register'){

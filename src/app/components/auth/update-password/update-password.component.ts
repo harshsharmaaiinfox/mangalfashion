@@ -20,6 +20,8 @@ export class UpdatePasswordComponent {
   public form: FormGroup;
   public email: string;
   public token: any;
+  public showNew: boolean = false;
+  public showConfirm: boolean = false;
   public breadcrumb: Breadcrumb = {
     title: "Reset Password",
     items: [{ label: 'Reset Password', active: true }]
