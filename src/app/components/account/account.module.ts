@@ -14,7 +14,6 @@ import { OrderDetailsComponent } from './orders/details/details.component';
 import { RefundComponent } from './refund/refund.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { NotificationComponent } from './notification/notification.component';
-import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { DownloadsComponent } from './downloads/downloads.component';
  
 @NgModule({
@@ -29,7 +28,6 @@ import { DownloadsComponent } from './downloads/downloads.component';
     RefundComponent,
     AddressesComponent,
     NotificationComponent,
-    BankDetailsComponent,
     DownloadsComponent,
   ],
   imports: [

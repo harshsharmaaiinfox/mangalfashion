@@ -149,6 +149,23 @@
     .content-body {
       padding: 40px;
 
+      .content-subtitle {
+        color: #222;
+        font-weight: 700;
+        font-size: 22px;
+        margin: 35px 0 15px;
+        padding-top: 25px;
+        border-top: 1px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        i {
+          color: #EA5A26;
+          font-size: 26px;
+        }
+      }
+
       p {
         color: #6c757d;
         font-size: 16px;

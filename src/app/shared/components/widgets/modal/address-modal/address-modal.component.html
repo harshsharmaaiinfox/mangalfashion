@@ -21,16 +21,16 @@
           <div class="form-field-wrapper">
             <label class="form-label-modern" for="title">
               <i class="ri-home-line"></i>
-              <span>{{ 'Title' | translate }}</span>
+              <span>{{ 'Name' | translate }}</span>
             </label>
-            <input class="form-input-modern" id="title" type="text" placeholder="{{ 'Enter Title' | translate }}"
+            <input class="form-input-modern" id="title" type="text" placeholder="{{ 'Enter Name' | translate }}"
               formControlName="title" (keydown)="allowOnlyLetters($event)" (input)="sanitizeLettersInput($event, 'title')"
               (paste)="sanitizeLettersPaste($event)"
               [class.is-invalid]="form?.controls?.['title']?.touched && (form.controls['title']?.errors?.['required'] || form.controls['title']?.errors?.['pattern'])" />
             <div class="error-message"
               *ngIf="form?.controls?.['title']?.touched && form.controls['title']?.errors?.['required']">
               <i class="ri-error-warning-line"></i>
-              <span>{{ 'Title is Required' | translate }}</span>
+              <span>{{ 'Name is Required' | translate }}</span>
             </div>
             <div class="error-message"
               *ngIf="form?.controls?.['title']?.touched && form.controls['title']?.errors?.['pattern']">

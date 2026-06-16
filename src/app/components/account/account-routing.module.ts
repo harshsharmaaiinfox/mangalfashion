@@ -5,7 +5,6 @@ import { AccountComponent } from './account.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { NotificationComponent } from './notification/notification.component';
-import { BankDetailsComponent } from './bank-details/bank-details.component';
 import { PointComponent } from './point/point.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orders/details/details.component';
@@ -29,10 +28,6 @@ const routes: Routes = [
       {
         path: 'notifications',
         component: NotificationComponent
-      },
-      {
-        path: 'bank-details',
-        component: BankDetailsComponent
       },
       {
         path: 'point',
