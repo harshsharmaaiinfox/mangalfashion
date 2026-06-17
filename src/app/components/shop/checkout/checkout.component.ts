@@ -275,9 +275,15 @@ export class CheckoutComponent {
 
   selectShippingAddress(id: number) {
     if (id) {
+      // The address_id controls are removed when the form is configured for guest
+      // checkout. A saved address can still be auto-selected (e.g. after adding one),
+      // so ensure the control exists before setValue to avoid an undefined crash.
+      if (!this.form.contains('shipping_address_id')) {
+        this.form.addControl('shipping_address_id', new FormControl('', [Validators.required]));
+      }
       this.form.controls['shipping_address_id'].setValue(Number(id));
       // Only call checkout if payment method is already selected
-      if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+      if (this.form.controls['payment_method']?.value && this.form.controls['payment_method'].value.trim() !== '') {
         this.checkout();
       }
     }
@@ -285,9 +291,12 @@ export class CheckoutComponent {
 
   selectBillingAddress(id: number) {
     if (id) {
+      if (!this.form.contains('billing_address_id')) {
+        this.form.addControl('billing_address_id', new FormControl('', [Validators.required]));
+      }
       this.form.controls['billing_address_id'].setValue(Number(id));
       // Only call checkout if payment method is already selected
-      if (this.form.controls['payment_method'].value && this.form.controls['payment_method'].value.trim() !== '') {
+      if (this.form.controls['payment_method']?.value && this.form.controls['payment_method'].value.trim() !== '') {
         this.checkout();
       }
     }

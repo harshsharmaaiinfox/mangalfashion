@@ -55,7 +55,7 @@
 
                 <div *ngIf="otpError" class="field-error-message">
                   <i class="ri-error-warning-line"></i>
-                  {{ 'Please enter all 5 digits of the verification code' | translate }}
+                  {{ 'Please enter all ' + otpLength + ' digits of the verification code' | translate }}
                 </div>
               </div>
 

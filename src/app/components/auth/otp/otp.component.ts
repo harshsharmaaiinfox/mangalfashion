@@ -15,7 +15,13 @@ export class OtpComponent {
 
   @ViewChildren('otpBox') otpBoxes: QueryList<ElementRef<HTMLInputElement>>;
 
-  public digits: string[] = ['', '', '', '', ''];
+  public digits: string[] = [];
+
+  // OTP length depends on the flow: registration uses a 6-digit OTP,
+  // all other flows (forgot-password / email, number login) use 5 digits.
+  get otpLength(): number {
+    return this.otpType === 'register' ? 6 : 5;
+  }
   public otpError: boolean = false;
   public otpSubmitted: boolean = false;
 
@@ -36,6 +42,7 @@ export class OtpComponent {
 
   ngOnInit(){
     this.otpType = this.authService.otpType;
+    this.digits = new Array(this.otpLength).fill('');
     if(this.otpType === 'email'){
       this.email = this.store.selectSnapshot(state => state.auth.email);
       if(!this.email){
@@ -69,10 +76,10 @@ export class OtpComponent {
     input.value = digit; // normalize DOM immediately; [value] binding will confirm on next CD
 
     if (this.otpSubmitted) {
-      this.otpError = this.digits.join('').length < 5;
+      this.otpError = this.digits.join('').length < this.otpLength;
     }
 
-    if (digit && index < 4) {
+    if (digit && index < this.otpLength - 1) {
       // Use rAF so Angular's CD settles before moving focus — prevents Chrome from
       // firing a synthetic input event on the newly focused OTP box.
       requestAnimationFrame(() => {
@@ -97,7 +104,7 @@ export class OtpComponent {
         prev.focus();
       }
       if (this.otpSubmitted) {
-        this.otpError = this.digits.join('').length < 5;
+        this.otpError = this.digits.join('').length < this.otpLength;
       }
       return;
     }
@@ -110,15 +117,15 @@ export class OtpComponent {
 
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
-    const pasted = (event.clipboardData?.getData('text') ?? '').replace(/[^0-9]/g, '').slice(0, 5);
-    for (let i = 0; i < 5; i++) {
+    const pasted = (event.clipboardData?.getData('text') ?? '').replace(/[^0-9]/g, '').slice(0, this.otpLength);
+    for (let i = 0; i < this.otpLength; i++) {
       this.digits[i] = pasted[i] ?? '';
     }
     if (this.otpSubmitted) {
-      this.otpError = this.digits.join('').length < 5;
+      this.otpError = this.digits.join('').length < this.otpLength;
     }
     // rAF so Angular's [value] binding updates the DOM before we move focus
-    const focusIndex = Math.min(pasted.length, 4);
+    const focusIndex = Math.min(pasted.length, this.otpLength - 1);
     requestAnimationFrame(() => {
       this.otpBoxes.toArray()[focusIndex]?.nativeElement.focus();
     });
@@ -127,7 +134,7 @@ export class OtpComponent {
   submit() {
     this.otpSubmitted = true;
     const otp = this.digits.join('');
-    if (otp.length < 5) {
+    if (otp.length < this.otpLength) {
       this.otpError = true;
       return;
     }
@@ -165,7 +172,7 @@ export class OtpComponent {
   }
 
   resendOtp() {
-    this.digits = ['', '', '', '', ''];
+    this.digits = new Array(this.otpLength).fill('');
     this.otpError = false;
     this.otpSubmitted = false;
     if(this.otpType === 'register'){
