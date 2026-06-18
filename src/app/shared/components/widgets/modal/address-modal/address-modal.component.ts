@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select, Store } from '@ngxs/store';
@@ -33,7 +33,6 @@ export class AddressModalComponent {
   public address: UserAddress | null;
   public codes = data.countryCodes;
 
-  public pinCodeAreaOfficeCircleDataJSON: any;
   public stateNameData: any;
   public regionNameData: any;
   public circleNameData: any;
@@ -49,11 +48,16 @@ export class AddressModalComponent {
   public filterPinCodeAreas: any;
   public checkIfPinCodeExists = true;
 
+  private stateToDistricts: Map<string, Set<string>> = new Map();
+  private districtToOffices: Map<string, any[]> = new Map();
+  private pincodeToOffice: Map<string, any> = new Map();
+
   constructor(
     private modalService: NgbModal,
     private store: Store,
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef,
+    private ngZone: NgZone,
     private authService: AuthService,
     private notificationService: NotificationService
 
@@ -93,62 +97,48 @@ export class AddressModalComponent {
       )
       .subscribe((value) => {
         if (value && value.toString().length > 5) {
-          const checkIfPinCodeExists = this.officeNameData.filter((dataz: any) => dataz.OfficeName == this.form.controls['area'].value);
-          if (checkIfPinCodeExists[0].Pincode !== value) {
+          const currentAreaOffice = this.officeNameData.find((dataz: any) => dataz.OfficeName == this.form.controls['area'].value);
+          if (!currentAreaOffice || currentAreaOffice.Pincode != value) {
             this.checkIfPinCodeExists = false;
-            this.filterPinCodeAreas = [];
-            this.filterPinCodeAreas = this.pinCodeAreaOfficeCircleDataJSON.filter((dataz: any) => dataz.Pincode == value);
-            if (this.filterPinCodeAreas.length) {
-              this.cityOptions = [];
-              this.officeNameData = [];
+            const matchedOffice = this.pincodeToOffice.get(String(value));
+            if (matchedOffice) {
+              this.filterPinCodeAreas = [matchedOffice];
 
-              const filteredDistricts = this.pinCodeAreaOfficeCircleDataJSON
-                .filter((item: any) => item.StateName === this.filterPinCodeAreas[0].StateName)
-                .map((item: any) => ({
-                  District: item.District,
-                  RegionName: item.RegionName,
-                  CircleName: item.CircleName,
-                  DivisionName: item.DivisionName,
-                  OfficeName: item.OfficeName,
-                }))
-                .filter((value: any, index: number, self: any) =>
-                  self.findIndex((v: any) => v.District === value.District) === index
-                );
+              // City Options (districts in the matched state)
+              const districts = this.stateToDistricts.get(matchedOffice.StateName);
+              this.cityOptions = districts
+                ? [...districts].sort().map((district: string) => ({
+                    label: district,
+                    value: district,
+                    District: district,
+                  }))
+                : [];
 
-              this.cityOptions = filteredDistricts.map((district: any) => ({
-                ...district,
-                label: district.District,
-                value: district.District,
-              }));
-
-              // Area Data
-
-              const getPINAreaOfficeCircleData = this.pinCodeAreaOfficeCircleDataJSON.filter((dataz: any) => {
-                return dataz.District?.toLowerCase() == this.filterPinCodeAreas[0].District.toLowerCase()
-              });
-              if (getPINAreaOfficeCircleData.length) {
-                getPINAreaOfficeCircleData.forEach((dataz: any) => {
-                  this.officeNameData.push({
-                    ...dataz,
-                    label: dataz.OfficeName,
-                    value: dataz.OfficeName
-                  });
-                });
+              // Area Data (offices in the matched district)
+              const offices = this.districtToOffices.get(matchedOffice.District?.toLowerCase()) || [];
+              if (offices.length) {
+                this.officeNameData = offices.map((dataz: any) => ({
+                  label: dataz.OfficeName,
+                  value: dataz.OfficeName,
+                  OfficeName: dataz.OfficeName,
+                  Pincode: dataz.Pincode,
+                }));
               } else {
-                this.officeNameData.push({
+                this.officeNameData = [{
                   label: 'Other',
                   value: 'Other',
                   pinCode: ''
-                });
+                }];
               }
 
-              this.form.controls['state_id'].setValue(this.filterPinCodeAreas.length ? this.filterPinCodeAreas[0].label : '');
+              this.form.controls['state_id'].setValue(matchedOffice.StateName);
               setTimeout(() => {
-                this.form.controls['city'].setValue(this.filterPinCodeAreas.length ? this.filterPinCodeAreas[0].District : '');
+                this.form.controls['city'].setValue(matchedOffice.District);
                 this.form.controls['area'].setValue(this.officeNameData.length ? this.officeNameData[0].label : '');
                 this.checkIfPinCodeExists = true;
               }, 500);
             } else {
+              this.filterPinCodeAreas = [];
               this.checkIfPinCodeExists = true;
               this.form.controls['pincode'].markAsTouched();
               this.form.controls['pincode'].setErrors({ required: true });
@@ -184,19 +174,64 @@ export class AddressModalComponent {
       apiCall.subscribe({
         next: (res) => {
           if (res) {
-            this.pinCodeAreaOfficeCircleDataJSON = res['data'];
-            this.stateNameData = [...new Map(this.pinCodeAreaOfficeCircleDataJSON.map((item: any) => [item.StateName, item])).values()].map((state: any) => ({
-              label: state.StateName,
-              value: state.StateName,
-              ...state
-            }));
-            this.cdRef.detectChanges();
+            this.ngZone.runOutsideAngular(() => {
+              this.buildPinCodeIndexes(res['data']);
+              this.ngZone.run(() => this.cdRef.detectChanges());
+            });
           } else {
             this.notificationService.showError('Failed to fetch Pincode and Area data');
           }
         }
       });
     });
+  }
+
+  private buildPinCodeIndexes(records: any[]) {
+    const stateSet = new Set<string>();
+    this.stateToDistricts = new Map();
+    this.districtToOffices = new Map();
+    this.pincodeToOffice = new Map();
+
+    for (const item of records) {
+      const state = item?.StateName;
+      const district = item?.District;
+      const officeName = item?.OfficeName;
+      const pincode = item?.Pincode != null ? String(item.Pincode) : '';
+
+      if (state) stateSet.add(state);
+
+      if (state && district) {
+        let districts = this.stateToDistricts.get(state);
+        if (!districts) {
+          districts = new Set<string>();
+          this.stateToDistricts.set(state, districts);
+        }
+        districts.add(district);
+      }
+
+      if (district) {
+        const key = district.toLowerCase();
+        let offices = this.districtToOffices.get(key);
+        if (!offices) {
+          offices = [];
+          this.districtToOffices.set(key, offices);
+        }
+        offices.push({ OfficeName: officeName, Pincode: pincode });
+      }
+
+      if (pincode) {
+        this.pincodeToOffice.set(pincode, {
+          StateName: state,
+          District: district,
+          OfficeName: officeName,
+        });
+      }
+    }
+
+    this.stateNameData = [...stateSet].sort().map((s: string) => ({
+      label: s,
+      value: s
+    }));
   }
 
   validatePinCode(payload: any) {
@@ -231,27 +266,15 @@ export class AddressModalComponent {
       this.form.controls['area'].setValue('');
       this.form.controls['pincode'].setValue('');
       const selectedState = data.options[0].label;
-      const filteredDistricts = this.pinCodeAreaOfficeCircleDataJSON
-        .filter((item: any) => item.StateName === selectedState)
-        .map((item: any) => ({
-          District: item.District,
-          RegionName: item.RegionName,
-          CircleName: item.CircleName,
-          DivisionName: item.DivisionName,
-          OfficeName: item.OfficeName,
-        }))
-        .filter((value: any, index: number, self: any) =>
-          self.findIndex((v: any) => v.District === value.District) === index
-        );
+      const districts = this.stateToDistricts.get(selectedState);
 
-      this.cityOptions = filteredDistricts.map((district: any) => ({
-        ...district,
-        label: district.District,
-        value: district.District,
-      }));
-
-    } else {
-      // this.form.controls['city'].setValue('');
+      this.cityOptions = districts
+        ? [...districts].sort().map((district: string) => ({
+            label: district,
+            value: district,
+            District: district,
+          }))
+        : [];
     }
   }
 
@@ -259,24 +282,20 @@ export class AddressModalComponent {
     if (data && data?.value && this.checkIfPinCodeExists) {
       this.form.controls['area'].setValue('');
       this.form.controls['pincode'].setValue('');
-      this.officeNameData = [];
-      const getPINAreaOfficeCircleData = this.pinCodeAreaOfficeCircleDataJSON.filter((dataz: any) => {
-        return dataz.District?.toLowerCase() == data.value?.toString().toLowerCase()
-      });
-      if (getPINAreaOfficeCircleData.length) {
-        getPINAreaOfficeCircleData.forEach((dataz: any) => {
-          this.officeNameData.push({
-            ...dataz,
-            label: dataz.OfficeName,
-            value: dataz.OfficeName
-          });
-        });
+      const offices = this.districtToOffices.get(data.value?.toString().toLowerCase()) || [];
+      if (offices.length) {
+        this.officeNameData = offices.map((dataz: any) => ({
+          label: dataz.OfficeName,
+          value: dataz.OfficeName,
+          OfficeName: dataz.OfficeName,
+          Pincode: dataz.Pincode,
+        }));
       } else {
-        this.officeNameData.push({
+        this.officeNameData = [{
           label: 'Other',
           value: 'Other',
           pinCode: ''
-        });
+        }];
       }
       this.form.controls['area'].enable();
     }

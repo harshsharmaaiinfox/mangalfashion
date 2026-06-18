@@ -9,6 +9,20 @@
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     }
   }
+
+  &.cart-popup-modal-narrow {
+    .modal-dialog {
+      max-width: 420px;
+    }
+
+    .cart-popup-body {
+      padding: 22px 24px 26px;
+    }
+
+    .cart-popup-header {
+      padding: 10px;
+    }
+  }
 }
 
 .cart-popup-content {
@@ -448,6 +462,107 @@
     p {
       color: #555;
       font-size: 16px;
+    }
+  }
+
+  .login-required-prompt {
+    text-align: center;
+    padding: 10px 10px 5px;
+
+    .login-prompt-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(234, 89, 39, 0.1), rgba(255, 123, 77, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 28px;
+        color: #EA5927;
+      }
+    }
+
+    .login-prompt-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .login-prompt-message {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .login-prompt-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .btn-login-prompt,
+      .btn-register-prompt {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        i {
+          font-size: 16px;
+          line-height: 1;
+        }
+      }
+
+      .btn-login-prompt {
+        background: #EA5927;
+        color: #fff;
+        border: 1px solid #EA5927;
+
+        &:hover {
+          background: #d44e21;
+          border-color: #d44e21;
+          color: #fff;
+        }
+      }
+
+      .btn-register-prompt {
+        background: #fff;
+        color: #EA5927;
+        border: 1px solid #EA5927;
+
+        &:hover {
+          background: rgba(234, 89, 39, 0.08);
+          color: #EA5927;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-required-prompt {
+    padding: 30px 20px;
+
+    .login-prompt-actions {
+      flex-direction: column;
+
+      .btn-login-prompt,
+      .btn-register-prompt {
+        width: 100%;
+        justify-content: center;
+      }
     }
   }
 }

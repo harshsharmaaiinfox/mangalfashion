@@ -4,6 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, forkJoin, BehaviorSubject } from 'rxjs';
 import { Cart, CartAddOrUpdate } from '../../../../interface/cart.interface';
 import { CartState } from '../../../../state/cart.state';
+import { AuthState } from '../../../../state/auth.state';
 import { ClearCart, UpdateCart, DeleteCart, AddToCart } from '../../../../action/cart.action';
 import { AddToWishlist, DeleteWishlist } from '../../../../action/wishlist.action';
 import { Router } from '@angular/router';
@@ -33,6 +34,7 @@ export class CartPopupModalComponent implements OnDestroy {
   public addToCartLoader: boolean = false;
   public selectedVariationId: number | null = null;
   public selectedVariation: any = null;
+  public isAuthenticated: boolean = false;
 
   get currentPrice(): number {
     // If we have a selected variation, return its sale_price, otherwise return product sale_price
@@ -54,12 +56,14 @@ export class CartPopupModalComponent implements OnDestroy {
     this.quantity = 1; // Reset quantity
     this.addToCartLoader = false; // Reset loader
 
+    this.isAuthenticated = !!this.store.selectSnapshot(AuthState.isAuthenticated);
+
     // Reset all attributes
     this.productAttributes = [];
     this.selectedAttributeValues = {};
     this.availableAttributeValues = {};
 
-    if (this.product && this.product.attributes) {
+    if (this.isAuthenticated && this.product && this.product.attributes) {
       // Get all product attributes (not just size and waist)
       this.productAttributes = this.product.attributes;
 
@@ -78,7 +82,7 @@ export class CartPopupModalComponent implements OnDestroy {
     this.modalService.open(this.cartPopupModal, {
       ariaLabelledBy: 'Cart-Popup-Modal',
       centered: true,
-      windowClass: 'theme-modal cart-popup-modal',
+      windowClass: this.isAuthenticated ? 'theme-modal cart-popup-modal' : 'theme-modal cart-popup-modal cart-popup-modal-narrow',
       backdrop: 'static',
       keyboard: true
     }).result.then((result) => {

@@ -8,7 +8,24 @@
     </div>
 
     <div class="modal-body cart-popup-body">
-      <div class="cart-items-list" *ngIf="product">
+      <div class="login-required-prompt" *ngIf="!isAuthenticated">
+        <div class="login-prompt-icon">
+          <i class="ri-lock-2-line"></i>
+        </div>
+        <h4 class="login-prompt-title">{{ 'Please log in to proceed to checkout' | translate }}</h4>
+        <div class="login-prompt-actions">
+          <a [routerLink]="['/auth/login']" class="btn btn-login-prompt" (click)="closeModal()">
+            <i class="ri-login-circle-line"></i>
+            {{ 'Login' | translate }}
+          </a>
+          <a [routerLink]="['/auth/register']" class="btn btn-register-prompt" (click)="closeModal()">
+            <i class="ri-user-add-line"></i>
+            {{ 'Register' | translate }}
+          </a>
+        </div>
+      </div>
+
+      <div class="cart-items-list" *ngIf="isAuthenticated && product">
         <div class="cart-item mt-3">
           <div class="cart-item-image">
             <img
