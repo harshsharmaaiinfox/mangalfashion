@@ -11,7 +11,7 @@
                         *ngIf="(setting$ | async)?.activation?.guest_checkout && !(accessToken$ | async)">
                         <ul class="checkout-steps-list">
                             <!-- Account Details for Guest -->
-                            <li class="checkout-step-item">
+                            <!-- <li class="checkout-step-item">
                                 <div class="checkout-step-icon">
                                     <i class="ri-user-line"></i>
                                 </div>
@@ -99,7 +99,7 @@
                                         </form>
                                     </div>
                                 </div>
-                            </li>
+                            </li> -->
 
                             <!-- Shipping Address for Guest -->
                             <li *ngIf="!(cartDigital$ | async)" class="checkout-step-item">
