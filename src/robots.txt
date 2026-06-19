@@ -31,6 +31,7 @@ Disallow: /account/
 
 # Disallow Search Pages (Duplicate content, should not be indexed)
 Disallow: /search
+Disallow: /seller/
 
 # Allow Important Public Pages (Explicitly allow for clarity)
 Allow: /about-us
@@ -41,8 +42,6 @@ Allow: /collections
 Allow: /product/
 Allow: /category/
 Allow: /brand/
-Allow: /seller/stores
-Allow: /seller/store/
 Allow: /offers
 Allow: /faq
 Allow: /privacy-policy

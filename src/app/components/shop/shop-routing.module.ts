@@ -11,10 +11,6 @@ import { CartComponent } from './cart/cart.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { CompareComponent } from './compare/compare.component';
 
-// Seller
-import { SellerComponent } from './seller/seller.component';
-import { SellerStoreComponent } from './seller/seller-store/seller-store.component';
-
 // Product
 import { ProductComponent } from './product/product.component';
 
@@ -70,22 +66,9 @@ const routes: Routes = [
     path: 'collections/:category',
     component: CollectionComponent
   },
-  {
-    path: 'seller/become-seller',
-    component: SellerComponent
-  },
-  {
-    path: 'seller/stores',
-    component: SellerStoreComponent
-  },
-  {
-    // Seller store detail pages are disabled. Any /seller/store/:slug URL
-    // (e.g. /seller/store/rapportmart) redirects to home so third-party
-    // seller storefronts are never shown.
-    path: 'seller/store/:slug',
-    redirectTo: '/',
-    pathMatch: 'full',
-  },
+  { path: 'seller/become-seller', redirectTo: '/', pathMatch: 'full' },
+  { path: 'seller/stores',        redirectTo: '/', pathMatch: 'full' },
+  { path: 'seller/store/:slug',   redirectTo: '/', pathMatch: 'full' },
   {
     path: 'checkout',
     component: CheckoutComponent,

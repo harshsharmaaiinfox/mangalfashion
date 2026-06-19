@@ -68,11 +68,8 @@
         <div class="col-xl-4 col-lg-5 wow fadeInUp vendor-right-box">
             <div class="right-box-contain">
                 <div class="main-right-box-contain">
-                    <div class="vendor-box">
-                        <app-vendor-contain [store]="product.store!"></app-vendor-contain>
-                        <div class="vendor-detail">
-                            <p>{{product.short_description}}</p>
-                        </div>
+                    <div class="vendor-detail">
+                        <p>{{product.short_description}}</p>
                     </div>
                     <app-product-contain [product]="product" [option]="option"></app-product-contain>
 

@@ -237,7 +237,7 @@ export class SeoService {
         "itemCondition": "https://schema.org/NewCondition",
         "seller": {
           "@type": "Organization",
-          "name": "mangal fashion"
+          "name": "MANGAL MURTI LANDCRAFTS PRIVATE LIMITED"
         }
       }
     };
@@ -274,9 +274,11 @@ export class SeoService {
         "addressCountry": "IN"
       },
       "sameAs": [
-        "https://facebook.com/ecomus",
-        "https://twitter.com/ecomus",
-        "https://instagram.com/ecomus"
+        "https://www.facebook.com/profile.php?id=61587125992259",
+        "https://x.com/mangalfashion",
+        "https://www.instagram.com/mangalfashionofficial/",
+        "https://www.pinterest.com/mangalfashionofficial/_profile/",
+        "https://www.youtube.com/@mangalfashionofficial"
       ],
       "contactPoint": {
         "@type": "ContactPoint",

@@ -6,7 +6,6 @@ import { Denver } from '../../../shared/interface/theme.interface';
 import { ThemeOptionService } from '../../../shared/services/theme-option.service';
 import * as data from  '../../../shared/data/owl-carousel';
 import { GetBrands } from '../../../shared/action/brand.action';
-import { GetStores } from '../../../shared/action/store.action';
 import { ThemeOptionState } from '../../../shared/state/theme-option.state';
 import { Option } from '../../../shared/interface/theme-option.interface';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -229,11 +228,6 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
         ids: uniqueProductIds.join(',')
       }));
 
-      const getStore$ = this.store.dispatch(new GetStores({
-        status: 1,
-        ids: this.data?.content?.seller?.store_ids?.join()
-      }));
-
       // Conditionally call GetBrands only if brand_ids exist and are not empty
       const brandIds = this.data?.content?.brands?.brand_ids;
       const getBrand$ = brandIds && brandIds.length > 0 ?
@@ -245,7 +239,7 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
       // Skeleton Loader
       document.body.classList.add('skeleton-body');
 
-      const actions = [getProducts$, getStore$];
+      const actions = [getProducts$];
       if (getBrand$) {
         actions.push(getBrand$);
       }

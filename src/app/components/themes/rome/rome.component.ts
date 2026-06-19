@@ -9,7 +9,6 @@ import { Product } from '../../../shared/interface/product.interface';
 import { ThemeOptionService } from '../../../shared/services/theme-option.service';
 import * as data from  '../../../shared/data/owl-carousel';
 import { GetBrands } from '../../../shared/action/brand.action';
-import { GetStores } from '../../../shared/action/store.action';
 import { ThemeOptionState } from '../../../shared/state/theme-option.state';
 import { Option } from '../../../shared/interface/theme-option.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -47,10 +46,6 @@ export class RomeComponent {
         ids: this.data?.content?.products_ids?.join(',')
       }));
 
-      const getStore$ = this.store.dispatch(new GetStores({
-        status: 1,
-        ids: this.data?.content?.seller?.store_ids?.join()
-      }));
       const getBlogs$ = this.store.dispatch(new GetBlogs({
         status: 1,
         ids: this.data?.content?.featured_blogs?.blog_ids?.join(',')
@@ -71,7 +66,7 @@ export class RomeComponent {
       // Skeleton Loader
       document.body.classList.add('skeleton-body');
 
-      const actions = [getProducts$, getBlogs$, getCatProducts$, getStore$];
+      const actions = [getProducts$, getBlogs$, getCatProducts$];
       if (getBrand$) {
         actions.push(getBrand$);
       }
