@@ -207,7 +207,7 @@ $login-primary-light: lighten($login-primary, 45%);
 
             &::after {
               opacity: 1;
-              transform: scale(1);
+              transform: rotate(45deg) scale(1);
             }
           }
         }
