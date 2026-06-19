@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -6,10 +6,12 @@ import { Product, Variation } from '../../../../../../shared/interface/product.i
 import { Cart, CartAddOrUpdate } from '../../../../../../shared/interface/cart.interface';
 import { AddToCart } from '../../../../../../shared/action/cart.action';
 import { CartState } from '../../../../../../shared/state/cart.state';
+import { AuthState } from '../../../../../../shared/state/auth.state';
 import { Option } from '../../../../../../shared/interface/theme-option.interface';
 import { AddToWishlist, DeleteWishlist } from '../../../../../../shared/action/wishlist.action';
 import { AddToCompare } from '../../../../../../shared/action/compare.action';
 import { WishlistState } from '../../../../../../shared/state/wishlist.state';
+import { CartPopupModalComponent } from '../../../../../../shared/components/widgets/modal/cart-popup-modal/cart-popup-modal.component';
 
 @Component({
   selector: 'app-product-contain',
@@ -24,6 +26,8 @@ export class ProductContainComponent {
 
   @Select(CartState.cartItems) cartItem$: Observable<Cart[]>;
   @Select(WishlistState.wishlistIds) wishlistIds$: Observable<number[]>;
+
+  @ViewChild('cartPopupModal') cartPopupModal: CartPopupModalComponent;
 
   public cartItem: Cart | null;
   public productQty: number = 1;
@@ -92,24 +96,31 @@ export class ProductContainComponent {
   }
 
   addToCart(product: Product, buyNow?: boolean) {
-    if (product) {
-      const params: CartAddOrUpdate = {
-        id: this.cartItem && (this.selectedVariation && this.cartItem?.variation &&
-          this.selectedVariation?.id == this.cartItem?.variation?.id) ? this.cartItem.id : null,
-        product_id: product?.id,
-        product: product ? product : null,
-        variation: this.selectedVariation ? this.selectedVariation : null,
-        variation_id: this.selectedVariation?.id ? this.selectedVariation?.id : null,
-        quantity: this.productQty
-      }
-      this.store.dispatch(new AddToCart(params)).subscribe({
-        complete: () => {
-          if (buyNow) {
-            this.router.navigate(['/checkout']);
-          }
-        }
-      });
+    if (!product) return;
+
+    const isAuthenticated = !!this.store.selectSnapshot(AuthState.isAuthenticated);
+    console.log('[product-contain] addToCart fired. isAuth=', isAuthenticated, 'modal=', this.cartPopupModal);
+    if (!isAuthenticated) {
+      this.cartPopupModal?.openModal(product);
+      return;
     }
+
+    const params: CartAddOrUpdate = {
+      id: this.cartItem && (this.selectedVariation && this.cartItem?.variation &&
+        this.selectedVariation?.id == this.cartItem?.variation?.id) ? this.cartItem.id : null,
+      product_id: product?.id,
+      product: product ? product : null,
+      variation: this.selectedVariation ? this.selectedVariation : null,
+      variation_id: this.selectedVariation?.id ? this.selectedVariation?.id : null,
+      quantity: this.productQty
+    }
+    this.store.dispatch(new AddToCart(params)).subscribe({
+      complete: () => {
+        if (buyNow) {
+          this.router.navigate(['/checkout']);
+        }
+      }
+    });
   }
 
   addToWishlist(product: Product) {

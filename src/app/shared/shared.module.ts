@@ -261,6 +261,7 @@ import { SearchFilterPipe } from './pipe/search-filter.pipe';
     ProductBoxComponent,
     SkeletonProductBoxComponent,
     RefundModalComponent,
+    CartPopupModalComponent,
     VariantAttributesComponent,
     SubscribeFooterComponent,
     PayModalComponent,

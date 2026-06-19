@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Product } from '../../../../../../shared/interface/product.interface';
@@ -6,6 +6,8 @@ import { ProductState } from '../../../../../../shared/state/product.state';
 import { Cart, CartAddOrUpdate } from '../../../../../../shared/interface/cart.interface';
 import { AddToCart } from '../../../../../../shared/action/cart.action';
 import { CartState } from '../../../../../../shared/state/cart.state';
+import { AuthState } from '../../../../../../shared/state/auth.state';
+import { CartPopupModalComponent } from '../../../../../../shared/components/widgets/modal/cart-popup-modal/cart-popup-modal.component';
 
 @Component({
   selector: 'app-product-bundle',
@@ -16,6 +18,8 @@ export class ProductBundleComponent {
 
   @Select(ProductState.relatedProducts) crossSellProduct$: Observable<Product[]>;
   @Select(CartState.cartItems) cartItem$: Observable<Cart[]>;
+
+  @ViewChild('cartPopupModal') cartPopupModal: CartPopupModalComponent;
 
   @Input() product: Product | null;
 
@@ -52,6 +56,17 @@ export class ProductBundleComponent {
   }
 
   addToCartAll() {
+    if (!this.selectedProduct.length) return;
+
+    const isAuthenticated = !!this.store.selectSnapshot(AuthState.isAuthenticated);
+    if (!isAuthenticated) {
+      const firstProduct = this.selectedProduct[0] || this.product;
+      if (firstProduct) {
+        this.cartPopupModal?.openModal(firstProduct);
+      }
+      return;
+    }
+
     this.selectedProduct.forEach(product => {
       if(product) {
         this.cartItem$.subscribe(items => {
