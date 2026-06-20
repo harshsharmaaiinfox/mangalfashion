@@ -1,14 +1,5 @@
 <div class="footer-contact">
     <ul>
-        <li *ngIf="data?.footer?.support_number">
-            <div class="footer-number">
-                <i class="ri-phone-line"></i>
-                <div class="contact-number">
-                    <h6 class="text-content">{{ 'Customer Support 24/7' | translate }} :</h6>
-                    <h5>{{ data?.footer?.support_number }}</h5>
-                </div>
-            </div>
-        </li>
         <li *ngIf="data?.footer?.support_email">
             <div class="footer-number">
                 <i class="ri-mail-line"></i>

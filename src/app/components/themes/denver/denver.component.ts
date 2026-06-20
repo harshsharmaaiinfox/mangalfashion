@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit, HostListener } from '@angular/core';
 import { Select, Store  } from '@ngxs/store';
 import { Observable, forkJoin } from 'rxjs';
 import { GetProductByIds } from '../../../shared/action/product.action';
@@ -9,6 +9,7 @@ import { GetBrands } from '../../../shared/action/brand.action';
 import { ThemeOptionState } from '../../../shared/state/theme-option.state';
 import { Option } from '../../../shared/interface/theme-option.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthState } from '../../../shared/state/auth.state';
 
 @Component({
   selector: 'app-denver',
@@ -28,10 +29,27 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
   public categorySlider = data.categorySlider9;
   public productSlider6ItemMargin = data.productSlider6ItemMargin;
   public productSlider4Item = data.productSlider;
+
+  // 4-item slider with no loop — prevents stretching when item count <= slider items
+  public productSlider4NoLoop = {
+    loop: false,
+    nav: true,
+    dots: false,
+    items: 4,
+    margin: 12,
+    navText: ['<i class="ri-arrow-left-s-line"></i>', '<i class="ri-arrow-right-s-line"></i>'],
+    responsive: {
+      0:   { items: 2, nav: false },
+      576: { items: 3 },
+      992: { items: 4 }
+    }
+  };
   
   // Featured Products by ID (4-5 products in a row)
-  public featuredProductIds: number[] = [2338, 2336, 2335, 671];
-  public featuredProductIds2: number[] = [2341, 2340, 2339, 691];
+  public featuredProductIds: number[] = [260, 267, 261, 262];
+  public featuredProductIds2: number[] = [533, 532, 531, 528];
+  public latestItemIds: number[] = [50, 55, 49, 47];
+  public onDiscountIds: number[] = [2217, 2220, 2218, 2219];
   
   // Hero Slider Properties
   public currentSlide = 0;
@@ -41,19 +59,46 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
   public currentX = 0;
   public translateX = 0;
   
+  // Collection Drops Slider
+  public currentCollectionSlide = 0;
+  private collectionSlideTimer: any;
+
+  public collectionSlides = [
+    {
+      image: 'assets/images/summer-collection-women.png',
+      alt: 'Summer Women Collection',
+      tag: 'NEW ARRIVAL',
+      titleLine1: 'SUMMER',
+      titleLine2: 'WOMEN',
+      subtitle: 'BY MANGAL FASHION',
+      tagline: 'ELEGANCE FOR EVERY OCCASION',
+      link: '/collections'
+    },
+    {
+      image: 'assets/images/summer-collection-men .png',
+      alt: 'Summer Men Collection',
+      tag: 'NEW ARRIVAL',
+      titleLine1: 'SUMMER',
+      titleLine2: 'MEN',
+      subtitle: 'BY MANGAL FASHION',
+      tagline: 'STYLE THAT SPEAKS FOR ITSELF',
+      link: '/collections'
+    }
+  ];
+
   public heroSlides = [
     {
-      image: 'assets/images/1.jpg',
-      alt: 'Mangal Fashion Premium Collection',
+      image: 'assets/images/summer women.png',
+      alt: 'Mangal Fashion Summer Women Collection',
       link: '/collections',
       saleText: 'FASHION SALE',
       saleSubtext: 'Running Now!'
     },
     {
-      image: 'assets/images/3.jpg',
-      alt: 'Mangal Fashion Wedding Collection',
+      image: 'assets/images/summer-hero.png',
+      alt: 'Mangal Fashion Summer Collection',
       link: '/collections',
-      saleText: 'FASHION SALE',
+      saleText: 'SUMMER SALE',
       saleSubtext: 'UPTO 70% OFF'
     }
   ];
@@ -92,14 +137,56 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private themeOptionService: ThemeOptionService) {}
 
+  // Floating sidebar scroll visibility
+  public showFloatingSidebar = false;
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.showFloatingSidebar = window.scrollY > 120;
+  }
+
+  onProfileClick() {
+    const isAuthenticated = !!this.store.selectSnapshot(AuthState.isAuthenticated);
+    this.router.navigate(isAuthenticated ? ['/account/dashboard'] : ['/auth/login']);
+  }
+
   ngAfterViewInit() {
     this.initSlider();
     this.startAutoSlide();
     this.updateVideoCarouselPosition();
+    this.startCollectionAutoSlide();
   }
 
   ngOnDestroy() {
     this.stopAutoSlide();
+    this.stopCollectionAutoSlide();
+  }
+
+  // Collection Drops Slider Methods
+  nextCollectionSlide() {
+    this.currentCollectionSlide = (this.currentCollectionSlide + 1) % this.collectionSlides.length;
+  }
+
+  prevCollectionSlide() {
+    this.currentCollectionSlide = this.currentCollectionSlide === 0
+      ? this.collectionSlides.length - 1
+      : this.currentCollectionSlide - 1;
+  }
+
+  goToCollectionSlide(index: number) {
+    this.currentCollectionSlide = index;
+  }
+
+  startCollectionAutoSlide() {
+    this.collectionSlideTimer = setInterval(() => {
+      this.nextCollectionSlide();
+    }, 5000);
+  }
+
+  stopCollectionAutoSlide() {
+    if (this.collectionSlideTimer) {
+      clearInterval(this.collectionSlideTimer);
+    }
   }
 
   // Slider Methods
@@ -218,7 +305,9 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
       const allProductIds = [
         ...(this.data?.content?.products_ids || []),
         ...(this.featuredProductIds || []),
-        ...(this.featuredProductIds2 || [])
+        ...(this.featuredProductIds2 || []),
+        ...(this.latestItemIds || []),
+        ...(this.onDiscountIds || [])
       ];
       const uniqueProductIds = [...new Set(allProductIds)];
       
