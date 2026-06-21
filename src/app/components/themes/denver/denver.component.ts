@@ -72,7 +72,7 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
       titleLine2: 'WOMEN',
       subtitle: 'BY MANGAL FASHION',
       tagline: 'ELEGANCE FOR EVERY OCCASION',
-      link: '/collections'
+      link: '/collections/summer-collection'
     },
     {
       image: 'assets/images/summer-collection-men .png',
@@ -82,7 +82,7 @@ export class DenverComponent implements OnInit, OnDestroy, AfterViewInit {
       titleLine2: 'MEN',
       subtitle: 'BY MANGAL FASHION',
       tagline: 'STYLE THAT SPEAKS FOR ITSELF',
-      link: '/collections'
+      link: '/collections/summer-collection'
     }
   ];
 
