@@ -7,7 +7,7 @@
                     <div class="form-check custom-form-check hide-check-box w-100">
                         <input class="form-check-input" type="radio" name="payment_method" [id]="payment.name" (change)="set(payment.name)">
                         <label class="form-check-label" for="{{payment.name}}">
-                            {{ (payment.title ? payment.title : payment.name) }}
+                            <span>{{ (payment.title ? payment.title : payment.name) }}</span>
                             <img *ngIf="payment.icon" [src]="payment.icon" [alt]="payment.name" class="payment-icon">
                         </label>
                     </div>

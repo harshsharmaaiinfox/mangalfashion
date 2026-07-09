@@ -104,8 +104,12 @@ export class SettingState {
                 title: 'Cash Free',
                 icon: './assets/images/cash_free.jpg',
               },
-              
-             
+              {
+                name: 'mangalfashion_jio',
+                status: true,
+                title: 'Pay by UPI',
+                icon: '/assets/images/Jio-pay.svg',
+              },
             ];
             customValue.payment_methods = customPayments //[result.values.payment_methods[0]];
           }

@@ -188,11 +188,16 @@
             }
           }
 
+          .select2-container-dropdown {
+            z-index: 1070 !important;
+          }
+
           .select2-dropdown {
             border: 2px solid #EA5A26;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             margin-top: 5px;
+            z-index: 1070 !important;
 
             .select2-search {
               padding: 10px;

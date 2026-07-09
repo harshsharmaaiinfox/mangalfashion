@@ -33,12 +33,12 @@ export class AddressModalComponent {
   public address: UserAddress | null;
   public codes = data.countryCodes;
 
-  public stateNameData: any;
-  public regionNameData: any;
-  public circleNameData: any;
-  public officeNameData: any; // Area Name
-  public divisionNameData: any;
-  public cityNameData: any; // District Name
+  public stateNameData: any = [];
+  public regionNameData: any = [];
+  public circleNameData: any = [];
+  public officeNameData: any = []; // Area Name
+  public divisionNameData: any = [];
+  public cityNameData: any = []; // District Name
 
   @ViewChild("addressModal", { static: false }) AddressModal: TemplateRef<string>;
   @Select(CountryState.countries) countries$: Observable<Select2Data>;
@@ -173,16 +173,39 @@ export class AddressModalComponent {
 
       apiCall.subscribe({
         next: (res) => {
-          if (res) {
+          if (res && res['data']) {
             this.ngZone.runOutsideAngular(() => {
               this.buildPinCodeIndexes(res['data']);
               this.ngZone.run(() => this.cdRef.detectChanges());
             });
           } else {
-            this.notificationService.showError('Failed to fetch Pincode and Area data');
+            this.fallbackToWithoutLogin();
           }
+        },
+        error: (err) => {
+          console.error("Failed to load address data, trying fallback:", err);
+          this.fallbackToWithoutLogin();
         }
       });
+    });
+  }
+
+  fallbackToWithoutLogin() {
+    this.authService.fetchAreaPINCodeJSONWithoutLogin().subscribe({
+      next: (res) => {
+        if (res && res['data']) {
+          this.ngZone.runOutsideAngular(() => {
+            this.buildPinCodeIndexes(res['data']);
+            this.ngZone.run(() => this.cdRef.detectChanges());
+          });
+        } else {
+          this.notificationService.showError('Failed to fetch Pincode and Area data');
+        }
+      },
+      error: (err) => {
+        console.error("Fallback also failed:", err);
+        this.notificationService.showError('Failed to fetch Pincode and Area data');
+      }
     });
   }
 

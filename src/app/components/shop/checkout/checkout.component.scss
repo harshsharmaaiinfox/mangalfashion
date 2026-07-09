@@ -446,8 +446,9 @@
                         }
 
                         .payment-icon {
-                          width: 32px;
+                          max-width: 120px;
                           height: 32px;
+                          width: auto;
                           object-fit: contain;
                           flex-shrink: 0;
                         }

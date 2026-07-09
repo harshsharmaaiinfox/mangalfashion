@@ -235,4 +235,24 @@ export class CartService {
     });
   }
 
+  initiateMangalfashionJioIntent(data: any): Observable<any> {
+    return new Observable(observer => {
+      fetch(`${environment.URL}/mangalfashion_jio-initiate-payment`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          observer.next(data);
+          observer.complete();
+        })
+        .catch(error => {
+          observer.error(error);
+        });
+    });
+  }
+
 }

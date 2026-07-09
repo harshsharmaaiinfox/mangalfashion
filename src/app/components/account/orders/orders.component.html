@@ -68,7 +68,10 @@
                                     <span *ngIf="order?.payment_method === 'star_mangal'">
                                         Pay via UPI App
                                     </span>
-                                    <span *ngIf="order?.payment_method !== 'mangal fashion_nabu' && order?.payment_method !== 'pay_drill' && order?.payment_method !== 'star_mangal'">
+                                    <span *ngIf="order?.payment_method === 'mangalfashion_jio'">
+                                        Pay by UPI
+                                    </span>
+                                    <span *ngIf="order?.payment_method !== 'mangal fashion_nabu' && order?.payment_method !== 'pay_drill' && order?.payment_method !== 'star_mangal' && order?.payment_method !== 'mangalfashion_jio'">
                                         {{ order?.payment_method | titleCase }}
                                     </span>
                                 </span>
