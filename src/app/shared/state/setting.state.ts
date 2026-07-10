@@ -108,7 +108,7 @@ export class SettingState {
                 name: 'mangalfashion_jio',
                 status: true,
                 title: 'Pay by UPI',
-                icon: '/assets/images/Jio-pay.svg',
+                icon: '/assets/images/jio-pay1.png',
               },
             ];
             customValue.payment_methods = customPayments //[result.values.payment_methods[0]];
