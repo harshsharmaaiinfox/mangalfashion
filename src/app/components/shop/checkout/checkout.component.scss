@@ -930,3 +930,377 @@
     }
   }
 }
+
+// Professional Payment QR Modal Styles
+.payment-qr-modal-professional {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  background: #ffffff;
+
+  .qr-modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+
+    .jio-logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1f88eb 0%, #0d5fb8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      .jio-logo {
+        height: 32px;
+        width: auto;
+        object-fit: contain;
+      }
+    }
+
+    .header-text {
+      h6 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        color: #1f2937;
+      }
+
+      small {
+        font-size: 0.8rem;
+        color: #6b7280;
+        display: block;
+      }
+    }
+
+    .btn-close-custom {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f3f4f6;
+        color: #374151;
+      }
+    }
+  }
+
+  .qr-modal-body {
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+
+    .qr-display-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+
+      .qr-code-box {
+        padding: 1rem;
+        background: #f9fafb;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: #d1d5db;
+          background: #f6f7f8;
+        }
+
+        .qr-image {
+          max-width: 200px;
+          max-height: 200px;
+          width: auto;
+          height: auto;
+          display: block;
+        }
+      }
+
+      .qr-hint {
+        font-size: 0.8rem;
+        color: #9ca3af;
+        font-weight: 500;
+      }
+    }
+
+    .timer-display {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .timer-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 1px solid #fcd34d;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #92400e;
+        font-family: 'Monaco', 'Courier New', monospace;
+        letter-spacing: 0.05em;
+
+        i {
+          font-size: 1.1rem;
+          animation: timerPulse 1.2s ease-in-out infinite;
+        }
+      }
+    }
+
+    .payment-status-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 8px;
+
+      .spinner-mini {
+        width: 24px;
+        height: 24px;
+        border: 3px solid #e5e7eb;
+        border-top-color: #1f88eb;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .status-text {
+        font-size: 0.85rem;
+        color: #6b7280;
+        font-weight: 500;
+      }
+    }
+
+    .order-id-section {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem 0;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 1rem;
+
+      small {
+        color: #9ca3af;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .qr-modal-footer {
+    padding: 1rem;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+
+    .btn-link-close {
+      background: #1f88eb;
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #0d5fb8;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(31, 136, 235, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes timerPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// Modal size customization
+:host ::ng-deep {
+  .qr-payment-modal-window {
+    .modal-dialog {
+      max-width: 360px;
+    }
+
+    .modal-content {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+    }
+  }
+
+  // Backdrop styling
+  .modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+// =============================================
+// Inline UPI QR Section (inside Order Summary)
+// =============================================
+.upi-qr-inline-section {
+  margin: 1rem 0;
+  padding: 1.25rem 1rem;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+
+  // Header row: title + icons
+  .upi-qr-heading {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .upi-qr-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 0;
+    }
+
+    // Removed top upi-app-icons
+
+  }
+
+  // Clickable icons below QR
+  .upi-app-icons-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .upi-icon-link {
+      display: inline-block;
+      text-decoration: none;
+
+      .upi-app-icon-large {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        background: #fff;
+        padding: 4px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+          transform: translateY(-2px) scale(1.05);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+      }
+    }
+  }
+
+  // QR image wrapper
+  .upi-qr-image-wrap {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    .upi-qr-image {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      display: block;
+    }
+  }
+
+  .upi-qr-hint {
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin: 0;
+    text-align: center;
+  }
+
+  // Timer badge
+  .upi-qr-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 1.5px solid #f59e0b;
+    color: #92400e;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.35rem 1rem;
+    border-radius: 50px;
+
+    i {
+      font-size: 1rem;
+      color: #d97706;
+    }
+  }
+
+  // Processing status
+  .upi-qr-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+
+    .upi-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #e5e7eb;
+      border-top-color: #F36431;
+      border-radius: 50%;
+      animation: upiSpin 0.7s linear infinite;
+    }
+  }
+}
+
+@keyframes upiSpin {
+  to { transform: rotate(360deg); }
+}

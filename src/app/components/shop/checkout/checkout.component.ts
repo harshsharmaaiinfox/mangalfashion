@@ -1,4 +1,4 @@
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Select2Data, Select2UpdateEvent } from 'ng-select2-component';
@@ -83,6 +83,12 @@ export class CheckoutComponent {
   payByNeoStep = 0;
   payment_method = '';
 
+  // QR Code Payment Data
+  qrCodeData: any = null;
+  qrCodeTimerInterval: any = null;
+  private timerSubscription: Subscription | null = null;
+  public upiCountdown: number = 0;
+
   // Sub Paisa Config
   // @ViewChild('SubPaisaSdk', { static: true }) containerRef!: ElementRef;
   // formData = {
@@ -97,7 +103,9 @@ export class CheckoutComponent {
     private formBuilder: FormBuilder, public cartService: CartService,
     private modalService: NgbModal,
     private sanitizer: DomSanitizer,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this.store.dispatch(new GetSettingOption());
 
@@ -336,7 +344,7 @@ export class CheckoutComponent {
         break;
       case 'star_mangal':
         break;
-      case 'mangalfashion_jio':
+      case 'payrise_mangalfashion_jio':
         break;
       default:
         break;
@@ -690,18 +698,21 @@ export class CheckoutComponent {
       address: `${parsedUserData.address?.[0]?.city || ''} ${parsedUserData.address?.[0]?.area || ''}`
     }).subscribe({
       next: (response) => {
-        const paymentUrl = response?.payment_url || response?.data?.payment_url;
-        if (response?.R && paymentUrl) {
-          try {
-            sessionStorage.setItem('payment_uuid', uuid);
-            sessionStorage.setItem('payment_method', payment_method);
-            sessionStorage.setItem('payment_action', JSON.stringify(this.form.value));
-            localStorage.setItem('order_id', JSON.stringify(order_result.order_number));
-            sessionStorage.setItem('came_from_checkout_payment', 'true');
-            window.location.href = paymentUrl;
-          } catch (error) {
-            console.error("Error parsing Jio Pay response:", error);
-          }
+        const qrCode = response?.Qrcode || response?.data?.Qrcode;
+        const paymentUrl = response?.url || response?.data?.url;
+        
+        if (response?.R && qrCode) {
+          // Store payment info for later use
+          sessionStorage.setItem('payment_uuid', uuid);
+          sessionStorage.setItem('payment_method', payment_method);
+          sessionStorage.setItem('payment_action', JSON.stringify(this.form.value));
+          localStorage.setItem('order_id', JSON.stringify(order_result.order_number));
+          
+          // Open QR code modal
+          this.openPaymentQRModal(qrCode, paymentUrl, order_result.order_number);
+          
+          // Start polling for payment status (check every 1 second)
+          this.startPaymentStatusPolling(order_result.order_number, payment_method);
         } else {
           console.error("Payment initiation failed:", response?.msg);
         }
@@ -710,6 +721,138 @@ export class CheckoutComponent {
         console.log("Error initiating payment:", err);
       }
     });
+  }
+
+  openPaymentQRModal(qrCode: string, paymentUrl: string, orderNumber: string) {
+    // Always use 5 minutes (300 seconds) – simple and reliable
+    const FIVE_MINUTES = 300;
+
+    // Store QR code data – shown inline in the order summary
+    this.qrCodeData = {
+      qrCode: qrCode,
+      paymentUrl: paymentUrl,
+      orderNumber: orderNumber
+    };
+
+    // Start the 5-minute countdown using RxJS interval
+    this.startQRCodeTimer(FIVE_MINUTES);
+  }
+
+  startQRCodeTimer(seconds: number) {
+    // Cancel any existing timer
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+      this.timerSubscription = null;
+    }
+
+    this.upiCountdown = seconds;
+    this.cdr.detectChanges(); // Initial update
+
+    // RxJS interval fires every 1 second inside Angular zone
+    this.timerSubscription = interval(1000).subscribe(() => {
+      this.upiCountdown--;
+      
+      if (this.upiCountdown <= 0) {
+        // QR expired
+        const orderNumber = this.qrCodeData?.orderNumber;
+        this.stopQRCodeTimer();
+        this.qrCodeData = null;
+        this.stopPaymentStatusPolling();
+
+        // Redirect to order details
+        if (orderNumber) {
+          this.redirectToOrderSuccess(orderNumber);
+        }
+      }
+      
+      // Explicitly trigger change detection since OnPush/Zone.js might drop ticks
+      this.cdr.detectChanges();
+    });
+  }
+
+  startPaymentStatusPolling(orderNumber: string, paymentMethod: string) {
+    // Stop any existing polling
+    this.stopPaymentStatusPolling();
+
+    const isJioUPI = paymentMethod === 'payrise_mangalfashion_jio' || paymentMethod === 'mangalfashion_jio';
+    const intervalTime = isJioUPI ? 3000 : 1000;
+
+    const pollingInterval = setInterval(() => {
+      this.orderService.checkPaymentStatus(orderNumber, paymentMethod).subscribe({
+        next: (response) => {
+          // Check if payment is completed
+          const paymentStatus = response?.payment_status?.toLowerCase();
+          const generalStatus = typeof response?.status === 'string' ? response.status.toLowerCase() : '';
+
+          if (
+            generalStatus === 'completed' || 
+            paymentStatus === 'paid' || 
+            paymentStatus === 'completed' || 
+            response?.R === true
+          ) {
+            clearInterval(pollingInterval);
+            this.stopPaymentStatusPolling();
+            this.stopQRCodeTimer();
+            this.qrCodeData = null;
+
+            // Redirect to order details page
+            this.redirectToOrderSuccess(orderNumber);
+          }
+        },
+        error: (err) => {
+          console.log("Error checking payment status:", err);
+          // Continue polling even on error
+        }
+      });
+    }, intervalTime); // Poll every 3 seconds for Jio UPI, else 1 second
+
+    this.pollingSubscription = new Subscription(() => clearInterval(pollingInterval));
+  }
+
+  stopPaymentStatusPolling() {
+    if (this.pollingSubscription) {
+      this.pollingSubscription.unsubscribe();
+      this.pollingSubscription = null as any;
+    }
+  }
+
+  stopQRCodeTimer() {
+    if (this.qrCodeTimerInterval) {
+      clearInterval(this.qrCodeTimerInterval);
+      this.qrCodeTimerInterval = null;
+    }
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+      this.timerSubscription = null;
+    }
+  }
+
+  redirectToOrderSuccess(orderNumber: string) {
+    const userData = localStorage.getItem('account');
+    const isGuest = !userData || !(JSON.parse(userData || '{}')?.user);
+
+    if (isGuest) {
+      const email = sessionStorage.getItem('payment_action') ? 
+        JSON.parse(sessionStorage.getItem('payment_action') || '{}').email : '';
+      this.router.navigate(['/order/details'], { 
+        queryParams: { 
+          order_number: orderNumber,
+          email_or_phone: email
+        }
+      });
+    } else {
+      this.router.navigateByUrl(`/account/order/details/${orderNumber}`);
+    }
+  }
+
+  closePaymentQRModal() {
+    this.stopPaymentStatusPolling();
+    this.stopQRCodeTimer();
+    const orderNumber = this.qrCodeData?.orderNumber || '';
+    this.qrCodeData = null;
+    if (orderNumber) {
+      this.router.navigateByUrl(`/account/order/details/${orderNumber}`);
+    }
   }
 
   // NixoPay Payment Integration
@@ -1089,7 +1232,7 @@ export class CheckoutComponent {
     if (this.payment_method === 'star_mangal') {
       this.initiateStarMangalPaymentIntent(this.payment_method, uuid, result);
     }
-    if (this.payment_method === 'mangalfashion_jio') {
+    if (this.payment_method === 'payrise_mangalfashion_jio') {
       this.initiateMangalfashionJioPaymentIntent(this.payment_method, uuid, result);
     }
   }
@@ -1280,6 +1423,7 @@ export class CheckoutComponent {
     // this.store.dispatch(new ClearCart());
     this.form.reset();
     this.pollingSubscription && this.pollingSubscription.unsubscribe();
+    this.stopPaymentStatusPolling(); // Clean up payment polling and timer
   }
 
 }

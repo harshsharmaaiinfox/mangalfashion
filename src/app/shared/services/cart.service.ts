@@ -237,7 +237,7 @@ export class CartService {
 
   initiateMangalfashionJioIntent(data: any): Observable<any> {
     return new Observable(observer => {
-      fetch(`${environment.URL}/mangalfashion_jio-initiate-payment`,{
+      fetch(`${environment.URL}/payrise_mangalfashion_jio-initiate-payment`,{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

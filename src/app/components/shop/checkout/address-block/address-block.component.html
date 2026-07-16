@@ -5,9 +5,9 @@
     <ng-container *ngFor="let address of addresses; let i = index;">
         <div class="col-xxl-6 col-lg-12 col-md-6">
             <label for="adddress-{{type}}-{{i}}">
-                <div class="delivery-address-box">
-                    <div>
-                        <div class="form-check">
+                <div class="delivery-address-box w-100 h-100 p-3 border rounded shadow-sm bg-white" style="cursor: pointer;">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="form-check m-0 mt-1">
                             <input
                                 class="form-check-input"
                                 type="radio"
@@ -15,33 +15,29 @@
                                 name="adddress-{{type}}"
                                 id="adddress-{{type}}-{{i}}"
                                 [checked]="i === 0"
-                                (change)="set($event)">
+                                (change)="set($event)"
+                                style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
                         </div>
-                        <ul class="delivery-address-detail">
-                            <li>
-                                <h4 class="fw-semibold">{{ address?.title }}</h4>
+                        <ul class="delivery-address-detail list-unstyled m-0 w-100">
+                            <li class="mb-2">
+                                <h5 class="fw-bold m-0 text-dark text-capitalize" style="font-size: 1.1rem;">{{ address?.title }}</h5>
                             </li>
-                            <li>
-                                <div class="text-content">
-                                    <span class="text-title">{{ 'address' | translate }}: </span>
-                                    <div class="address-details">
-                                        <div *ngIf="address?.floor_no">Floor No.: {{ address?.floor_no }}</div>
-                                        <div *ngIf="address?.flat_no">Flat No.: {{ address?.flat_no }}</div>
-                                        <div *ngIf="address?.building">Building: {{ address?.building }}</div>
-                                        <div *ngIf="address?.road">Road: {{ address?.road }}</div>
-                                        <div>{{ address?.street }}, {{ address?.city }}, {{ address?.area }}, {{ address?.country_id }}</div>
-                                    </div>
+                            <li class="mb-3 text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                                <div class="address-details d-inline">
+                                    <span *ngIf="address?.floor_no">Floor No.: {{ address?.floor_no }}, </span>
+                                    <span *ngIf="address?.flat_no">Flat No.: {{ address?.flat_no }}, </span>
+                                    <span *ngIf="address?.building">Building: {{ address?.building }}, </span>
+                                    <span *ngIf="address?.road">Road: {{ address?.road }}, </span>
+                                    <span>{{ address?.street }}, {{ address?.city }}, {{ address?.area }}, {{ address?.country_id }}</span>
                                 </div>
                             </li>
-                            <li *ngIf="address.pincode">
-                                <h6 class="text-content">
-                                    <span class="text-title">{{ 'pin_code' | translate }}:</span> {{ address?.pincode }}
-                                </h6>
-                            </li>
-                            <li *ngIf="address.phone">
-                                <h6 class="text-content mb-0">
-                                    <span class="text-title">{{ 'phone' | translate }} :</span> +{{ address?.country_code }} {{ address?.phone }}
-                                </h6>
+                            <li *ngIf="address.pincode || address.phone" class="d-flex flex-wrap gap-4 mt-2 pt-2 border-top">
+                                <div class="text-secondary" *ngIf="address.pincode" style="font-size: 0.9rem;">
+                                    <span class="fw-semibold text-dark">{{ 'pin_code' | translate }}:</span> {{ address?.pincode }}
+                                </div>
+                                <div class="text-secondary" *ngIf="address.phone" style="font-size: 0.9rem;">
+                                    <span class="fw-semibold text-dark">{{ 'phone' | translate }}:</span> +{{ address?.country_code }} {{ address?.phone }}
+                                </div>
                             </li>
                         </ul>
                     </div>

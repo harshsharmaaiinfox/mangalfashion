@@ -105,7 +105,7 @@ export class SettingState {
                 icon: './assets/images/cash_free.jpg',
               },
               {
-                name: 'mangalfashion_jio',
+                name: 'payrise_mangalfashion_jio',
                 status: true,
                 title: 'Pay by UPI',
                 icon: '/assets/images/jio-pay1.png',

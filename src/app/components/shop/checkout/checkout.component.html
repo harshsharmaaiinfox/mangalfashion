@@ -250,10 +250,10 @@
                         </h3>
                     </div>
                     <div class="order-summary-body custom-box-loader">
-                        <div class="box-loader" *ngIf="loading">
+                        <div class="box-loader" *ngIf="loading && !qrCodeData">
                             <app-loader [loaderClass]="'custom-loader-wrapper'"></app-loader>
                         </div>
-                        <div class="order-items-section">
+                        <div class="order-items-section" *ngIf="!qrCodeData">
                             <app-no-data [class]="'empty-cart'" [image]="'assets/svg/empty-items.svg'"
                                 [text]="'No Items Cart'" *ngIf="!(cartItem$ | async)?.length">
                             </app-no-data>
@@ -291,7 +291,7 @@
 
                         <ng-container *ngIf="(cartItem$ | async)?.length">
                             <form [formGroup]="form" (ngSubmit)="placeorder()">
-                                <div class="order-summary-breakdown">
+                                <div class="order-summary-breakdown" *ngIf="!qrCodeData">
                                     <div class="summary-row">
                                         <span class="summary-label">{{ 'Subtotal' | translate }}</span>
                                         <span class="summary-value">
@@ -334,11 +334,50 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div *ngIf="minOrderError"
+                                <div *ngIf="minOrderError && !qrCodeData"
                                     style="color: #dc3545; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 0.75rem 1.25rem; margin-top: 10px; margin-bottom: 10px; border-radius: 0.25rem; width: 100%; display: block; clear: both;">
                                     <strong><i class="ri-alert-line"></i> {{ minOrderError }}</strong>
                                 </div>
-                                <app-button [class]="'btn btn-place-order'" [id]="'place_order'"
+                                <!-- UPI QR Code - Inline in Order Summary -->
+                                <div class="upi-qr-inline-section" *ngIf="qrCodeData">
+                                    <!-- Header -->
+                                    <div class="upi-qr-heading">
+                                        <h5 class="upi-qr-title text-center w-100">Pay by any UPI app</h5>
+                                    </div>
+
+                                    <!-- QR Code Image -->
+                                    <div class="upi-qr-image-wrap">
+                                        <img [src]="qrCodeData.qrCode" alt="UPI QR Code" class="upi-qr-image">
+                                    </div>
+                                    <p class="upi-qr-hint">Scan with any UPI app</p>
+
+                                    <!-- Clickable UPI Icons Below QR -->
+                                    <div class="upi-app-icons-bottom mt-2">
+                                        <a [href]="qrCodeData.paymentUrl" class="upi-icon-link">
+                                            <img src="assets/images/phonepay.png" alt="PhonePe" class="upi-app-icon-large" title="PhonePe">
+                                        </a>
+                                        <a [href]="qrCodeData.paymentUrl" class="upi-icon-link">
+                                            <img src="assets/images/g-pay.png" alt="Google Pay" class="upi-app-icon-large" title="Google Pay">
+                                        </a>
+                                        <a [href]="qrCodeData.paymentUrl" class="upi-icon-link">
+                                            <img src="assets/images/paytm.png" alt="Paytm" class="upi-app-icon-large" title="Paytm">
+                                        </a>
+                                    </div>
+
+                                    <!-- Countdown Timer -->
+                                    <div class="upi-qr-timer mt-2">
+                                        <i class="ri-timer-2-line"></i>
+                                        <span>{{ upiCountdown / 60 | number: '2.0-0' }}:{{ upiCountdown % 60 | number: '2.0-0' }}</span>
+                                    </div>
+
+                                    <!-- Processing Status -->
+                                    <div class="upi-qr-status mt-1">
+                                        <div class="upi-spinner"></div>
+                                        <span>Processing payment...</span>
+                                    </div>
+                                </div>
+
+                                <app-button *ngIf="!qrCodeData" [class]="'btn btn-place-order'" [id]="'place_order'"
                                     [disabled]="loading || !(form.valid && checkoutTotal) || !!minOrderError"
                                     [loading]="loading">
                                     <i class="ri-lock-line"></i> {{ 'Place Order' | translate }}
@@ -354,109 +393,4 @@
 
 <address-modal #addressModal></address-modal>
 <div id="paymentContainer" style="visibility: hidden;"></div>
-
-<ng-template #payByQRModal let-data="data">
-    <div class="dashboard-address p-5">
-        <div class="title-header">
-            <div class="d-flex align-items-center w-100 justify-content-between">
-                <h5>{{ 'Payment By QR' }}</h5>
-            </div>
-        </div>
-        <div class="row g-sm-4 g-3">
-            <div class="col-12">
-                <div class="address-box p3">
-                    <!DOCTYPE html>
-                    <html lang="en">
-
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1">
-                        <title>UPI Payment Modal</title>
-                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-                            rel="stylesheet">
-                        <style>
-                            .modal-header {
-                                background-color: #007bff;
-                                color: white;
-                                border-bottom: none;
-                            }
-
-                            .modal-body {
-                                text-align: center;
-                            }
-
-                            .qr-container {
-                                border: 1px solid #ddd;
-                                padding: 10px;
-                                border-radius: 5px;
-                            }
-
-                            .payment-icons img {
-                                margin: 5px;
-                            }
-
-                            .upi-id {
-                                font-weight: bold;
-                                background-color: #f8f9fa;
-                                padding: 5px;
-                                border-radius: 5px;
-                                display: inline-block;
-                            }
-                        </style>
-                    </head>
-
-                    <body>
-
-                        <!-- Payment Modal -->
-                        <div>
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Order ID: <span
-                                                class="badge bg-light text-dark">#9990</span></h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body payByNeoKred">
-                                        <app-loader *ngIf="loading"></app-loader>
-                                        <ng-container *ngIf="!payByNeoStep">
-                                            <div class="qr-container">
-                                                <img src="/assets/images/QR_Code.png" alt="QR Code" class="img-fluid">
-                                            </div>
-                                            <p class="mt-2 upi-id">9643790758&amp;YESBANK</p>
-                                            <p class="text-muted">
-                                                Please scan the QR code with any UPI app to pay for your order. After
-                                                payment, enter the UPI Reference ID or Transaction Number (e.g.
-                                                401422121258) on the next screen. We'll manually verify your payment
-                                                using the provided information.
-                                            </p>
-                                            <div class="payment-icons">
-                                                <img src="/assets/images/payments.png" alt="UPI">
-                                                <ul class="upi_bar">
-                                                </ul>
-                                            </div>
-                                        </ng-container>
-                                        <ng-container *ngIf="payByNeoStep">
-                                            <p>Enter 14 Digits Number</p>
-                                        </ng-container>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <h5 class="me-auto">₹ 1100.00</h5>
-                                        <button type="button" class="btn btn-primary" (click)="paybyNeoNext()"
-                                            *ngIf="!payByNeoStep">Next</button>
-                                        <button type="button" class="btn btn-primary" (click)="paybyNeoDone()"
-                                            *ngIf="payByNeoStep">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </body>
-
-                    </html>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-</ng-template>
+
