@@ -251,8 +251,8 @@ export class CheckoutComponent {
       total = Number(this.currentCartTotal);
     }
 
-    if (total > 0 && total < 300) {
-      this.minOrderError = 'Minimum payment limit is ₹300';
+    if (total > 0 && total < 200) {
+      this.minOrderError = 'Minimum payment limit is ₹200';
     } else {
       this.minOrderError = null;
     }
