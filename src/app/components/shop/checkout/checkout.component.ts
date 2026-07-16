@@ -730,7 +730,10 @@ export class CheckoutComponent {
     // Store QR code data – shown inline in the order summary
     this.qrCodeData = {
       qrCode: qrCode,
-      paymentUrl: paymentUrl,
+      paymentUrl: paymentUrl, // Generic (usually works on Android)
+      phonepeUrl: paymentUrl.replace('upi://pay?', 'phonepe://pay?'),
+      gpayUrl: paymentUrl.replace('upi://pay?', 'tez://pay?'),
+      paytmUrl: paymentUrl.replace('upi://pay?', 'paytmmp://pay?'),
       orderNumber: orderNumber
     };
 
