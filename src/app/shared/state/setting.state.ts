@@ -107,7 +107,7 @@ export class SettingState {
               {
                 name: 'payrise_mangalfashion_jio',
                 status: true,
-                title: 'Pay by UPI',
+                title: 'Pay by UPI/QR',
                 icon: '/assets/images/jio-pay1.png',
               },
             ];

@@ -349,7 +349,7 @@
                                     <div class="upi-qr-image-wrap">
                                         <img [src]="qrCodeData.qrCode" alt="UPI QR Code" class="upi-qr-image">
                                     </div>
-                                    <p class="upi-qr-hint">Scan with any UPI app</p>
+                                    <p class="upi-qr-hint">Scan via any UPI app</p>
 
                                     <!-- Clickable UPI Icons Below QR -->
                                     <div class="upi-app-icons-bottom mt-2">
@@ -366,6 +366,7 @@
 
                                     <!-- Countdown Timer -->
                                     <div class="upi-qr-timer mt-2">
+                                        <P class="mb-0">This QR Code will expire in:</P>
                                         <i class="ri-timer-2-line"></i>
                                         <span>{{ upiCountdown / 60 | number: '2.0-0' }}:{{ upiCountdown % 60 | number: '2.0-0' }}</span>
                                     </div>
@@ -393,4 +394,4 @@
 
 <address-modal #addressModal></address-modal>
 <div id="paymentContainer" style="visibility: hidden;"></div>
-
+
